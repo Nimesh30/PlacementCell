@@ -1,40 +1,57 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">PlacementCell</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="d-flex">
-                <!-- <button class="btn btn-outline-success" routerLink="/signup">Sign Up</button> -->
-                <button (click)="goToSignup()">Sign Up</button>
-            </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlacePro | Campus Portal</title>
+    <link href="./home.css" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="logo">PlacePro<span>.</span></div>
+    <span class="nav-pill">Placement Drive Management</span>
+</header>
+
+<main>
+
+    <div class="badge">Campus Placement Portal</div>
+
+        <h1>One Profile.<br><span class="accent">Infinite Opportunities.</span></h1>
+        <p class="subtext">Create your student profile once. Apply to multiple companies with a single click and track every opportunity.</p>
+
+    <div class="cards">
+        <div class="card">
+            <div class="icon">🎓</div>
+            <h3>Student</h3>
+            <div class="btn">Login & Register -></div>
+        </div>
+
+        <div class="card">
+            <div class="icon">🏢</div>
+            <h3>Admin</h3>
+            <!-- <p>Manage placement drives, review student profiles, and coordinate with recruiters efficiently.</p> -->
+            <div class="btn">Placement Cell →</div>
         </div>
     </div>
-    </nav>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-num">2.4<span>k+</span></div>
+            <div class="stat-label">Students Placed</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">180<span>+</span></div>
+            <div class="stat-label">Companies</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">96<span>%</span></div>
+            <div class="stat-label">Placement Rate</div>
+        </div>
+    </div>
+</main>
+
+<footer>© 2025 PlacePro. All rights reserved.</footer>
+
+</body>
+</html>
