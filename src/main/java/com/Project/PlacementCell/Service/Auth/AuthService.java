@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class AuthService {
+
     @Autowired
     private StudentRepository studentRepository;
 
@@ -24,45 +26,59 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public ResponseEntity<?> registerStudent(@RequestBody Student student) {
+    // ✅ REGISTER
+    public ResponseEntity<?> registerStudent(Student student) {
 
-        // Check if email already exists
         if (studentRepository.existsByEmail(student.getEmail())) {
-            return ResponseEntity.badRequest().body("Email already registered!");
+            return ResponseEntity
+                    .badRequest()
+                    .body("Email already registered!");
         }
 
-        // Generate random password
         String randomPassword = UUID.randomUUID().toString().substring(0, 8);
 
-        // Encode password
         student.setPassword(passwordEncoder.encode(randomPassword));
         student.setFirstLogin(true);
 
-        // Save user
         studentRepository.save(student);
 
-        // Send email
-        emailService.sendRegistrationMail(student.getEmail(), student.getUsername(), randomPassword);
+        emailService.sendRegistrationMail(
+                student.getEmail(),
+                student.getUsername(),
+                randomPassword
+        );
 
         return ResponseEntity.ok("User registered successfully. Check your email.");
     }
 
+    // ✅ LOGIN
     public ResponseEntity<?> loginStudentByUname(LoginDTO loginDTO) {
 
-        Student student = studentRepository.findByEmail(loginDTO.getEmail());
+        Optional<Student> optionalStudent =
+                studentRepository.findByEmail(loginDTO.getEmail());
 
-        if (student == null) {
-            return ResponseEntity.badRequest().body("Invalid Email");
+        if (optionalStudent.isEmpty()) {
+            return ResponseEntity
+                    .status(401)
+                    .body("Invalid credentials");
         }
 
-        if (!passwordEncoder.matches(loginDTO.getPassword(), student.getPassword())) {
-            return ResponseEntity.badRequest().body("Invalid Password");
+        Student student = optionalStudent.get();
+
+        if (!passwordEncoder.matches(
+                loginDTO.getPassword(),
+                student.getPassword()
+        )) {
+            return ResponseEntity
+                    .status(401)
+                    .body("Invalid credentials");
         }
 
+        // ✅ FIRST LOGIN CHECK
         if (Boolean.TRUE.equals(student.getFirstLogin())) {
             return ResponseEntity.ok(
                     Map.of(
-                            "message", "First Login - Change Password Required",
+                            "message", "First login - change password required",
                             "firstLogin", true
                     )
             );
@@ -70,11 +86,9 @@ public class AuthService {
 
         return ResponseEntity.ok(
                 Map.of(
-                        "message", "Login Successful",
+                        "message", "Login successful",
                         "firstLogin", false
                 )
         );
     }
-
-
 }

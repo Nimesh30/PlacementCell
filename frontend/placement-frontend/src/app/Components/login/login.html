@@ -2,20 +2,21 @@
     <div class="main">
         <div class="logincontainer">
             <div class="headContainer">
-                <span>Logo</span>
+                <span>🎓</span>
                 <h2>Welcome Back</h2>
                 <p>Login your Student Account</p>
             </div>
             <div class="inputContainer">
-                <form action="">
+                <form  (ngSubmit)="login()">
                     <label>Email</label>
-                    <input type="email" placeholder="Enter yout Email">
+                    <input type="email"   name="email" [(ngModel)]="email" placeholder="Enter yout Email">
                     <label>Password</label>
-                    <input type="password" placeholder="Enter your password">
+                    <input type="password" name="password" [(ngModel)]="password" placeholder="Enter your password">
                     <input type="submit" value="Login">
                 </form>
-                <div>
-                    <h6>Don't have an account?<span><a [routerLink]="['/register']">Register</a></span></h6>
+                <div class="footer-links">
+                    <h6>Already have an account? <a (click)="goToRegister()">SignIn</a></h6>
+                    <a [routerLink]="['/']" class="back-link">← Back to Role Selection</a>
                 </div>
             </div>
         </div>
