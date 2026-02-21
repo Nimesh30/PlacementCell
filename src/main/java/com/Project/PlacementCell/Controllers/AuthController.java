@@ -1,6 +1,8 @@
 package com.Project.PlacementCell.Controllers;
 
+import com.Project.PlacementCell.DTO.ChangepasswordDTO;
 import com.Project.PlacementCell.DTO.LoginDTO;
+import com.Project.PlacementCell.DTO.RegisterDTO;
 import com.Project.PlacementCell.Entity.Student;
 import com.Project.PlacementCell.Repository.StudentRepository;
 import com.Project.PlacementCell.Service.Auth.AuthService;
@@ -25,12 +27,17 @@ public class AuthController {
 
     @PostMapping("/register")
 
-    public void studentRegistration(@RequestBody Student student) {
-        authService.registerStudent(student);
+    public ResponseEntity<?> studentRegistration(@RequestBody RegisterDTO registerDTO) {
+        return authService.registerStudent(registerDTO);
     }
 
     @PostMapping("/loginUser")
     public ResponseEntity<?> loginStudent(@RequestBody LoginDTO loginDTO) {
         return authService.loginStudentByUname(loginDTO);
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangepasswordDTO changePasswordDTO) {
+        return authService.changePassword(changePasswordDTO);
     }
 }

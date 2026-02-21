@@ -110,6 +110,7 @@ a:hover {
 .footer-links a {
     color: #4f46e5;
     text-decoration: none;
+    cursor: pointer;
     font-weight: 700;
 }
 

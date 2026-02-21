@@ -6,20 +6,15 @@
             <p>Register as a Student</p>
         </div>
         
-        <form class="formBody">
+        <form class="formBody" (ngSubmit)="register()">
             <div class="inputGroup">
                 <label>Full Name</label>
-                <input type="text" placeholder="Enter your full name">
+                <input type="text" name="username"   [(ngModel)]="username" placeholder="Enter your full name">
             </div>
 
             <div class="inputGroup">
                 <label>Email</label>
-                <input type="email" placeholder="Enter your college email">
-            </div>
-
-            <div class="inputGroup">
-                <label>Password</label>
-                <input type="password" placeholder="Create a strong password">
+                <input type="email" name="email"  [(ngModel)]="email" placeholder="Enter your college email">
             </div>
 
             <button type="submit" class="submit-btn">Create Account</button>

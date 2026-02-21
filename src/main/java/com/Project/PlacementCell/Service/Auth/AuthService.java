@@ -1,6 +1,8 @@
 package com.Project.PlacementCell.Service.Auth;
 
+import com.Project.PlacementCell.DTO.ChangepasswordDTO;
 import com.Project.PlacementCell.DTO.LoginDTO;
+import com.Project.PlacementCell.DTO.RegisterDTO;
 import com.Project.PlacementCell.Entity.Student;
 import com.Project.PlacementCell.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +28,21 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // ✅ REGISTER
-    public ResponseEntity<?> registerStudent(Student student) {
 
-        if (studentRepository.existsByEmail(student.getEmail())) {
+    // REGISTER
+    public ResponseEntity<?> registerStudent(RegisterDTO registerDTO) {
+
+        if (studentRepository.existsByEmail(registerDTO.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body("Email already registered!");
+                    .body(Map.of("message", "Email already registered!"));
         }
 
         String randomPassword = UUID.randomUUID().toString().substring(0, 8);
 
+        Student student = new Student();
+        student.setUsername(registerDTO.getUsername());
+        student.setEmail(registerDTO.getEmail());
         student.setPassword(passwordEncoder.encode(randomPassword));
         student.setFirstLogin(true);
 
@@ -48,10 +54,12 @@ public class AuthService {
                 randomPassword
         );
 
-        return ResponseEntity.ok("User registered successfully. Check your email.");
+        return ResponseEntity.ok(
+                Map.of("message", "User registered successfully. Check your email.")
+        );
     }
 
-    // ✅ LOGIN
+    //LoginUser
     public ResponseEntity<?> loginStudentByUname(LoginDTO loginDTO) {
 
         Optional<Student> optionalStudent =
@@ -89,6 +97,32 @@ public class AuthService {
                         "message", "Login successful",
                         "firstLogin", false
                 )
+        );
+    }
+
+    public ResponseEntity<?> changePassword(ChangepasswordDTO changePasswordDTO) {
+
+        Optional<Student> optionalStudent =
+                studentRepository.findByEmail(changePasswordDTO.getEmail());
+
+        if (optionalStudent.isEmpty()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("message", "User not found"));
+        }
+
+        Student student = optionalStudent.get();
+
+        student.setPassword(
+                passwordEncoder.encode(changePasswordDTO.getNewPassword())
+        );
+
+        student.setFirstLogin(false);
+
+        studentRepository.save(student);
+
+        return ResponseEntity.ok(
+                Map.of("message", "Password changed successfully")
         );
     }
 }

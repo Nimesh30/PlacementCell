@@ -19,8 +19,6 @@ export class Login {
 
   login() {
 
-    console.log(this.email)
-    console.log(this.password)
   const loginData = {
     email: this.email,
     password: this.password
@@ -32,10 +30,11 @@ export class Login {
 
         if (response.firstLogin === true) {
           localStorage.setItem("userEmail", this.email);
-          alert("Login Success.")
+          alert("First login. Please change your password.");
           this.router.navigate(['/change-password']);
         } else {
-          this.router.navigate(['/dashboard']);
+          alert("Login Success.")
+          this.router.navigate(['/userdashboard']);
         }
 
       },
@@ -52,9 +51,8 @@ export class Login {
 }
    
      
-
   goToRegister(){
-    this.router.navigate(['/signup']);
+    this.router.navigate(['/register']);
   }
 
   toHome(){
