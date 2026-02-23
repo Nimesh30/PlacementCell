@@ -13,8 +13,7 @@ public class StudentProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String studentId;
+//    private String studentId;
     private String fullName;
     private String personalEmail;
     private String mobileNumber;
@@ -29,6 +28,8 @@ public class StudentProfile {
     private String institute;
     private String department;
     private Integer passingYear;
+    private String imageUrl;
+    private String publicId;
 
     // Foreign Key
     @OneToOne
