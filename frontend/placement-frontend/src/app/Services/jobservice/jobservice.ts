@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class JobService {
 
-  private baseUrl = 'http://localhost:8080/api/jobs';
+  private baseUrl = 'http://localhost:8085/api/jobs';
 
   constructor(private http: HttpClient) {}
 

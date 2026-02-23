@@ -1,15 +1,5 @@
 :host {
-  --primary-blue: #3b82f6;
-  --bg-light: #f8fafc;
-  --border-color: #e2e8f0;
-  --text-muted: #64748b;
-  font-family: 'Inter', sans-serif;
-}
-
-/* ================= Main Content ================= */
-
-.main-content {
-  padding: 40px;
+  display: block;
 }
 
 /* ================= Header ================= */
@@ -141,10 +131,6 @@ header p {
 }
 
 @media (max-width: 768px) {
-  .main-content {
-    padding: 20px;
-  }
-
   .stats-grid {
     grid-template-columns: 1fr;
   }
