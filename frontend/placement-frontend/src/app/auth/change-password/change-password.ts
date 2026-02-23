@@ -41,7 +41,7 @@ export class ChangePassword implements OnInit {
 
           localStorage.removeItem("userEmail");
 
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/layout/userdashboard']);
         },
         error: () => {
           alert("Failed to change password. Try again.");

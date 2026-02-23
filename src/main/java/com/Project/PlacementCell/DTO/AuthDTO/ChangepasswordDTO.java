@@ -1,4 +1,4 @@
-package com.Project.PlacementCell.DTO;
+package com.Project.PlacementCell.DTO.AuthDTO;
 
 import lombok.Data;
 

@@ -32,7 +32,7 @@
             localStorage.setItem("userEmail", this.email);
             this.router.navigate(['/change-password']);
           } else {
-            this.router.navigate(['/profile']);
+            this.router.navigate(['/layout/userdashboard']);
           }
 
         },

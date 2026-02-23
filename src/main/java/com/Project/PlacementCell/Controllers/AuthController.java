@@ -1,18 +1,13 @@
 package com.Project.PlacementCell.Controllers;
 
-import com.Project.PlacementCell.DTO.ChangepasswordDTO;
-import com.Project.PlacementCell.DTO.LoginDTO;
-import com.Project.PlacementCell.DTO.RegisterDTO;
-import com.Project.PlacementCell.Entity.Student;
+import com.Project.PlacementCell.DTO.AuthDTO.ChangepasswordDTO;
+import com.Project.PlacementCell.DTO.AuthDTO.LoginDTO;
+import com.Project.PlacementCell.DTO.AuthDTO.RegisterDTO;
 import com.Project.PlacementCell.Repository.StudentRepository;
 import com.Project.PlacementCell.Service.Auth.AuthService;
-import com.Project.PlacementCell.Service.Auth.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")

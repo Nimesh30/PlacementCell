@@ -1,16 +1,14 @@
 package com.Project.PlacementCell.Service.Auth;
 
-import com.Project.PlacementCell.DTO.ChangepasswordDTO;
-import com.Project.PlacementCell.DTO.LoginDTO;
-import com.Project.PlacementCell.DTO.RegisterDTO;
+import com.Project.PlacementCell.DTO.AuthDTO.ChangepasswordDTO;
+import com.Project.PlacementCell.DTO.AuthDTO.LoginDTO;
+import com.Project.PlacementCell.DTO.AuthDTO.RegisterDTO;
 import com.Project.PlacementCell.Entity.Student;
 import com.Project.PlacementCell.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 import java.util.Optional;
