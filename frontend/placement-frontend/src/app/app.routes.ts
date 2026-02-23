@@ -17,13 +17,13 @@ export const routes: Routes = [
   { path: 'register', component: Register },
   { path: 'login', component: Login },
   { path: 'change-password', component: ChangePassword },
-  // ✅ IMPORTANT PART
+  //  IMPORTANT PART // Layout is parent path and its child path
   {
     path: 'layout',
     component: Layout,
     children: [
       { path: 'userdashboard', component: UserDashboard },
-      { path: 'profile', component: Myprofile },
+      { path: 'myprofile', component: Myprofile },
       { path: 'jobs', component: Joblistings },
       { path: 'applications', component: Myapplications },
       { path: 'notice', component: Noticeboard },
