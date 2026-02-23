@@ -17,7 +17,7 @@ export const routes: Routes = [
   { path: 'register', component: Register },
   { path: 'login', component: Login },
   { path: 'change-password', component: ChangePassword },
-  // ✅ IMPORTANT PART
+  //  IMPORTANT PART // Layout is parent path and its child path
   {
     path: 'layout',
     component: Layout,
