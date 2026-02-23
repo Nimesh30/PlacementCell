@@ -29,10 +29,11 @@ public class StudentProfile {
     private String department;
     private Integer passingYear;
     private String imageUrl;
-    private String publicId;
+    private String ImagePublicId;
 
     // Foreign Key
     @OneToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private Student student;
+
 }

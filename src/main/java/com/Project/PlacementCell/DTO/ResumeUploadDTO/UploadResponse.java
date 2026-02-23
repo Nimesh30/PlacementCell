@@ -9,8 +9,11 @@ import lombok.NoArgsConstructor;
     @NoArgsConstructor
     public class UploadResponse {
 
-        private String url;
+        private String ImageUrl;
         private String publicId;
+
+
+
     }
 
 

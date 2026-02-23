@@ -3,12 +3,11 @@ package com.Project.PlacementCell.Controllers;
 import com.Project.PlacementCell.DTO.JobDTO;
 import com.Project.PlacementCell.Entity.JobsDetails;
 import com.Project.PlacementCell.Service.JobService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+//@StudentController
 @RequestMapping("/api/jobs")
 @CrossOrigin("*")
 public class JobsController {

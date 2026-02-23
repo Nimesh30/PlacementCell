@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@RestController
+//@StudentController
 @RequestMapping("/api/auth")
 @CrossOrigin("*")
 public class AuthController {

@@ -1,48 +1,70 @@
 package com.Project.PlacementCell.Service;
 
 
+import com.Project.PlacementCell.DTO.ResumeUploadDTO.UploadResponse;
 import com.Project.PlacementCell.Entity.Student;
+import com.Project.PlacementCell.Entity.StudentProfile;
+import com.Project.PlacementCell.Repository.StudentProfileRepository;
 import com.Project.PlacementCell.Repository.StudentRepository;
-import com.Project.PlacementCell.Service.Auth.EmailService;
-import com.Project.PlacementCell.Service.Auth.PasswordGenerator;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.Project.PlacementCell.Service.UploadService.UploadService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+//
+//@Service
+//public class StudentService {
+// @Autowired
+// private StudentProfileRepository studentProfileRepo;
+//    public StudentProfile addStudent(StudentProfile studProfile) {
+//
+//        System.out.println(studProfile);
+//        studentProfileRepo.save(studProfile);
+//        return studProfile;
+//    }
+//}
+
+
 
 @Service
 public class StudentService {
 
-    private final StudentRepository repository;
-    private final PasswordEncoder passwordEncoder;
-    private final EmailService emailService;
+    @Autowired
+    private StudentProfileRepository studentProfileRepo;
 
-    public StudentService(StudentRepository repository,
-                          PasswordEncoder passwordEncoder,
-                          EmailService emailService) {
-        this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
-        this.emailService = emailService;
-    }
+    @Autowired
+    private StudentRepository studentRepository;
 
+    @Autowired
+    private UploadService uploadService;
 
-    public Student register(Student student) {
+    public StudentProfile addStudent(
+            StudentProfile studProfile,
+            MultipartFile file,
+            Long studentId
+    ) throws IOException {
 
-        if (repository.existsByEmail(student.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
+//       Fetch Student
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
 
-        String rawPassword = PasswordGenerator.generatePassword(8);
+        //Check if profile already exists
+//        if (studentProfileRepo.existsByStudent(student)) {
+//            throw new RuntimeException("Profile already exists for this student");
+//        }
 
-        student.setPassword(passwordEncoder.encode(rawPassword));
-        student.setFirstLogin(true);
+        //  Upload image to Cloudinary
+        UploadResponse uploadResponse = uploadService.uploadImage(file);
 
-        Student saved = repository.save(student);
+        //  Set image details
+        studProfile.setImageUrl(uploadResponse.getImageUrl());
+        studProfile.setImagePublicId(uploadResponse.getPublicId());
 
-        emailService.sendRegistrationMail(
-                saved.getEmail(),
-                saved.getUsername(),
-                rawPassword
-        );
+        //  Set relationship
+        studProfile.setStudent(student);
 
-        return saved;
+        //  Save to DB
+        return studentProfileRepo.save(studProfile);
     }
 }
