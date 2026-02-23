@@ -35,7 +35,7 @@ export class Register {
   error: (error) => {
     console.log("Full error:", error);
 
-    // ✅ Show backend message properly
+    //  Show backend message properly
     if (error.error && error.error.message) {
       alert(error.error.message);
     } else {

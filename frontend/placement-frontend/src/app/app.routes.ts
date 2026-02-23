@@ -19,7 +19,7 @@ export const routes: Routes = [
     { path: 'change-password', component: ChangePassword },
 
     { path: 'userdashboard', component: UserDashboard },
-    { path: 'profile', component: Myprofile },
+    { path: 'myprofile', component: Myprofile },
     { path: 'jobs', component: Joblistings },
     { path: 'applications', component: Myapplications},
     { path: 'notice', component: Noticeboard },
