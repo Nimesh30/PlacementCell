@@ -1,13 +1,13 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
-import { JobService } from '../../Services/jobservice/jobservice';
-
+import { JobService } from 'app/Services/jobservice/jobservice';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-joblistings',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './joblistings.html',
   styleUrl: './joblistings.css',
 })
-export class Joblistings {
+export class Joblistings { 
      // 🔹 Signals
   jobs = signal<any[]>([]);
   searchText = signal('');

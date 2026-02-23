@@ -1,35 +1,38 @@
 :host {
   --primary-blue: #3b82f6;
-  --bg-light: #f8fafc;
   --border-color: #e2e8f0;
   --text-muted: #64748b;
   font-family: 'Inter', sans-serif;
 }
 
-/* ================= Layout ================= */
-
+/* Layout Background */
 .app-container {
-  display: flex;
   min-height: 100vh;
   background: linear-gradient(180deg, #f8fafc, #eef2ff);
 }
 
-/* ================= Sidebar ================= */
+/* ================= Sidebar (Fixed) ================= */
 
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 260px;
+  height: 100vh;
   background: #ffffff;
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   padding: 20px 0;
+  overflow-y: auto;
 }
 
 /* ================= Main Content ================= */
 
 .main-content {
-  flex: 1;
+  margin-left: 260px; /* IMPORTANT */
   padding: 30px;
+  min-height: 100vh;
   background: #f3f4f6;
 }
 
@@ -65,16 +68,14 @@
 /* ================= Navigation ================= */
 
 nav a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: block;
   padding: 12px 20px;
   margin: 4px 12px;
   text-decoration: none;
   color: var(--text-muted);
   font-weight: 500;
   border-radius: 10px;
-  transition: all 0.2s ease;
+  transition: 0.2s ease;
 }
 
 nav a:hover {
@@ -90,7 +91,7 @@ nav a.active {
 /* ================= Footer ================= */
 
 .user-footer {
-  margin-top: auto; /* Pushes footer to bottom automatically */
+  margin-top: auto;
   padding: 20px;
   display: flex;
   align-items: center;
@@ -98,8 +99,8 @@ nav a.active {
 }
 
 .avatar {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   background: #dbeafe;
   color: var(--primary-blue);
   border-radius: 50%;
