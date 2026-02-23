@@ -30,11 +30,9 @@
 
           if (response.firstLogin === true) {
             localStorage.setItem("userEmail", this.email);
-            alert("First login. Please change your password.");
             this.router.navigate(['/change-password']);
           } else {
-            alert("Login Success.")
-            this.router.navigate(['/userdashboard']);
+            this.router.navigate(['/profile']);
           }
 
         },
