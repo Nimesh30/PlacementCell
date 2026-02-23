@@ -29,7 +29,7 @@ public class StudentProfile {
     private String institute;
     private String department;
     private Integer passingYear;
-
+    private String resumeUrl;   // Cloudinary URL
     // Foreign Key
     @OneToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
