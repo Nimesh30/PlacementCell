@@ -18,6 +18,7 @@ import java.io.IOException;
 //@StudentController
 @RequestMapping("/api/auth")
 @CrossOrigin("*")
+@RestController
 public class AuthController {
 
     @Autowired
@@ -25,6 +26,8 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
+
+
     @Autowired
     private UploadService uploadService;
 
