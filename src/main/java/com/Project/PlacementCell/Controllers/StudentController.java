@@ -4,14 +4,13 @@ import com.Project.PlacementCell.Entity.StudentProfile;
 import com.Project.PlacementCell.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@RestController
 @RequestMapping("/students")
 public class StudentController {
     @Autowired
@@ -22,8 +21,9 @@ public class StudentController {
                                         @RequestParam("file") MultipartFile file,
                                         @RequestParam("studentId") Long studentId) throws IOException {
 
+        System.out.println("In Add student Controller");
         StudentProfile savedProfile =
-                studentService.addStudent(studProfile, file, studentId);
+                studentService.addStudent(studProfile,file, studentId);
 
         return ResponseEntity.ok(savedProfile);
     }

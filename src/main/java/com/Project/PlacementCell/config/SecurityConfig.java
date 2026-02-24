@@ -22,7 +22,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()   // 🔥 TEMPORARY allow everything
+                        .anyRequest().permitAll()   //  TEMPORARY allow everything
                 )
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .formLogin(form -> form.disable());
