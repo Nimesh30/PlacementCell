@@ -1,5 +1,6 @@
 package com.Project.PlacementCell.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,6 +34,7 @@ public class StudentProfile {
     private String imagePublicId;
 
     // Foreign Key
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private Student student;

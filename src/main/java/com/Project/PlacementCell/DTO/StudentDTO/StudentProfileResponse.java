@@ -1,10 +1,18 @@
 package com.Project.PlacementCell.DTO.StudentDTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
+// this will fetch student profile from the database...
+
 @Data
-public class StudentProfileDTO {
+@AllArgsConstructor
+public class StudentProfileResponse {
+
     private String studentId;
+    private String collegeEmail;
+
     private String fullName;
     private String personalEmail;
     private String mobileNumber;
@@ -20,6 +28,5 @@ public class StudentProfileDTO {
     private String department;
     private Integer passingYear;
 
-    private Long studentDbId;
-
+    private String imageUrl;
 }

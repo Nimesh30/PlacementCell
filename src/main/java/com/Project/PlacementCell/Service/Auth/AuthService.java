@@ -40,11 +40,11 @@ public class AuthService {
 
         Student student = new Student();
         student.setUsername(registerDTO.getUsername());
-        student.setStudentid(registerDTO.getStudentid());
+        student.setStudentId(registerDTO.getStudentId());
         student.setEmail(registerDTO.getEmail());
         student.setPassword(passwordEncoder.encode(randomPassword));
         student.setFirstLogin(true);
-
+        System.out.println("In register Student "+ student);
         studentRepository.save(student);
 
         emailService.sendRegistrationMail(
@@ -81,12 +81,13 @@ public class AuthService {
                     .body("Invalid credentials");
         }
 
-        // ✅ FIRST LOGIN CHECK
+        // FIRST LOGIN CHECK
         if (Boolean.TRUE.equals(student.getFirstLogin())) {
             return ResponseEntity.ok(
                     Map.of(
                             "message", "First login - change password required",
-                            "firstLogin", true
+                            "firstLogin", true,
+                            "studentId", student.getStudentId()
                     )
             );
         }

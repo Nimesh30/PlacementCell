@@ -30,6 +30,10 @@
 
           if (response.firstLogin === true) {
             localStorage.setItem("userEmail", this.email);
+            localStorage.setItem("studentId", response.studentId);
+            localStorage.setItem("collegeEmail", response.email);
+
+            console.log(response.studentId)
             this.router.navigate(['/change-password']);
           } else {
             this.router.navigate(['/layout/userdashboard']);

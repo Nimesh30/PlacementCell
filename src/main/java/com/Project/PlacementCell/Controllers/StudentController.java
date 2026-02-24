@@ -1,5 +1,7 @@
 package com.Project.PlacementCell.Controllers;
 
+//import com.Project.PlacementCell.DTO.StudentDTO.StudentProfileResponse;
+import com.Project.PlacementCell.DTO.StudentDTO.StudentProfileResponse;
 import com.Project.PlacementCell.Entity.StudentProfile;
 import com.Project.PlacementCell.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ public class StudentController {
     @PostMapping("/add")
     public ResponseEntity<StudentProfile> addStudent(@ModelAttribute StudentProfile studProfile,
                                         @RequestParam("file") MultipartFile file,
-                                        @RequestParam("studentId") Long studentId) throws IOException {
+                                        @RequestParam("studentId") String studentId) throws IOException {
 
         System.out.println("In Add student Controller");
         StudentProfile savedProfile =
@@ -27,4 +29,16 @@ public class StudentController {
 
         return ResponseEntity.ok(savedProfile);
     }
+
+    @GetMapping("/profile/{studentId}")
+    public ResponseEntity<StudentProfileResponse> getProfile(
+            @PathVariable String studentId
+    ) {
+        return ResponseEntity.ok(
+                studentService.getProfileByStudentId(studentId)
+        );
+    }
+
+
+
 }
