@@ -15,6 +15,8 @@ public class Student {
     private Long id;
 
     private String username;
+    @Column(unique = true)
+    private String studentid;
 
     @Column(unique = true)
     private String email;

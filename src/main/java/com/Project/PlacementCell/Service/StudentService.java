@@ -59,7 +59,7 @@ public class StudentService {
         //  Upload image to Cloudinary
         UploadResponse uploadResponse = uploadService.uploadImage(file);
 
-        //  Set image details
+//          Set image details
         studProfile.setImageUrl(uploadResponse.getImageUrl());
         studProfile.setImagePublicId(uploadResponse.getPublicId());
 

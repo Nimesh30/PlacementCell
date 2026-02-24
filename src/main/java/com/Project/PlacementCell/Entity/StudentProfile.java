@@ -30,7 +30,7 @@ public class StudentProfile {
     private String department;
     private Integer passingYear;
     private String imageUrl;
-    private String ImagePublicId;
+    private String imagePublicId;
 
     // Foreign Key
     @OneToOne
