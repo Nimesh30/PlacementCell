@@ -40,6 +40,7 @@ public class AuthService {
 
         Student student = new Student();
         student.setUsername(registerDTO.getUsername());
+        student.setStudentid(registerDTO.getStudentid());
         student.setEmail(registerDTO.getEmail());
         student.setPassword(passwordEncoder.encode(randomPassword));
         student.setFirstLogin(true);

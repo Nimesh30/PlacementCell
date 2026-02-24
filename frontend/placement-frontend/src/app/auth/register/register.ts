@@ -17,13 +17,17 @@ export class Register {
 
     email: string = '';
     username: string = '';
+    studentid:string =''
 
 
     register() {
 
     const registerData = {
       username: this.username,
+      studentid:this.studentid,
       email: this.email
+
+
     };
 
     this.http.post("http://localhost:8085/api/auth/register", registerData)

@@ -10,12 +10,10 @@
 
 // }
 
-
-
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'myprofile',
@@ -74,7 +72,9 @@ export class Myprofile implements OnInit {
     console.log('Resume File:', this.selectedFile);
 
     // Here you will call backend API
-    // this.http.post('your-api-url', formData).subscribe(...)
+    // this.http.post("http://localhost:8085/students/add", formData).subscribe({
+    
+    // })
   }
 
   onCancel(): void {
