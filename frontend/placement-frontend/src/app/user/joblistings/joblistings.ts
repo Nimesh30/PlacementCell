@@ -1,21 +1,25 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { JobService } from 'app/Services/jobservice/jobservice';
 import { CommonModule } from '@angular/common';
+import { Applymodal } from 'app/applymodal/applymodal';
+
 @Component({
   selector: 'app-joblistings',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, Applymodal],
   templateUrl: './joblistings.html',
   styleUrl: './joblistings.css',
 })
-export class Joblistings { 
-     // 🔹 Signals
+export class Joblistings {
+
   jobs = signal<any[]>([]);
   searchText = signal('');
 
-  // 🔹 Computed Signal (Auto Filter)
+  // ✅ Selected job for modal
+  selectedJob: any = null;
+
   filteredJobs = computed(() => {
     const search = this.searchText().toLowerCase();
-
     return this.jobs().filter(job =>
       job.companyName.toLowerCase().includes(search) ||
       job.jobTitle.toLowerCase().includes(search)
@@ -37,5 +41,15 @@ export class Joblistings {
 
   toggleDescription(job: any) {
     job.showDescription = !job.showDescription;
+  }
+
+  // ✅ OPEN MODAL
+  openApplyModal(job: any) {
+    this.selectedJob = job;
+  }
+
+  // ✅ CLOSE MODAL
+  closeModal() {
+    this.selectedJob = null;
   }
 }
