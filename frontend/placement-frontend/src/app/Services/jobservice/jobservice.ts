@@ -11,8 +11,8 @@ export class JobService {
   constructor(private http: HttpClient) {}
 
   getAvailableJobs() {
-    return this.http.get(`${this.baseUrl}/available`);
-  }
+  return this.http.get<any[]>(`${this.baseUrl}/available`);
+}
 
   addJob(job: any) {
     return this.http.post(`${this.baseUrl}/add`, job);

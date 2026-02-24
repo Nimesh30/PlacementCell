@@ -1,11 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { JobService } from 'app/Services/jobservice/jobservice';
 
 @Component({
   selector: 'app-user-dashboard',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './user-dashboard.html',
   styleUrl: './user-dashboard.css',
 })
-export class UserDashboard {
+export class UserDashboard implements OnInit {
 
+  // ✅ Signals
+  username = signal<string | null>('');
+  jobs = signal<any[]>([]);
+
+  constructor(private jobService: JobService) {}
+
+  ngOnInit(): void {
+
+    // Set username from localStorage
+    this.username.set(localStorage.getItem("username"));
+
+    // Fetch jobs
+    this.jobService.getAvailableJobs().subscribe((data: any[]) => {
+      this.jobs.set(data);
+    });
+  }
+
+  getInitial(companyName: string): string {
+    return companyName?.charAt(0).toUpperCase();
+  }
 }

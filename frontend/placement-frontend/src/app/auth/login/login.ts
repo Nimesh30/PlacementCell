@@ -26,16 +26,18 @@
 
     this.http.post<any>('http://localhost:8085/api/auth/loginUser', loginData)
       .subscribe({
-        next: (response) => {
+       next: (response) => {
 
-          if (response.firstLogin === true) {
-            localStorage.setItem("userEmail", this.email);
-            this.router.navigate(['/change-password']);
-          } else {
-            this.router.navigate(['/layout/userdashboard']);
-          }
+      localStorage.setItem("username", response.username);
+      // localStorage.setItem("userEmail", response.email);
 
-        },
+      if (response.firstLogin) {
+      this.router.navigate(['/change-password']);
+    } 
+    else {
+      this.router.navigate(['/layout/userdashboard']);
+    }
+      } ,
         error: (error) => {
 
           if (error.status === 401) {
