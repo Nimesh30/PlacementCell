@@ -10,7 +10,9 @@ import { Myapplications } from './user/myapplications/myapplications';
 import { Noticeboard } from './user/noticeboard/noticeboard';
 import { Layout } from './layout/layout';
 import { Applymodal } from './applymodal/applymodal';
-
+import { Adminlogin } from './admin/adminlogin/adminlogin';
+import { Adminlayout } from './admin/adminlayout/adminlayout';
+import { Admindashboard } from './admin/admindashboard/admindashboard';
 export const routes: Routes = [
 
   { path: '', component: Home },
@@ -18,7 +20,13 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'change-password', component: ChangePassword },
   {path:'applyModal' , component:Applymodal},
-  //  IMPORTANT PART // Layout is parent path and its child path
+  {path:'adminlogin',component:Adminlogin},
+  {path:'adminlayout',component:Adminlayout,
+    children:[
+      {path:'admindashboard',component:Admindashboard}
+    ]
+  },
+  //  IMPORTANT PART // Layout is parent path and its child path Student
   {
     path: 'layout',
     component: Layout,

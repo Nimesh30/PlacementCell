@@ -14,4 +14,8 @@ export class Home {
   goToLogin() {
     this.router.navigate(['/login']);
   }
+  goTOAdminLogin(){
+    this.router.navigate(['/adminlogin']);
+  }
+
 }

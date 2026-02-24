@@ -1,0 +1,34 @@
+<div class="app-container">
+
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">🎓</div>
+      <div>
+        <h2>PlacePro</h2>
+        <p>Placement Cell</p>
+      </div>
+    </div>
+
+    <nav>
+      <a routerLink="userdashboard" routerLinkActive="active"><span>🏠</span> Dashboard</a>
+      <a routerLink="manage-jobs" routerLinkActive="active"><span>💼</span> Manage Jobs</a>
+      <a routerLink="students" routerLinkActive="active"><span>🎓</span> Students</a>
+      <a routerLink="applications" routerLinkActive="active"><span>📖</span>Applications</a>
+      <a routerLink="notice" routerLinkActive="active"><span>🔔</span> Notice Board</a>
+    </nav>
+
+    <div class="user-footer">
+      <div class="avatar">🧑🏻‍🎓</div>
+      <div>
+        <strong>{{username}}</strong>
+        <p>Student</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- THIS IS THE IMPORTANT PART -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
