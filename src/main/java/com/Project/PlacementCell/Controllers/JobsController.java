@@ -10,6 +10,7 @@ import java.util.List;
 //@StudentController
 @RequestMapping("/api/jobs")
 @CrossOrigin("*")
+@RestController
 public class JobsController {
 
 

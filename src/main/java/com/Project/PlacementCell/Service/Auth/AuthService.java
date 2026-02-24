@@ -81,13 +81,12 @@ public class AuthService {
                     .body("Invalid credentials");
         }
 
-        // FIRST LOGIN CHECK
+        // ✅ FIRST LOGIN CHECK
         if (Boolean.TRUE.equals(student.getFirstLogin())) {
             return ResponseEntity.ok(
                     Map.of(
                             "message", "First login - change password required",
-                            "firstLogin", true,
-                            "studentId", student.getStudentId()
+                            "firstLogin", true
                     )
             );
         }

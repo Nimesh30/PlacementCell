@@ -55,8 +55,9 @@
           {{ job.showDescription ? '▲ Hide Description' : '▼ View Description' }}
         </button>
 
-        <button class="applyBtn">
-          Apply Now →
+           <button class="applyBtn"
+                (click)="openApplyModal(job)">
+           Apply Now →
         </button>
       </div>
 
@@ -64,3 +65,17 @@
   </div>
 
 </div>
+<!-- APPLY MODAL -->
+<app-applymodal
+  *ngIf="selectedJob"
+  [student]="{
+    name: 'John Doe',
+    studentId: 'ST101',
+    email: 'john@college.com',
+    mobile: '9876543210',
+    cgpa: 8.4,
+    department: 'CSE'
+  }"
+  (close)="closeModal()"
+  (submit)="closeModal()">
+</app-applymodal>

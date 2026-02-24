@@ -6,7 +6,6 @@ import com.Project.PlacementCell.Entity.StudentProfile;
 import com.Project.PlacementCell.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +24,7 @@ public class StudentController {
 
         System.out.println("In Add student Controller");
         StudentProfile savedProfile =
-                studentService.addStudent(studProfile,file, studentId);
+                studentService.addStudent(studProfile, file, studentId);
 
         return ResponseEntity.ok(savedProfile);
     }

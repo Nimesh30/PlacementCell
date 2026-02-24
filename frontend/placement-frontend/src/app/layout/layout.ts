@@ -8,5 +8,10 @@ import { RouterOutlet,RouterLinkActive,RouterLink } from '@angular/router';
   styleUrl: './layout.css',
 })
 export class Layout {
+    username: string | null = '';
+
+    ngOnInit() {
+      this.username = localStorage.getItem("username");   
+   }
 
 }
