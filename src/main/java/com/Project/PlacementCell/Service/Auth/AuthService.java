@@ -57,7 +57,7 @@ public class AuthService {
         );
     }
 
-    //LoginUser
+    // LoginUser
     public ResponseEntity<?> loginStudentByUname(LoginDTO loginDTO) {
 
         Optional<Student> optionalStudent =
@@ -66,18 +66,15 @@ public class AuthService {
         if (optionalStudent.isEmpty()) {
             return ResponseEntity
                     .status(401)
-                    .body("Invalid credentials");
+                    .body(Map.of("message", "Invalid credentials"));
         }
 
         Student student = optionalStudent.get();
 
-        if (!passwordEncoder.matches(
-                loginDTO.getPassword(),
-                student.getPassword()
-        )) {
+        if (!passwordEncoder.matches(loginDTO.getPassword(), student.getPassword())) {
             return ResponseEntity
                     .status(401)
-                    .body("Invalid credentials");
+                    .body(Map.of("message", "Invalid credentials"));
         }
 
         // ✅ FIRST LOGIN CHECK
@@ -85,7 +82,9 @@ public class AuthService {
             return ResponseEntity.ok(
                     Map.of(
                             "message", "First login - change password required",
-                            "firstLogin", true
+                            "firstLogin", true,
+                            "username", student.getUsername()  // 👈 ADD THIS
+//                            "email", student.getEmail()
                     )
             );
         }
@@ -93,7 +92,9 @@ public class AuthService {
         return ResponseEntity.ok(
                 Map.of(
                         "message", "Login successful",
-                        "firstLogin", false
+                        "firstLogin", false,
+                        "username", student.getUsername() // 👈 ADD THIS
+//                        "email", student.getEmail()
                 )
         );
     }
