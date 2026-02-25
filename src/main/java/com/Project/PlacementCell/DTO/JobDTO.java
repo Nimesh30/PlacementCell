@@ -1,5 +1,6 @@
 package com.Project.PlacementCell.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.time.LocalDate;
 
@@ -10,10 +11,9 @@ public class JobDTO {
     private String jobTitle;
     private Double packageLpa;
     private String location;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate deadline;
     private Double minCgpa;
     private String description;
-    private String trainingDetails;
-    private String growthPath;
     private String eligibleDegrees;
 }

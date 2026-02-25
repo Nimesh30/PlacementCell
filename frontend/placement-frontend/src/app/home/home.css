@@ -171,44 +171,6 @@ body {
             gap: 12px;
         }
 
-        /* STATS */
-        .stats {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            margin-top: 64px;
-            border: 1.5px solid #e5e7eb;
-            border-radius: 16px;
-            overflow: hidden;
-        }
-
-        .stat {
-            padding: 20px 40px;
-            text-align: center;
-        }
-
-        .stat + .stat {
-            border-left: 1.5px solid #e5e7eb;
-        }
-
-        .stat-num {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #111827;
-            letter-spacing: -0.5px;
-        }
-
-        .stat-num span { color: #4f46e5; }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: #9ca3af;
-            font-weight: 500;
-            margin-top: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
         /* FOOTER */
         footer {
             text-align: center;

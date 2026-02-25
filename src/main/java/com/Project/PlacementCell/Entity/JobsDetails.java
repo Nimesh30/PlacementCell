@@ -27,12 +27,6 @@ public class JobsDetails {
         @Column(length = 5000)
         private String description;
 
-        @Column(length = 2000)
-        private String trainingDetails;
-
-        @Column(length = 2000)
-        private String growthPath;
-
         private String eligibleDegrees; // B.Tech,BE,B.Sc
 
         private Boolean active = true;

@@ -28,15 +28,14 @@ public class JobService {
         job.setDeadline(dto.getDeadline());
         job.setMinCgpa(dto.getMinCgpa());
         job.setDescription(dto.getDescription());
-        job.setTrainingDetails(dto.getTrainingDetails());
-        job.setGrowthPath(dto.getGrowthPath());
         job.setEligibleDegrees(dto.getEligibleDegrees());
+        job.setActive(true);
 
         return jobRepository.save(job);
     }
 
     // Get Only Active & Not Expired Jobs
     public List<JobsDetails> getAvailableJobs() {
-        return jobRepository.findByDeadlineAfterAndActiveTrue(LocalDate.now());
+        return jobRepository.findByDeadlineAfterAndActiveTrueOrderByIdDesc(LocalDate.now());
     }
 }

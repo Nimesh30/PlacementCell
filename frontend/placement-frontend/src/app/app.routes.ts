@@ -13,6 +13,10 @@ import { Applymodal } from './applymodal/applymodal';
 import { Adminlogin } from './admin/adminlogin/adminlogin';
 import { Adminlayout } from './admin/adminlayout/adminlayout';
 import { Admindashboard } from './admin/admindashboard/admindashboard';
+import { Managejobs } from './admin/managejobs/managejobs';
+import { Students } from './admin/students/students';
+import { Allapplications } from './admin/allapplications/allapplications';
+import { Adminnoticeboard } from './admin/adminnoticeboard/adminnoticeboard';
 export const routes: Routes = [
 
   { path: '', component: Home },
@@ -23,7 +27,11 @@ export const routes: Routes = [
   {path:'adminlogin',component:Adminlogin},
   {path:'adminlayout',component:Adminlayout,
     children:[
-      {path:'admindashboard',component:Admindashboard}
+      {path:'admindashboard',component:Admindashboard},
+      {path:'managejobs',component:Managejobs},
+      {path:'students',component:Students},
+      {path:'allapplication',component:Allapplications},
+      {path:'adminnoticeboard',component:Adminnoticeboard}
     ]
   },
   //  IMPORTANT PART // Layout is parent path and its child path Student

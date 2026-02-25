@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface JobRepository extends JpaRepository<JobsDetails, Integer> {
 
-    List<JobsDetails> findByDeadlineAfterAndActiveTrue(LocalDate date);
-
+    List<JobsDetails> findByDeadlineAfterAndActiveTrueOrderByIdDesc(LocalDate date);
 }

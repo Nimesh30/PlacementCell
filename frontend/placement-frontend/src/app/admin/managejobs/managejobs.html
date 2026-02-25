@@ -1,0 +1,109 @@
+<div class="manage-container">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h1>Manage Jobs</h1>
+      <p>4 jobs posted</p>
+    </div>
+
+    <button class="post-btn"  (click)="openAddnewjobModal()">
+      + Post New Job
+    </button>
+
+    <app-addnewjobmodal *ngIf="isOpen" (close)="closeModal()"></app-addnewjobmodal>
+  </div>
+
+  <!-- Search -->
+  <div class="search-box">
+    <input type="text" placeholder="Search jobs..." />
+  </div>
+
+  <!-- Job Card 1 -->
+  <div class="job-card">
+
+    <div class="left-section">
+      <div class="company-icon">🏢</div>
+
+      <div>
+        <h2>TCS</h2>
+        <p class="role">Systems Engineer</p>
+
+        <div class="tags">
+          <span class="tag">CGPA ≥ 6</span>
+          <span class="tag">B.Tech</span>
+          <span class="tag">BE</span>
+          <span class="tag">B.Sc</span>
+          <span class="tag deadline">Deadline: 2025-03-15</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <span class="salary-badge">3.36 LPA</span>
+      <div class="applicants">👥 2</div>
+      <button class="more-btn">👁 More</button>
+      <button class="export-btn">⬇ Export</button>
+    </div>
+
+  </div>
+
+  <!-- Job Card 2 -->
+  <div class="job-card">
+
+    <div class="left-section">
+      <div class="company-icon">🏢</div>
+
+      <div>
+        <h2>Infosys</h2>
+        <p class="role">Systems Engineer (Digital)</p>
+
+        <div class="tags">
+          <span class="tag">CGPA ≥ 7</span>
+          <span class="tag">B.Tech</span>
+          <span class="tag">BE</span>
+          <span class="tag deadline">Deadline: 2025-03-20</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <span class="salary-badge">3.6 LPA</span>
+      <div class="applicants">👥 1</div>
+      <button class="more-btn">👁 More</button>
+      <button class="export-btn">⬇ Export</button>
+    </div>
+
+  </div>
+
+  <!-- Job Card 3 -->
+  <div class="job-card">
+
+    <div class="left-section">
+      <div class="company-icon">🏢</div>
+
+      <div>
+        <h2>Google</h2>
+        <p class="role">Software Engineer</p>
+
+        <div class="tags">
+          <span class="tag">CGPA ≥ 8.5</span>
+          <span class="tag">B.Tech</span>
+          <span class="tag">BE</span>
+          <span class="tag">M.Tech</span>
+          <span class="tag">ME</span>
+          <span class="tag deadline">Deadline: 2025-04-01</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <span class="salary-badge">25+ LPA</span>
+      <div class="applicants">👥 1</div>
+      <button class="more-btn">👁 More</button>
+      <button class="export-btn">⬇ Export</button>
+    </div>
+
+  </div>
+
+</div>
