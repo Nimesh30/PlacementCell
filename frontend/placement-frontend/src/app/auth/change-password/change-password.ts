@@ -15,7 +15,7 @@ export class ChangePassword implements OnInit {
   email: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
-
+  // isChangedPass=false;
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
@@ -40,8 +40,9 @@ export class ChangePassword implements OnInit {
           alert("Password changed successfully!");
 
           localStorage.removeItem("userEmail");
-
-          this.router.navigate(['/layout/userdashboard']);
+          
+          this.router.navigate(['/login']);
+        
         },
         error: () => {
           alert("Failed to change password. Try again.");

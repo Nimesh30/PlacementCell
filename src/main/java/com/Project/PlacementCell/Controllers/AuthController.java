@@ -39,7 +39,7 @@ public class AuthController {
 
     @PostMapping("/loginUser")
     public ResponseEntity<?> loginStudent(@RequestBody LoginDTO loginDTO) {
-        return authService.loginStudentByUname(loginDTO);
+        return authService.loginStudentByEmail(loginDTO);
     }
 
     @PostMapping("/change-password")

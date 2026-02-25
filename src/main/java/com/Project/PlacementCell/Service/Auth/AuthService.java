@@ -40,11 +40,11 @@ public class AuthService {
 
         Student student = new Student();
         student.setUsername(registerDTO.getUsername());
-        student.setStudentid(registerDTO.getStudentid());
+        student.setStudentId(registerDTO.getStudentId());
         student.setEmail(registerDTO.getEmail());
         student.setPassword(passwordEncoder.encode(randomPassword));
         student.setFirstLogin(true);
-
+        System.out.println("In register Student "+ student);
         studentRepository.save(student);
 
         emailService.sendRegistrationMail(
@@ -58,8 +58,8 @@ public class AuthService {
         );
     }
 
-    // LoginUser
-    public ResponseEntity<?> loginStudentByUname(LoginDTO loginDTO) {
+    //LoginUser
+    public ResponseEntity<?> loginStudentByEmail(LoginDTO loginDTO) {
 
         Optional<Student> optionalStudent =
                 studentRepository.findByEmail(loginDTO.getEmail());
@@ -67,35 +67,37 @@ public class AuthService {
         if (optionalStudent.isEmpty()) {
             return ResponseEntity
                     .status(401)
-                    .body(Map.of("message", "Invalid credentials"));
+                    .body("Invalid credentials");
         }
 
         Student student = optionalStudent.get();
 
-        if (!passwordEncoder.matches(loginDTO.getPassword(), student.getPassword())) {
+        if (!passwordEncoder.matches(
+                loginDTO.getPassword(),
+                student.getPassword()
+        )) {
             return ResponseEntity
                     .status(401)
-                    .body(Map.of("message", "Invalid credentials"));
+                    .body("Invalid credentials");
         }
 
-        // ✅ FIRST LOGIN CHECK
+        // FIRST LOGIN CHECK
         if (Boolean.TRUE.equals(student.getFirstLogin())) {
             return ResponseEntity.ok(
                     Map.of(
                             "message", "First login - change password required",
-                            "firstLogin", true,
-                            "username", student.getUsername()  // 👈 ADD THIS
-//                            "email", student.getEmail()
+                            "firstLogin", true
                     )
             );
         }
 
         return ResponseEntity.ok(
                 Map.of(
-                        "message", "Login successful",
+                        "studentId", student.getStudentId(),
+                        "username", student.getUsername(),
+                        "email", student.getEmail(),
                         "firstLogin", false,
-                        "username", student.getUsername() // 👈 ADD THIS
-//                        "email", student.getEmail()
+                        "message", "Login successful"
                 )
         );
     }

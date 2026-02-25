@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { JobService } from 'app/Services/jobservice/jobservice';
+import { JobService } from '../../Services/jobservice/jobservice';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -15,7 +15,7 @@ export class UserDashboard implements OnInit {
   username = signal<string | null>('');
   jobs = signal<any[]>([]);
 
-  constructor(private jobService: JobService) {}
+  constructor(private jobService:JobService) {}
 
   ngOnInit(): void {
 
