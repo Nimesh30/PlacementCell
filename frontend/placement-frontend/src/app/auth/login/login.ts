@@ -16,58 +16,54 @@
     password: string = '';
 
     constructor(private router: Router, private http: HttpClient) {}
-
     login() {
 
-    const loginData = {
-      email: this.email,
-      password: this.password
-    };
+      const loginData = {
+        email: this.email,
+        password: this.password
+      };
 
-    this.http.post<any>('http://localhost:8085/api/auth/loginUser', loginData)
-      .subscribe({
-       next: (response) => {
-
-          if (response.firstLogin === true) {
-            localStorage.setItem("userEmail", this.email);
+      this.http.post<any>('http://localhost:8085/api/auth/loginUser', loginData)
+        .subscribe({
+          next: (response) => {
+            
+              console.log("Login API Response:", response);
+            
+            // Save common values
+            localStorage.setItem("username", response.username);
             localStorage.setItem("studentId", response.studentId);
             localStorage.setItem("collegeEmail", response.email);
+            console.log("already in local storage ",response.studentId)
 
-            console.log(response.studentId)
-            this.router.navigate(['/change-password']);
-          } else {
-            this.router.navigate(['/layout/userdashboard']);
+            if (response.firstLogin === true) {
+              localStorage.setItem("userEmail", this.email);
+              localStorage.setItem("studentId", response.studentId);
+              localStorage.setItem("collegeEmail", response.email);
+              this.router.navigate(['/change-password']);
+            
+            } else {
+
+              this.router.navigate(['/layout/userdashboard']);
+            }
+
+          },
+
+          error: (error) => {
+
+            if (error.status === 401) {
+              alert("Invalid Credentials");
+            } else {
+              alert("Something went wrong. Try again.");
+            }
+
           }
-
-        },
-      localStorage.setItem("username", response.username);
-      // localStorage.setItem("userEmail", response.email);
-
-      if (response.firstLogin) {
-      this.router.navigate(['/change-password']);
+        });
     }
-    else {
-      this.router.navigate(['/layout/userdashboard']);
-    }
-      } ,
-        error: (error) => {
-
-          if (error.status === 401) {
-            alert("Invalid Credentials");
-          } else {
-            alert("Something went wrong. Try again.");
-          }
-
-        }
-      });
-  }
-
 
     goToRegister(){
-      this.router.navigate(['/register']);
+      this.router.navigate(['/register'],)
     }
-
-    toHome(){
-      this.router.navigate(['/']);
-    }
+  
   }
+
+  

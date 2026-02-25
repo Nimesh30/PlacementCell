@@ -15,7 +15,7 @@
                     <input type="submit" value="Login">
                 </form>
                 <div class="footer-links">
-                    <h6>Dont have an account? <a (click)="goToRegister()">Register</a></h6>
+                    <h6>Dont have an account? <a (click)="goToRegister()" [routerLink]="['/register']">Register</a></h6>
                     <a [routerLink]="['/']" class="back-link">← Back to Role Selection</a>
                 </div>
             </div>

@@ -59,7 +59,7 @@ public class AuthService {
     }
 
     //LoginUser
-    public ResponseEntity<?> loginStudentByUname(LoginDTO loginDTO) {
+    public ResponseEntity<?> loginStudentByEmail(LoginDTO loginDTO) {
 
         Optional<Student> optionalStudent =
                 studentRepository.findByEmail(loginDTO.getEmail());
@@ -81,7 +81,7 @@ public class AuthService {
                     .body("Invalid credentials");
         }
 
-        // ✅ FIRST LOGIN CHECK
+        // FIRST LOGIN CHECK
         if (Boolean.TRUE.equals(student.getFirstLogin())) {
             return ResponseEntity.ok(
                     Map.of(
@@ -93,8 +93,11 @@ public class AuthService {
 
         return ResponseEntity.ok(
                 Map.of(
-                        "message", "Login successful",
-                        "firstLogin", false
+                        "studentId", student.getStudentId(),
+                        "username", student.getUsername(),
+                        "email", student.getEmail(),
+                        "firstLogin", false,
+                        "message", "Login successful"
                 )
         );
     }

@@ -17,21 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Optional;
-//
-//@Service
-//public class StudentService {
-// @Autowired
-// private StudentProfileRepository studentProfileRepo;
-//    public StudentProfile addStudent(StudentProfile studProfile) {
-//
-//        System.out.println(studProfile);
-//        studentProfileRepo.save(studProfile);
-//        return studProfile;
-//    }
-//}
-
-
 
 @Service
 public class StudentService {
@@ -54,7 +39,7 @@ public class StudentService {
 
         // If profile exists
         if (optionalProfile.isPresent()) {
-
+            System.out.println("Profile Exist...");
             StudentProfile profile = optionalProfile.get();
 
             return new StudentProfileResponse(

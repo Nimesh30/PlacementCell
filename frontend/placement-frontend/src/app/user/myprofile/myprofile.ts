@@ -25,26 +25,29 @@ export class Myprofile implements OnInit {
     this.academicForm = this.fb.group({
       studentId: [{ value: '', disabled: true }],
       collegeEmail: [{ value: '', disabled: true }],
+      
 
-      fullName: ['', Validators.required],
-      personalEmail: ['', [Validators.required, Validators.email]],
-      mobileNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-      tenthMarks: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
-      twelfthMarks: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
-      stream: ['', Validators.required],
-      bachelorsCgpa: ['', [Validators.required, Validators.min(0), Validators.max(10)]],
-      mastersCgpa: [''],
-      institute: ['', Validators.required],
-      department: ['', Validators.required],
-      passingYear: ['', Validators.required]
+      fullName: ['', { disabled: true } ,Validators.required],
+      personalEmail: ['', { disabled: true }, [Validators.required, Validators.email]],
+      mobileNumber: ['', { disabled: true }, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      tenthMarks: ['', { disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
+      twelfthMarks: ['', { disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
+      stream: ['', { disabled: true }, Validators.required],
+      bachelorsCgpa: ['', { disabled: true }, [Validators.required, Validators.min(0), Validators.max(10)]],
+      mastersCgpa: ['', { disabled: true }],
+      institute: ['', { disabled: true }, Validators.required],
+      department: ['', { disabled: true }, Validators.required],
+      passingYear: ['', { disabled: true }, Validators.required]
     });
    
     const studentId = localStorage.getItem('studentId');
     const collegeEmail = localStorage.getItem('collegeEmail');
     
-console.log(studentId)
+    console.log("In profile before if ",studentId)
     if (studentId) {
+      console.log(" 1. myprofile IF condition id " +studentId)
       this.fetchProfile(studentId);
+      console.log("After fetch profile")
     } else {
       alert("Student not logged in for fetch");
     }
@@ -53,14 +56,17 @@ console.log(studentId)
   // ---------------- FETCH PROFILE ----------------
 
   fetchProfile(studentId: string) {
-
+      console.log("1.1 In fetch...")
     this.http.get<any>(`${this.baseUrl}/profile/${studentId}`)
       .subscribe({
+        // Not going in this part 12 : 05
         next: (response) => {
-          console.log(response)
+          console.log("saved profile ",response)
           localStorage.setItem("studentId", response.studentId);
           localStorage.setItem("collegeEmail", response.collegeEmail)
-          this.isEditMode = true;
+          setTimeout(() => {
+            this.isEditMode = true;
+          });
           this.academicForm.patchValue(response);
 
           console.log("Profile exists → Edit mode");
@@ -69,7 +75,9 @@ console.log(studentId)
         error: () => {
 
           // First time user
-          this.isEditMode = false;
+          setTimeout(() => {
+            this.isEditMode = false;
+          });
 
           this.academicForm.patchValue({
             studentId: studentId,
@@ -125,8 +133,8 @@ console.log(studentId)
       // UPDATE PROFILE
       this.http.put(`${this.baseUrl}/update/${studentId}`, formData)
         .subscribe({
-          next: () => alert("Profile updated successfully!"),
-          error: () => alert("Error updating profile")
+          next: () => alert("Profile updated successfully!")
+          // error: () => alert("Error updating profile")
         });
 
     } else {
