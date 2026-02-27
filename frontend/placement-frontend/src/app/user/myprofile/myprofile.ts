@@ -15,84 +15,107 @@ export class Myprofile implements OnInit {
   academicForm!: FormGroup;
   selectedFile: File | null = null;
   isEditMode = false;
+  isFormEditable = false;
+  profile: any;
 
   baseUrl = 'http://localhost:8085/students';
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient
+  ) { }
 
   ngOnInit(): void {
-      
+
     this.academicForm = this.fb.group({
+
       studentId: [{ value: '', disabled: true }],
       collegeEmail: [{ value: '', disabled: true }],
-      
 
-      fullName: ['', { disabled: true } ,Validators.required],
-      personalEmail: ['', { disabled: true }, [Validators.required, Validators.email]],
-      mobileNumber: ['', { disabled: true }, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-      tenthMarks: ['', { disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
-      twelfthMarks: ['', { disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
-      stream: ['', { disabled: true }, Validators.required],
-      bachelorsCgpa: ['', { disabled: true }, [Validators.required, Validators.min(0), Validators.max(10)]],
-      mastersCgpa: ['', { disabled: true }],
-      institute: ['', { disabled: true }, Validators.required],
-      department: ['', { disabled: true }, Validators.required],
-      passingYear: ['', { disabled: true }, Validators.required]
+      fullName: [{ value: '', disabled: true }, Validators.required],
+      personalEmail: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
+      mobileNumber: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      tenthMarks: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
+      twelfthMarks: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
+      stream: [{ value: '', disabled: true }, Validators.required],
+      bachelorsCgpa: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(10)]],
+      mastersCgpa: [{ value: '', disabled: true }],
+      institute: [{ value: '', disabled: true }, Validators.required],
+      department: [{ value: '', disabled: true }, Validators.required],
+      passingYear: [{ value: '', disabled: true }, Validators.required]
+
     });
-   
+
     const studentId = localStorage.getItem('studentId');
-    const collegeEmail = localStorage.getItem('collegeEmail');
-    
-    console.log("In profile before if ",studentId)
+
     if (studentId) {
-      console.log(" 1. myprofile IF condition id " +studentId)
       this.fetchProfile(studentId);
-      console.log("After fetch profile")
     } else {
-      alert("Student not logged in for fetch");
+      alert("Student not logged in");
     }
   }
 
-  // ---------------- FETCH PROFILE ----------------
+  // ================= ENABLE FORM =================
+
+  enableForm() {
+    Object.keys(this.academicForm.controls).forEach(key => {
+      if (key !== 'studentId' && key !== 'collegeEmail') {
+        this.academicForm.get(key)?.enable();
+      }
+    });
+    this.isFormEditable = true;
+  }
+
+  // ================= DISABLE FORM =================
+
+  disableForm() {
+    Object.keys(this.academicForm.controls).forEach(key => {
+      this.academicForm.get(key)?.disable();
+    });
+    this.isFormEditable = false;
+  }
+
+  // ================= FETCH PROFILE =================
 
   fetchProfile(studentId: string) {
-      console.log("1.1 In fetch...")
+
     this.http.get<any>(`${this.baseUrl}/profile/${studentId}`)
       .subscribe({
-        // Not going in this part 12 : 05
-        next: (response) => {
-          console.log("saved profile ",response)
-          localStorage.setItem("studentId", response.studentId);
-          localStorage.setItem("collegeEmail", response.collegeEmail)
-          setTimeout(() => {
-            this.isEditMode = true;
-          });
-          this.academicForm.patchValue(response);
 
-          console.log("Profile exists → Edit mode");
+        next: (response) => {
+
+          if (response.imageUrl === "null") {
+            response.imageUrl = null;
+          }
+
+          this.profile = response;
+          this.isEditMode = true;
+
+          this.academicForm.patchValue(response);
+          this.disableForm();   // disable after loading
 
         },
+
         error: () => {
 
           // First time user
-          setTimeout(() => {
-            this.isEditMode = false;
-          });
+          this.isEditMode = false;
 
           this.academicForm.patchValue({
             studentId: studentId,
             collegeEmail: localStorage.getItem('collegeEmail')
           });
 
-          console.log("First time user → Create mode");
-
+          this.enableForm();   // allow new user to fill form
         }
+
       });
   }
 
-  // ---------------- FILE CHANGE ----------------
+  // ================= FILE CHANGE =================
 
   onFileChange(event: Event): void {
+
     const input = event.target as HTMLInputElement;
 
     if (input.files && input.files.length > 0) {
@@ -100,9 +123,15 @@ export class Myprofile implements OnInit {
     }
   }
 
-  // ---------------- SAVE PROFILE ----------------
+  // ================= SAVE / UPDATE =================
 
   onSave(): void {
+
+    // If not editable → make editable first
+    if (!this.isFormEditable) {
+      this.enableForm();
+      return;
+    }
 
     if (this.academicForm.invalid) {
       this.academicForm.markAllAsTouched();
@@ -111,40 +140,40 @@ export class Myprofile implements OnInit {
 
     const studentId = localStorage.getItem('studentId');
     if (!studentId) {
-      alert("Student not logged for save");
+      alert("Student not logged");
       return;
     }
 
     const rawData = this.academicForm.getRawValue();
     const formData = new FormData();
 
-    // Append all form fields
     Object.keys(rawData).forEach(key => {
       formData.append(key, rawData[key]);
     });
 
-    // Append file if selected
     if (this.selectedFile) {
       formData.append('file', this.selectedFile);
     }
 
     if (this.isEditMode) {
-
-      // UPDATE PROFILE
+        console.log("Updating mode on before url..")
       this.http.put(`${this.baseUrl}/update/${studentId}`, formData)
         .subscribe({
-          next: () => alert("Profile updated successfully!")
-          // error: () => alert("Error updating profile")
+          next: () => {
+            alert("Profile updated successfully!");
+            this.disableForm();
+          },
+          error: () => alert("Error updating profile")
         });
 
     } else {
 
-      // CREATE PROFILE
       this.http.post(`${this.baseUrl}/add`, formData)
         .subscribe({
           next: () => {
             alert("Profile saved successfully!");
             this.isEditMode = true;
+            this.disableForm();
           },
           error: () => alert("Error saving profile")
         });
@@ -152,20 +181,16 @@ export class Myprofile implements OnInit {
     }
   }
 
-  // ---------------- CANCEL ----------------
+  // ================= CANCEL =================
 
   onCancel(): void {
 
-    const studentId = localStorage.getItem('studentId');
-    const collegeEmail = localStorage.getItem('collegeEmail');
-
-    this.academicForm.reset();
-
-    this.academicForm.patchValue({
-      studentId: studentId,
-      collegeEmail: collegeEmail
-    });
-
     this.selectedFile = null;
+
+    if (this.profile) {
+      this.academicForm.patchValue(this.profile);
+      this.disableForm();
+    }
   }
+
 }

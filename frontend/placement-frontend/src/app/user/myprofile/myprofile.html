@@ -1,10 +1,17 @@
 <div class="page-wrapper">
 
-  <!-- Top Buttons -->
   <div class="top-actions">
-    <!-- <button class="cancel-btn" type="button" (click)="onCancel()">{{isEditMode}}</button> -->
-    <button class="save-btn" type="button" (click)="onSave()">
-      {{ isEditMode ? 'Update Profile' : 'Save Profile' }}
+    <button class="cancel-btn"
+            type="button"
+            (click)="onCancel()"
+            *ngIf="isFormEditable">
+      Cancel
+    </button>
+
+    <button class="save-btn"
+            type="button"
+            (click)="onSave()">
+      {{ isFormEditable ? (isEditMode ? 'Save Changes' : 'Save Profile') : 'Update Profile' }}
     </button>
   </div>
 
@@ -80,9 +87,20 @@
 
       <div class="form-group full-width">
         <label>UPLOAD RESUME</label>
-        <input type="file" (change)="onFileChange($event)" />
+        <input type="file"
+               (change)="onFileChange($event)"
+               [disabled]="!isFormEditable" />
+
+        <div *ngIf="profile?.imageUrl" style="margin-top: 10px;">
+          <a [href]="profile.imageUrl"
+             target="_blank"
+             class="btn btn-success">
+            View Uploaded Resume
+          </a>
+        </div>
       </div>
 
     </form>
   </div>
+
 </div>

@@ -1,8 +1,7 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
-import { JobService } from 'app/Services/jobservice/jobservice';
-import { HttpClient } from '@angular/common/http';
+import { JobService } from '../../Services/jobservice/jobservice';
 import { CommonModule } from '@angular/common';
-import { Applymodal } from 'app/applymodal/applymodal';
+import { Applymodal } from '../../applymodal/applymodal';
 
 @Component({
   selector: 'app-joblistings',
@@ -11,12 +10,13 @@ import { Applymodal } from 'app/applymodal/applymodal';
   templateUrl: './joblistings.html',
   styleUrl: './joblistings.css',
 })
-export class Joblistings implements OnInit {
+export class Joblistings {
 
   jobs = signal<any[]>([]);
   searchText = signal('');
+
+  // ✅ Selected job for modal
   selectedJob: any = null;
-  studentData = signal<any | null>(null); // will store full profile
 
   filteredJobs = computed(() => {
     const search = this.searchText().toLowerCase();
@@ -26,17 +26,16 @@ export class Joblistings implements OnInit {
     );
   });
 
-  constructor(private jobService: JobService, private http: HttpClient) {}
+  constructor(private jobService: JobService) {}
 
   ngOnInit(): void {
-    // Load available jobs
-    this.jobService.getAvailableJobs().subscribe(data => this.jobs.set(data));
+    this.jobService.getAvailableJobs().subscribe((data: any) => {
+      this.jobs.set(data);
+    });
   }
-
 
   updateSearch(event: Event) {
     const input = event.target as HTMLInputElement;
-   // return input.value;
     this.searchText.set(input.value);
   }
 
@@ -44,22 +43,12 @@ export class Joblistings implements OnInit {
     job.showDescription = !job.showDescription;
   }
 
-  // ✅ Open modal and fetch full profile
+  // ✅ OPEN MODAL
   openApplyModal(job: any) {
     this.selectedJob = job;
-
-    const studentId = localStorage.getItem('studentId');
-    if (studentId) {
-      this.http.get<any>(`http://localhost:8085/students/profile/${studentId}`)
-        .subscribe(res => {
-          this.studentData.set(res);
-          console.log(this.studentData); // store full profile
-        });
-    } else {
-      alert('Student not logged in');
-    }
   }
 
+  // ✅ CLOSE MODAL
   closeModal() {
     this.selectedJob = null;
   }
