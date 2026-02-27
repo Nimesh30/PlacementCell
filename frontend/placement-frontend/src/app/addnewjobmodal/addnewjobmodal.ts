@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { JobService } from 'app/Services/jobservice/jobservice';
+//import { JobService } from 'app/Services/jobservice/jobservice';
+import { JobService } from '../Services/jobservice/jobservice';
 
 @Component({
   selector: 'app-addnewjobmodal',
@@ -19,7 +20,7 @@ export class Addnewjobmodal {
 
   constructor(
     private fb: FormBuilder,
-    private jobService: JobService
+    private jobService : JobService
   ) {
     this.jobForm = this.fb.group({
       companyName: ['', Validators.required],

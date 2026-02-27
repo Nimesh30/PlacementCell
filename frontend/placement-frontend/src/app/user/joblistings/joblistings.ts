@@ -1,7 +1,7 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
-import { JobService } from 'app/Services/jobservice/jobservice';
+import { JobService } from '../../Services/jobservice/jobservice';
 import { CommonModule } from '@angular/common';
-import { Applymodal } from 'app/applymodal/applymodal';
+import { Applymodal } from '../../applymodal/applymodal';
 
 @Component({
   selector: 'app-joblistings',
