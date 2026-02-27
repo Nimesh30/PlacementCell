@@ -34,8 +34,12 @@ public class JobService {
         return jobRepository.save(job);
     }
 
-    // Get Only Active & Not Expired Jobs
-    public List<JobsDetails> getAvailableJobs() {
-        return jobRepository.findByDeadlineAfterAndActiveTrueOrderByIdDesc(LocalDate.now());
+    // Get only active & not expired jobs and optionally search by keyword
+    public List<JobsDetails> getAvailableJobs(String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            // If no keyword, just return active and not expired jobs
+            return jobRepository.findByDeadlineAfterAndActiveTrueOrderByIdDesc(LocalDate.now());
+        }
+        return jobRepository.searchJobs(LocalDate.now(),keyword);
     }
 }

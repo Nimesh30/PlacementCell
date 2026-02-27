@@ -6,11 +6,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "admins")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 public class Admin {
 
     @Id
@@ -30,4 +26,5 @@ public class Admin {
 
     @Column(nullable = false)
     private boolean active = true;
+
 }

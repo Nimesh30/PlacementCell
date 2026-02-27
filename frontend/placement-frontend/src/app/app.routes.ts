@@ -46,7 +46,6 @@ export const routes: Routes = [
       { path: 'notice', component: Noticeboard },
     ]
   },
-
   { path: '**', redirectTo: '' }
 
 ];

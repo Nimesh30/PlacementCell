@@ -1,5 +1,6 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { JobService } from 'app/Services/jobservice/jobservice';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Applymodal } from 'app/applymodal/applymodal';
 
@@ -10,13 +11,12 @@ import { Applymodal } from 'app/applymodal/applymodal';
   templateUrl: './joblistings.html',
   styleUrl: './joblistings.css',
 })
-export class Joblistings {
+export class Joblistings implements OnInit {
 
   jobs = signal<any[]>([]);
   searchText = signal('');
-
-  // ✅ Selected job for modal
   selectedJob: any = null;
+  studentData = signal<any | null>(null); // will store full profile
 
   filteredJobs = computed(() => {
     const search = this.searchText().toLowerCase();
@@ -26,16 +26,17 @@ export class Joblistings {
     );
   });
 
-  constructor(private jobService: JobService) {}
+  constructor(private jobService: JobService, private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.jobService.getAvailableJobs().subscribe((data: any) => {
-      this.jobs.set(data);
-    });
+    // Load available jobs
+    this.jobService.getAvailableJobs().subscribe(data => this.jobs.set(data));
   }
+
 
   updateSearch(event: Event) {
     const input = event.target as HTMLInputElement;
+   // return input.value;
     this.searchText.set(input.value);
   }
 
@@ -43,12 +44,22 @@ export class Joblistings {
     job.showDescription = !job.showDescription;
   }
 
-  // ✅ OPEN MODAL
+  // ✅ Open modal and fetch full profile
   openApplyModal(job: any) {
     this.selectedJob = job;
+
+    const studentId = localStorage.getItem('studentId');
+    if (studentId) {
+      this.http.get<any>(`http://localhost:8085/students/profile/${studentId}`)
+        .subscribe(res => {
+          this.studentData.set(res);
+          console.log(this.studentData); // store full profile
+        });
+    } else {
+      alert('Student not logged in');
+    }
   }
 
-  // ✅ CLOSE MODAL
   closeModal() {
     this.selectedJob = null;
   }

@@ -21,7 +21,7 @@ public class EmailService {
         message.setText(
                 "Hello " + username + ",\n\n" +
                         "Your Placement Cell account has been created.\n\n" +
-                        "Username: " + username + "\n" +
+                        "Email: " + toEmail + "\n" +
                         "Temporary Password: " + tempPassword + "\n\n" +
                         "Please login and change your password immediately.\n\n" +
                         "Thank you."
