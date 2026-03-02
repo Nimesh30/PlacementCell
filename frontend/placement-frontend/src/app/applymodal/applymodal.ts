@@ -16,7 +16,11 @@ export class Applymodal {
   @Output() submit = new EventEmitter<void>();
 
   submitApplication() {
-    console.log('Application Submitted');
-    this.submit.emit();
+
+    confirm('Are you sure you want to apply');
+     this.submit.emit();
+     console.log("submit your application");
+
+     
   }
 }

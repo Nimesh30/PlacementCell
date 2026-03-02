@@ -33,7 +33,7 @@ public class AdminService {
 
         Admin admin = optionalAdmin.get();
 
-        // ❌ DO NOT USE regex matches
+        // DO NOT USE regex matches
         if (!adminLoginDTO.getPassword().equals(admin.getPassword())) {
             return ResponseEntity
                     .status(401)

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Joblistings } from 'app/user/joblistings/joblistings';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,13 @@ export class JobService {
 
   constructor(private http: HttpClient) {}
 
+
+
   getAvailableJobs() {
-  return this.http.get<any[]>(`${this.baseUrl}/available`);
+
+  const keyword="das";
+
+  return this.http.get<any[]>(`${this.baseUrl}/available?keyword=${keyword}`);
 }
 
   addJob(job: any) {

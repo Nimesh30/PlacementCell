@@ -27,9 +27,11 @@ public class JobsController {
     }
 
     // User Get Jobs (only not expired)
+
     @GetMapping("/available")
-    public List<JobsDetails> getJobs() {
-        return jobService.getAvailableJobs();
+    public List<JobsDetails> getAvailableJobs(@RequestParam(required = false) String keyword) {
+        // Service internally uses LocalDate.now()
+        return jobService.getAvailableJobs(keyword);
     }
 
 }

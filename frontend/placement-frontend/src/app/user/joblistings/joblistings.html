@@ -67,15 +67,8 @@
 </div>
 <!-- APPLY MODAL --> 
 <app-applymodal
-  *ngIf="selectedJob"
-  [student]="{
-    name: 'John Doe',
-    studentId: 'ST101',
-    email: 'john@college.com',
-    mobile: '9876543210',
-    cgpa: 8.4,
-    department: 'CSE'
-  }"
+  *ngIf="selectedJob && studentData()"
+  [student]="studentData()"
   (close)="closeModal()"
   (submit)="closeModal()">
 </app-applymodal> 

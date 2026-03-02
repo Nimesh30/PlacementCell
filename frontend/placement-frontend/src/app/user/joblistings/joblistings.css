@@ -60,6 +60,7 @@
   background: #fff;
   border-radius: 16px;
   padding: 25px;
+  padding-top: 20px;
   display: flex;
   gap: 20px;
   margin-bottom: 25px;
@@ -74,15 +75,15 @@
 
 /* Company Logo */
 .companyLogo {
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(135deg, #3b82f6, #6b9dfc);
-  border-radius: 18px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -96,6 +97,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* padding: -20px; */
+  margin: 0;
 }
 
 .topRow h2 {
@@ -123,7 +126,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  margin: 15px 0;
+  margin: 1px 0;
+  margin-bottom: 10px;
   color: #666;
   font-size: 14px;
 }
@@ -147,6 +151,7 @@
 .buttons {
   display: flex;
   gap: 15px;
+  font-size: 12px;
 }
 
 .viewBtn {

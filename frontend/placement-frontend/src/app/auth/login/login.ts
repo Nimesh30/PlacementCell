@@ -33,6 +33,7 @@
             localStorage.setItem("username", response.username);
             localStorage.setItem("studentId", response.studentId);
             localStorage.setItem("collegeEmail", response.email);
+          //  localStorage.setItem('studentProfile', JSON.stringify(res));
             console.log("already in local storage ",response.studentId)
 
             if (response.firstLogin === true) {
