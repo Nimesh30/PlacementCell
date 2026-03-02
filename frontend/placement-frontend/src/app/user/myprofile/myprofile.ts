@@ -171,7 +171,9 @@ export class Myprofile implements OnInit {
       this.http.post(`${this.baseUrl}/add`, formData)
         .subscribe({
           next: () => {
-            alert("Profile saved successfully!");
+            // alert("Profile saved successfully!");
+            console.log("Saved profile..");
+            
             this.isEditMode = true;
             this.disableForm();
           },

@@ -27,6 +27,6 @@ public class StudentProfileResponse {
     private String institute;
     private String department;
     private Integer passingYear;
-
+//    private String imagePublicId;
     private String imageUrl;
 }

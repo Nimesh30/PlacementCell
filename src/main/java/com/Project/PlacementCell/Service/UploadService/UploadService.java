@@ -25,8 +25,16 @@ public class UploadService {
         }
         Map<String, Object> uploadResult = cloudinary.uploader().upload(
                 file.getBytes(),
-                ObjectUtils.emptyMap()
+//                ObjectUtils.emptyMap()
+                ObjectUtils.asMap(
+                        "resource_type", "raw",
+//                        "public_id", file.getOriginalFilename(),
+                        "use_filename", true,
+                        "unique_filename", false
+                )
+
         );
+
 
         return new UploadResponse(
                 uploadResult.get("secure_url").toString(),

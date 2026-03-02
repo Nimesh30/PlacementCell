@@ -60,7 +60,6 @@ public class StudentService {
                     profile.getInstitute(),
                     profile.getDepartment(),
                     profile.getPassingYear(),
-
                     profile.getImageUrl()
             );
         }
