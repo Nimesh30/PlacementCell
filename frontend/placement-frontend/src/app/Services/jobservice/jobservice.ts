@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Joblistings } from 'app/user/joblistings/joblistings';
 
@@ -9,17 +9,18 @@ export class JobService {
 
   private baseUrl = 'http://localhost:8085/api/jobs';
 
+  
   constructor(private http: HttpClient) {}
 
 
 
-  getAvailableJobs() {
-
-  const keyword="das";
-
-  return this.http.get<any[]>(`${this.baseUrl}/available?keyword=${keyword}`);
-}
-
+  getAvailableJobs(keyword?: string) {
+     return this.http.get<any[]>(
+        `${this.baseUrl}/available`,
+      { params: { keyword: keyword || '' } }
+    );
+  }
+  
   addJob(job: any) {
     return this.http.post(`${this.baseUrl}/add`, job);
   }

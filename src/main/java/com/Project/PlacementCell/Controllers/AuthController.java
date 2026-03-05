@@ -52,7 +52,7 @@ public class AuthController {
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
         System.out.println("In Image Controller");
 //        Map result = uploadService.uploadImage(file);
-        UploadResponse response = uploadService.uploadImage(file);
+        UploadResponse response = uploadService. uploadFile(file);
         return ResponseEntity.ok(response);
     }
 

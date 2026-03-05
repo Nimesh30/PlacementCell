@@ -15,59 +15,74 @@ export class Joblistings {
 
   jobs = signal<any[]>([]);
   searchText = signal('');
-  studentData = signal<any[]>([]);
+  studentData=signal<any[]>([]);
 
-  //  Selected job for modal
+  // ✅ Selected job for modal
+
+
   selectedJob: any = null;
 
   filteredJobs = computed(() => {
     const search = this.searchText().toLowerCase();
-    return this.jobs().filter(job =>
-      job.companyName.toLowerCase().includes(search) ||
-      job.jobTitle.toLowerCase().includes(search)
-    );
+
+    return this.jobs().filter(job => 
+    job.companyName.toLowerCase().includes(search) ||
+    job.jobTitle.toLowerCase().includes(search));
   });
+
 
   constructor(private jobService: JobService,private http:HttpClient) {}
 
   ngOnInit(): void {
-    this.jobService.getAvailableJobs().subscribe((data: any) => {
-      this.jobs.set(data);
-    });
+    this.loadJobs();
   }
 
+  loadJobs(keyword: string = '') {
+
+  this.jobService.getAvailableJobs(keyword)
+    .subscribe((data: any) => {
+      this.jobs.set(data);
+    });
+
+  }
+
+  // updateSearch(event: Event) {
+  //   const input = event.target as HTMLInputElement;
+  //   this.searchText.set(input.value);
+  // }
+
   updateSearch(event: Event) {
+
     const input = event.target as HTMLInputElement;
-    this.searchText.set(input.value);
+    const value = input.value;
+
+    this.searchText.set(value);
+
+    // Call backend
+    this.loadJobs(value);
   }
 
   toggleDescription(job: any) {
     job.showDescription = !job.showDescription;
   }
 
-  //  OPEN MODAL
+  // ✅ OPEN MODAL
   openApplyModal(job: any) {
-    this.selectedJob = job;
+  this.selectedJob = job;
 
-    const studentId = localStorage.getItem('studentId');
-    if (studentId) {
-      this.http.get<any>(`http://localhost:8085/students/profile/${studentId}`)
-        .subscribe(res => {
-          this.studentData.set(res);
-          console.log(this.studentData); // store full profile
-        });
-    } else {
-      alert('Student not logged in');
-    }
+  const studentId = localStorage.getItem('studentId');
+  if (studentId) {
+    this.http.get<any>(`http://localhost:8085/students/profile/${studentId}`)
+      .subscribe(res => {
+        this.studentData.set(res);
+        console.log(this.studentData); // store full profile
+      });
+  } else {
+    alert('Student not logged in');
   }
+}
 
-
-
-
-
-  
-
-  //  CLOSE MODAL
+  // ✅ CLOSE MODAL
   closeModal() {
     this.selectedJob = null;
   }

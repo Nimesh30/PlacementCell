@@ -3,7 +3,7 @@
   <!-- Header -->
   <div class="headerSection">
     <h1>Job Listings</h1>
-    <p>{{ filteredJobs().length }} companies recruiting · Apply with one click</p>
+    <p>{{ jobs().length }} companies recruiting · Apply with one click</p>
 
     <div class="searchBox">
       <span class="searchIcon">🔍</span>
@@ -14,7 +14,7 @@
   </div>
 
   <!-- Dynamic Job Cards -->
-  <div class="jobCard" *ngFor="let job of filteredJobs()">
+  <div class="jobCard" *ngFor="let job of jobs()">
 
     <div class="companyLogo">
       {{ job.companyName.charAt(0) }}
@@ -65,7 +65,6 @@
   </div>
 
 </div>
-<!-- APPLY MODAL --> 
 <app-applymodal
   *ngIf="selectedJob && studentData()"
   [student]="studentData()"

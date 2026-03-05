@@ -14,7 +14,7 @@ export class UserDashboard implements OnInit {
   // ✅ Signals
   username = signal<string | null>('');
   jobs = signal<any[]>([]);
-
+  totaljobs=signal(0);
   constructor(private jobService:JobService) {}
 
   ngOnInit(): void {
@@ -25,6 +25,7 @@ export class UserDashboard implements OnInit {
     // Fetch jobs
     this.jobService.getAvailableJobs().subscribe((data: any[]) => {
       this.jobs.set(data);
+      this.totaljobs.set(data.length)
     });
   }
 
