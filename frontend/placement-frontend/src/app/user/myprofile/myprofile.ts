@@ -20,10 +20,7 @@ export class Myprofile implements OnInit {
 
   baseUrl = 'http://localhost:8085/students';
 
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient
-  ) { }
+  constructor(private fb: FormBuilder,private http: HttpClient) { }
 
   ngOnInit(): void {
 

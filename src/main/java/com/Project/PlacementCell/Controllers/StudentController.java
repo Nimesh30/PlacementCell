@@ -4,6 +4,7 @@ package com.Project.PlacementCell.Controllers;
 import com.Project.PlacementCell.DTO.StudentDTO.StudentProfileResponse;
 import com.Project.PlacementCell.Entity.StudentProfile;
 import com.Project.PlacementCell.Service.StudentService;
+import jakarta.annotation.security.RolesAllowed;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

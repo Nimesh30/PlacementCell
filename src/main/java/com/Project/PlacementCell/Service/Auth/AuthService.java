@@ -5,6 +5,10 @@ import com.Project.PlacementCell.DTO.AuthDTO.LoginDTO;
 import com.Project.PlacementCell.DTO.AuthDTO.RegisterDTO;
 import com.Project.PlacementCell.Entity.Student;
 import com.Project.PlacementCell.Repository.StudentRepository;
+import com.Project.PlacementCell.config.AuthUtil;
+//import com.Project.PlacementCell.error.EmailAlreadyExistsException;
+//import com.Project.PlacementCell.error.InvalidCredentialsException;
+//import com.Project.PlacementCell.error.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +29,8 @@ public class AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthUtil authUtil;
 
 
     // REGISTER
@@ -91,11 +97,14 @@ public class AuthService {
             );
         }
 
+        String token =authUtil.generateAccessToken(student.getId(), "STUDENT");
         return ResponseEntity.ok(
                 Map.of(
                         "studentId", student.getStudentId(),
                         "username", student.getUsername(),
                         "email", student.getEmail(),
+                        "token",token,
+                        "Role","STUDENT",
                         "firstLogin", false,
                         "message", "Login successful"
                 )
@@ -127,4 +136,5 @@ public class AuthService {
                 Map.of("message", "Password changed successfully")
         );
     }
+
 }
