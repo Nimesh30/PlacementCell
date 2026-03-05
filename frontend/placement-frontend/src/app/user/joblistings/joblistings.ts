@@ -2,6 +2,7 @@ import { Component, OnInit, signal, computed } from '@angular/core';
 import { JobService } from '../../Services/jobservice/jobservice';
 import { CommonModule } from '@angular/common';
 import { Applymodal } from '../../applymodal/applymodal';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-joblistings',
@@ -14,8 +15,9 @@ export class Joblistings {
 
   jobs = signal<any[]>([]);
   searchText = signal('');
+  studentData = signal<any[]>([]);
 
-  // ✅ Selected job for modal
+  //  Selected job for modal
   selectedJob: any = null;
 
   filteredJobs = computed(() => {
@@ -26,7 +28,7 @@ export class Joblistings {
     );
   });
 
-  constructor(private jobService: JobService) {}
+  constructor(private jobService: JobService,private http:HttpClient) {}
 
   ngOnInit(): void {
     this.jobService.getAvailableJobs().subscribe((data: any) => {
@@ -43,12 +45,29 @@ export class Joblistings {
     job.showDescription = !job.showDescription;
   }
 
-  // ✅ OPEN MODAL
+  //  OPEN MODAL
   openApplyModal(job: any) {
     this.selectedJob = job;
+
+    const studentId = localStorage.getItem('studentId');
+    if (studentId) {
+      this.http.get<any>(`http://localhost:8085/students/profile/${studentId}`)
+        .subscribe(res => {
+          this.studentData.set(res);
+          console.log(this.studentData); // store full profile
+        });
+    } else {
+      alert('Student not logged in');
+    }
   }
 
-  // ✅ CLOSE MODAL
+
+
+
+
+  
+
+  //  CLOSE MODAL
   closeModal() {
     this.selectedJob = null;
   }
