@@ -31,8 +31,12 @@
 .headContainer {
     text-align: center;
 }
-.headContainer span{
+/* .headContainer span{
     font-size: 40px;
+} */
+.icon{
+    width: 40px;
+    height: 40px;
 }
 .headContainer h2 {
     color: #1e293b;

@@ -34,4 +34,8 @@ public class JobsController {
         return jobService.getAvailableJobs(keyword);
     }
 
+//    @PostMapping("/applyjob"){
+//
+//    }
+
 }
