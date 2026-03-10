@@ -22,6 +22,7 @@ export class JobService {
   }
   
   addJob(job: any) {
+    console.log("In add job before return ...")
     return this.http.post(`${this.baseUrl}/add`, job);
   }
 
