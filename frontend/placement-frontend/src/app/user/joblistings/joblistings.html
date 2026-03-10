@@ -55,10 +55,11 @@
           {{ job.showDescription ? '▲ Hide Description' : '▼ View Description' }}
         </button>
 
-           <button class="applyBtn"
-                (click)="openApplyModal(job)">
-           Apply Now →
-        </button>
+        <button class="applyBtn"
+        [disabled]="job.applied"
+        (click)="openApplyModal(job)">
+  {{ job.applied ? 'Applied ✓' : 'Apply Now →' }}
+</button>
       </div>
 
     </div>
@@ -69,6 +70,5 @@
   *ngIf="selectedJob && studentData()"
   [student]="studentData()"
   (close)="closeModal()"
-  (submit)="closeModal()">
-  In Apply model
+  (submit)="applyJob()">
 </app-applymodal> 

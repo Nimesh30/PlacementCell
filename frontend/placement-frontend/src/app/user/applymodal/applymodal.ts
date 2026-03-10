@@ -17,10 +17,12 @@ export class Applymodal {
 
   submitApplication() {
 
-    confirm('Are you sure you want to apply');
-     this.submit.emit();
-     console.log("submit your application");
+    const confirmed = confirm('Are you sure you want to apply?');
 
+    if (confirmed) {
+      this.submit.emit();
+      console.log("submitted your application");
+    }
      
   }
 }

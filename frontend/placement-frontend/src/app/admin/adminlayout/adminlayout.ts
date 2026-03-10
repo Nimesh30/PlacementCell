@@ -3,9 +3,10 @@ import { RouterOutlet,RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-adminlayout',
+  standalone: true,
   imports: [RouterOutlet,RouterModule],
   templateUrl: './adminlayout.html',
-  styleUrl: './adminlayout.css',
+  styleUrls: ['./adminlayout.css']
 })
 export class Adminlayout {
    username: string | null = '';

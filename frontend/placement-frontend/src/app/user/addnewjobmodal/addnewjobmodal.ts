@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 //import { JobService } from 'app/Services/jobservice/jobservice';
-import { JobService } from '../Services/jobservice/jobservice';
+import { JobService } from '../../Services/jobservice/jobservice';
 
 @Component({
   selector: 'app-addnewjobmodal',

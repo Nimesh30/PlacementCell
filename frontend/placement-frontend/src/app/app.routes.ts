@@ -9,7 +9,7 @@ import { Joblistings } from './user/joblistings/joblistings';
 import { Myapplications } from './user/myapplications/myapplications';
 import { Noticeboard } from './user/noticeboard/noticeboard';
 import { Layout } from './layout/layout';
-import { Applymodal } from './applymodal/applymodal';
+import { Applymodal } from './user/applymodal/applymodal';
 import { Adminlogin } from './admin/adminlogin/adminlogin';
 import { Adminlayout } from './admin/adminlayout/adminlayout';
 import { Admindashboard } from './admin/admindashboard/admindashboard';
@@ -34,7 +34,7 @@ export const routes: Routes = [
       {path:'adminnoticeboard',component:Adminnoticeboard}
     ]
   },
-  //  IMPORTANT PART // Layout is parent path and its child path Student
+ // Layout is parent path and its child path Student
   {
     path: 'layout',
     component: Layout,

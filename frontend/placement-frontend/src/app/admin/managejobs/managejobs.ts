@@ -1,8 +1,9 @@
 import { Component,signal,computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { Addnewjobmodal } from 'app/addnewjobmodal/addnewjobmodal';
-import { Addnewjobmodal } from '../../addnewjobmodal/addnewjobmodal';
+import { Addnewjobmodal } from '../../user/addnewjobmodal/addnewjobmodal';
 import { JobService } from 'app/Services/jobservice/jobservice';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-managejobs',
@@ -27,8 +28,8 @@ export class Managejobs {
     job.jobTitle.toLowerCase().includes(search));
   });
   
-  constructor(private jobService:JobService){}
-  // constructor(private jobService: JobService,private http:HttpClient) {}
+  // constructor(private jobService:JobService){}
+  constructor(private jobService: JobService,private http:HttpClient) {}
 
   ngOnInit(): void {
     this.loadJobs();
@@ -56,10 +57,6 @@ export class Managejobs {
     // Call backend
     this.loadJobs(value);
   }
-
-
-  
-  
 
 
   openAddnewjobModal() {
