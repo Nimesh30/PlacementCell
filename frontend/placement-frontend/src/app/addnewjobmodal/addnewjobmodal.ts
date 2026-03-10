@@ -53,6 +53,7 @@ export class Addnewjobmodal {
         this.isSubmitting = false;
         this.jobForm.reset();
         this.closeModal();
+        this.jobService.getAvailableJobs();
       },
       error: (err) => {
         console.error(err);
