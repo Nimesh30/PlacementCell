@@ -154,7 +154,7 @@ export class Myprofile implements OnInit {
 
     if (this.isEditMode) {
         console.log("Updating mode on before url..")
-      this.http.put(`${this.baseUrl}/update/${studentId}`, formData)
+      this.http.patch(`${this.baseUrl}/update/${studentId}`, formData)
         .subscribe({
           next: () => {
             alert("Profile updated successfully!");

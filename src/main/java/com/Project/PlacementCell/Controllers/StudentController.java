@@ -41,7 +41,7 @@ public class StudentController {
         );
     }
 
-    @PutMapping("/update/{studentId}")
+    @PatchMapping("/update/{studentId}")
     public ResponseEntity<StudentProfile> updateStudent(
             @ModelAttribute StudentProfile studProfile,
             @RequestParam(value = "file", required = false) MultipartFile file,
