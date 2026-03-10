@@ -114,7 +114,7 @@ public class StudentService {
         profile.setPassingYear(studProfile.getPassingYear());
 
         if (file != null && !file.isEmpty()) {
-            UploadResponse uploadResponse = uploadService. uploadFile(file);
+            UploadResponse uploadResponse = uploadService. uploadImage(file);
             profile.setImageUrl(uploadResponse.getImageUrl());
             profile.setImagePublicId(uploadResponse.getPublicId());
         }

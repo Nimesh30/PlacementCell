@@ -25,4 +25,6 @@ public class Student {
     private String password;
 
     private Boolean firstLogin = true;   // force change password
+    @Column(name = "placed")
+    private boolean placed;
 }

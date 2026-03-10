@@ -1,4 +1,4 @@
-package com.Project.PlacementCell.Service;
+package com.Project.PlacementCell.Service.Auth;
 
 import com.Project.PlacementCell.DTO.AdminDTO.AdminLoginDTO;
 import com.Project.PlacementCell.Entity.Admin;
@@ -10,16 +10,14 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.Optional;
 
-import static java.util.regex.Pattern.matches;
-
 @Service
-public class AdminService {
+public class LoginService {
 
     private final AdminRepository adminRepository;
 
     private final AuthUtil authUtil;
 
-    public AdminService(AdminRepository adminRepository,AuthUtil authUtil) {
+    public LoginService(AdminRepository adminRepository, AuthUtil authUtil) {
         this.adminRepository = adminRepository;
         this.authUtil = authUtil;
     }
