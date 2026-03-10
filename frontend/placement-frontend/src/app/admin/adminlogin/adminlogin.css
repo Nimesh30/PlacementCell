@@ -20,7 +20,7 @@
     background-color: #ffff;
     padding: 2.5rem;
     border-radius: 24px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
     width: 100%;
     max-width: 400px;
     display: flex;
@@ -31,8 +31,12 @@
 .headContainer {
     text-align: center;
 }
-.headContainer span{
+/* .headContainer span{
     font-size: 40px;
+} */
+.icon{
+    height: 40px;
+    width: 40px;
 }
 .headContainer h2 {
     color: #1e293b;

@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface JobRepository extends JpaRepository<JobsDetails, Integer> {
 
@@ -22,5 +23,7 @@ public interface JobRepository extends JpaRepository<JobsDetails, Integer> {
             "ORDER BY j.id DESC")
 
     List<JobsDetails> searchJobs(@Param("date") LocalDate date, @Param("keyword") String keyword);
+
+    Optional<JobsDetails> findById(Integer id);
 
 }

@@ -13,6 +13,10 @@
     </div>
   </div>
 
+  <!-- @for (job of jobs(); track job){
+    <p>{{job.companyName}}</p>
+  } -->
+
   <!-- Dynamic Job Cards -->
   <div class="jobCard" *ngFor="let job of jobs()">
 
@@ -45,6 +49,7 @@
         </span>
       </div>
 
+
       <div *ngIf="job.showDescription" class="descriptionBox">
         <p>{{ job.description }}</p>
       </div>
@@ -65,9 +70,18 @@
   </div>
 
 </div>
-<app-applymodal
+<!-- <app-applymodal
   *ngIf="selectedJob && studentData()"
   [student]="studentData()"
   (close)="closeModal()"
   (submit)="closeModal()">
-</app-applymodal> 
+</app-applymodal>  -->
+
+@if(selectedJob && studentData()) {
+  <app-applymodal
+    [student]="studentData()"
+    [job]="selectedJob"
+    (close)="closeModal()"
+    (submit)="closeModal()">
+  </app-applymodal>
+}

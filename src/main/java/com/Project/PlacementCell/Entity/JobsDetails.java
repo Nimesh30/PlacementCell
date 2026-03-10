@@ -1,11 +1,13 @@
 package com.Project.PlacementCell.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -30,4 +32,8 @@ public class JobsDetails {
         private String eligibleDegrees; // B.Tech,BE,B.Sc
 
         private Boolean active = true;
+
+        @OneToMany(mappedBy = "job")
+        @JsonIgnore
+        private List<JobApplications> applications;
 }

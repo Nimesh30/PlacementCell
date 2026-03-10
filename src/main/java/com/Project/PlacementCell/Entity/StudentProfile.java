@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,7 +16,7 @@ public class StudentProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 //    private String studentId;
     private String fullName;
     private String personalEmail;
@@ -38,5 +40,9 @@ public class StudentProfile {
     @OneToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private Student student;
+
+    @OneToMany(mappedBy = "student")
+    @JsonIgnore
+    private List<JobApplications> applications;
 
 }

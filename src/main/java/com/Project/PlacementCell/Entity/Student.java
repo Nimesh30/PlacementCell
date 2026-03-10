@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -24,5 +26,8 @@ public class Student {
 
     private String password;
 
-    private Boolean firstLogin = true;   // force change password
+    private Boolean firstLogin = true;// force change password
+
+//    @OneToMany(mappedBy = "student")
+//    private List<JobApplications> applications; //jobApplications
 }
