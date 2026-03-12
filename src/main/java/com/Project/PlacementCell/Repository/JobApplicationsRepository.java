@@ -1,5 +1,7 @@
 package com.Project.PlacementCell.Repository;
 
+import ch.qos.logback.core.status.Status;
+import com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO;
 import com.Project.PlacementCell.DTO.AppliedJobDTO;
 import com.Project.PlacementCell.DTO.JobDTO;
 import com.Project.PlacementCell.DTO.StudentDTO.ApplyJobDTO;
@@ -17,7 +19,7 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
     boolean existsByStudent_Student_StudentIdAndJob_Id(String studentId, Integer jobId);
 
     List<ApplyJobDTO> findByStudent_Student_StudentId(String studentId);
- //   List<JobApplications> StudentId(int studentId);
+    //   List<JobApplications> StudentId(int studentId);
 
     @Query("""
             SELECT new com.Project.PlacementCell.DTO.AppliedJobDTO(
@@ -36,5 +38,18 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
             """)
     List<AppliedJobDTO> findJobsAppliedByStudent(String studentId);
 
+    @Query("""
 
+            SELECT new com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO(
+    s.fullName,
+    s.branch,
+    j.companyName,
+    j.packageLpa
+)
+FROM JobApplications ja
+JOIN ja.student s
+JOIN ja.job j
+WHERE ja.status = 'SELECTED'
+""")
+    List<PlacedLeaderBoardDTO> getPlacedLeaderBoard();
 }

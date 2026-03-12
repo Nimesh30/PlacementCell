@@ -35,6 +35,7 @@ export class Myprofile implements OnInit {
       tenthMarks: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
       twelfthMarks: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
       stream: [{ value: '', disabled: true }, Validators.required],
+      branch:[{value:'',disabled:true}],
       bachelorsCgpa: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(10)]],
       mastersCgpa: [{ value: '', disabled: true }],
       institute: [{ value: '', disabled: true }, Validators.required],
@@ -75,11 +76,11 @@ export class Myprofile implements OnInit {
   // ================= FETCH PROFILE =================
 
   fetchProfile(studentId: string) {
-
+console.log("In fetch profile...",studentId)
     this.http.get<any>(`${this.baseUrl}/profile/${studentId}`)
       .subscribe({
-
         next: (response) => {
+          console.log("API Response ", response)
 
           if (response.imageUrl === "null") {
             response.imageUrl = null;

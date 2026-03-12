@@ -1,5 +1,6 @@
 package com.Project.PlacementCell.DTO.StudentDTO;
 
+import com.Project.PlacementCell.enums.Branch;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -26,6 +27,7 @@ public class StudentProfileResponse {
 
     private String institute;
     private String department;
+    private Branch branch;
     private Integer passingYear;
 //    private String imagePublicId;
     private String imageUrl;
