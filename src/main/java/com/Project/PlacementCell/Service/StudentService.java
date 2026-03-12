@@ -41,7 +41,7 @@ public class StudentService {
         if (optionalProfile.isPresent()) {
             System.out.println("Profile Exist...");
             StudentProfile profile = optionalProfile.get();
-
+//            System.out.println(profile);
             return new StudentProfileResponse(
                     student.getStudentId(),
                     student.getEmail(),
@@ -59,6 +59,7 @@ public class StudentService {
 
                     profile.getInstitute(),
                     profile.getDepartment(),
+                    profile.getBranch(),
                     profile.getPassingYear(),
                     profile.getImageUrl()
             );
@@ -72,7 +73,7 @@ public class StudentService {
                 null, null, null,
                 null, null, null,
                 null, null,
-                null, null, null,
+                null, null, null,null,
                 null
         );
     }
@@ -88,14 +89,12 @@ public class StudentService {
 
         Optional<StudentProfile> existingProfile =
                 studentProfileRepo.findByStudent_StudentId(studentId);
-
+//        System.out.println("Existing Profile"+existingProfile);
         StudentProfile profile;
 
         if (existingProfile.isPresent()) {
-            System.out.println("Update profile , UPDATE");
             profile = existingProfile.get(); // UPDATE
         } else {
-            System.out.println("Create Profile , else part");
             profile = new StudentProfile(); // CREATE
             profile.setStudent(student);
         }
@@ -111,8 +110,8 @@ public class StudentService {
         profile.setMastersCgpa(studProfile.getMastersCgpa());
         profile.setInstitute(studProfile.getInstitute());
         profile.setDepartment(studProfile.getDepartment());
+        profile.setBranch(studProfile.getBranch());
         profile.setPassingYear(studProfile.getPassingYear());
-
         if (file != null && !file.isEmpty()) {
             UploadResponse uploadResponse = uploadService. uploadImage(file);
             profile.setImageUrl(uploadResponse.getImageUrl());

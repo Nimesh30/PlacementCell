@@ -1,5 +1,6 @@
 package com.Project.PlacementCell.Entity;
 
+import com.Project.PlacementCell.enums.Branch;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,6 +32,9 @@ public class StudentProfile {
 
     private String institute;
     private String department;
+    @Enumerated(EnumType.STRING)
+    @NonNull
+    private Branch branch = Branch.Select;
     private Integer passingYear;
     private String imageUrl;
     private String imagePublicId;

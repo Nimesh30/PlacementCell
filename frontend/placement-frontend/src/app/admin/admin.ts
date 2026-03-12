@@ -13,6 +13,7 @@ export class AdminService {
   constructor(private http: HttpClient) { }
 
   getDashboard() {
+    console.log("GetDashBOard functojn",this.http.get(`${this.baseUrl}/dashboard`))
     return this.http.get(`${this.baseUrl}/dashboard`);
   }
 

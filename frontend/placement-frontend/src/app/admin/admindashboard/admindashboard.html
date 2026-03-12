@@ -26,87 +26,96 @@
 
     <div class="card blue">
       <div class="icon">📈</div>
-      <h2>5</h2>
+      <h2>{{dashboardData?.application}}</h2>
       <span>Applications</span>
     </div>
   </div>
+ 
+  <div class="dashboard-grid">
 
-  <!-- Bottom Section -->
-  <div class="bottom-section">
-
-    <!-- Placement Status -->
-    <div class="status-card">
-      <h3>Placement Status</h3>
-
-      <div class="progress-block">
-        <div class="label">
-          <span>Placed</span>
-          <span class="green-text">2 / 4</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress green" style="width: 50%"></div>
-        </div>
-      </div>
-
-      <div class="progress-block">
-        <div class="label">
-          <span>Not Yet Placed</span>
-          <span class="red-text">2 / 4</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress red" style="width: 50%"></div>
-        </div>
-      </div>
-
-      <div class="placed-list">
-        <div class="placed-box">
-          ✔ Priya Patel <br />
-          <small>Google</small>
-        </div>
-
-        <div class="placed-box">
-          ✔ Arjun Mehta <br />
-          <small>Infosys</small>
-        </div>
-      </div>
+    <!-- Placement Leaderboard -->
+    <div class="card">
+      <h3>🏆 Placement Leaderboard</h3>
+      <p class="subtitle">Top students ranked by package</p>
+  
+      <table class="leaderboard">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Student</th>
+            <th>Company</th>
+            <th>Package</th>
+          </tr>
+        </thead>
+  
+        <tbody>
+          <tr *ngFor="let student of dashboardData?.placedLeaderBoard">
+            <td>🥇</td>
+            <td>
+              {{student?.studentName}}
+              <small>{{student?.branch}}</small>
+            </td>
+            <td><span class="tag">{{student?.companyName}}</span></td>
+            <td class="pkg">{{student?.packageLpa}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
-    <!-- Recent Applications -->
-    <div class="applications-card">
-      <h3>Recent Applications</h3>
-
-      <div class="app-item">
-        <div>
-          <strong>Rahul Sharma</strong>
-          <p>Wipro</p>
-        </div>
-        <span class="badge applied">Applied</span>
-      </div>
-
-      <div class="app-item">
-        <div>
-          <strong>Priya Patel</strong>
-          <p>Google</p>
-        </div>
-        <span class="badge selected">Selected</span>
-      </div>
-
-      <div class="app-item">
-        <div>
-          <strong>Arjun Mehta</strong>
-          <p>Infosys</p>
-        </div>
-        <span class="badge selected">Selected</span>
-      </div>
-
-      <div class="app-item">
-        <div>
-          <strong>Sneha Reddy</strong>
-          <p>TCS</p>
-        </div>
-        <span class="badge applied">Applied</span>
-      </div>
+  
+  
+    <!-- Company-wise Hiring -->
+    <div class="card">
+      <h3>🏢 Company-wise Hiring</h3>
+      <p class="subtitle">Summary of hires by company</p>
+  
+      <table class="leaderboard">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Hires</th>
+            <th>Departments</th>
+            <th>Avg Pkg</th>
+          </tr>
+        </thead>
+  
+        <tbody>
+          <tr>
+            <td>Google</td>
+            <td><span class="circle">1</span></td>
+            <td><span class="dept">B.Tech CSE</span></td>
+            <td class="pkg">25 LPA</td>
+          </tr>
+  
+          <tr>
+            <td>Infosys</td>
+            <td><span class="circle">1</span></td>
+            <td><span class="dept">B.Tech IT</span></td>
+            <td class="pkg">3.6 LPA</td>
+          </tr>
+  
+          <tr>
+            <td>TCS</td>
+            <td><span class="circle">1</span></td>
+            <td><span class="dept">MCA</span></td>
+            <td class="pkg">3.4 LPA</td>
+          </tr>
+  
+          <tr>
+            <td>Wipro</td>
+            <td><span class="circle">1</span></td>
+            <td><span class="dept">MSc IT</span></td>
+            <td class="pkg">3.5 LPA</td>
+          </tr>
+  
+          <tr>
+            <td>Capgemini</td>
+            <td><span class="circle">1</span></td>
+            <td><span class="dept">B.Tech CSE</span></td>
+            <td class="pkg">6 LPA</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
+  
   </div>
 </div>

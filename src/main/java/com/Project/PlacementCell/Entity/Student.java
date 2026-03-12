@@ -26,6 +26,5 @@ public class Student {
 
     private Boolean firstLogin = true;   // force change password
     @Column(name = "placed")
-
     private Boolean placed;
 }
