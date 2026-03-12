@@ -58,6 +58,31 @@ export class Managejobs {
     this.loadJobs(value);
   }
 
+  downloadStudents(jobId: number, companyName: string){
+
+  this.jobService.exportStudents(jobId).subscribe((data: Blob) => {
+
+    const blob = new Blob([data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = companyName + '.xlsx';
+    a.click();
+
+    window.URL.revokeObjectURL(url);
+
+  });
+
+}
+
+  toggleDescription(job: any) {
+    job.showDescription = !job.showDescription;
+  }
+
 
   openAddnewjobModal() {
     this.isOpen = true;

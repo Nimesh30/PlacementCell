@@ -5,9 +5,20 @@ import com.Project.PlacementCell.DTO.StudentDTO.ApplyJobDTO;
 import com.Project.PlacementCell.Entity.JobApplications;
 import com.Project.PlacementCell.Entity.StudentProfile;
 import com.Project.PlacementCell.Service.JobAppllicationService;
+//import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+
+//import java.awt.print.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -22,12 +33,20 @@ public class JobApplicationController {
     }
 
     @PostMapping("/apply")
-    public String applyJob(@RequestBody ApplyJobDTO dto) {
+    public ResponseEntity<?> applyJob(@RequestBody ApplyJobDTO dto) {
         return jobAppllicationService.applyForJob(dto);
     }
 
     @GetMapping("/myApplications/{studentId}")
-    public List<AppliedJobDTO> getMyApplications(@PathVariable String studentId) {
-        return jobAppllicationService.getMyApplications(studentId);
+    public Page<AppliedJobDTO> getMyApplications(
+            @PathVariable String studentId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return jobAppllicationService.getMyApplications(studentId, pageable);
     }
+
+
+
 }

@@ -2,6 +2,8 @@ package com.Project.PlacementCell.Service;
 
 import com.Project.PlacementCell.DTO.AdminDTO.DashboardDTO;
 //import com.Project.PlacementCell.Repository.ApplicationRepository;
+import com.Project.PlacementCell.DTO.JobDTO;
+import com.Project.PlacementCell.Repository.JobApplicationsRepository;
 import com.Project.PlacementCell.Repository.JobRepository;
 import com.Project.PlacementCell.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,11 @@ public class AdminServices {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private JobApplicationsRepository jobApplicationsRepository;
+
+    //private JobDTO jobDTO;
 //    @Autowired
 //    private ApplicationRepository applicationRepository;
 
@@ -24,6 +31,7 @@ public class AdminServices {
         long totalStudents = studentRepository.count();
         long jobsPosted = jobRepository.count();
         long placedStudents = studentRepository.countByPlacedTrue();
+
 //        long applications = applicationRepository.count();
 
         DashboardDTO stats = new DashboardDTO(
@@ -36,4 +44,8 @@ public class AdminServices {
 
         return ResponseEntity.ok(stats);
     }
+
+//    JobDTO.setApplicationCount(
+//            jobApplicationsRepository.countApplicationsByJobId(job.getId())
+//            );
 }

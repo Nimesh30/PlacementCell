@@ -1,1 +1,69 @@
-<p>allapplications works!</p>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h1>All Applications</h1>
+      <p>{{applications.length}} total applications</p>
+    </div>
+
+    <button class="export-btn">
+      ⬇ Export Excel
+    </button>
+  </div>
+
+
+  <!-- Filters -->
+  <div class="filters">
+
+    <input
+      type="text"
+      placeholder="Search..."
+      class="search"
+    >
+
+    <select class="company-filter">
+      <option>All</option>
+      <option>Infosys</option>
+      <option>TCS</option>
+      <option>Google</option>
+    </select>
+
+  </div>
+
+
+  <!-- Table -->
+  <div class="table">
+
+    <div class="table-header">
+      <span>STUDENT</span>
+      <span>COMPANY</span>
+      <span>APPLIED</span>
+      <span>STATUS</span>
+    </div>
+
+    @for (app of applications; track app) {
+
+      <div class="table-row">
+        <span>{{app.student}}</span>
+        <span>{{app.company}}</span>
+        <span>{{app.applied}}</span>
+
+        <!-- <span
+          class="status"
+          [ngClass]="{
+            'selected': app.status === 'Selected',
+            'pending': app.status === 'Pending',
+            'rejected': app.status === 'Rejected'
+          }"
+        >
+          {{app.status}}
+        </span> -->
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

@@ -4,24 +4,24 @@ import com.Project.PlacementCell.DTO.AppliedJobDTO;
 import com.Project.PlacementCell.DTO.StudentDTO.ApplyJobDTO;
 import com.Project.PlacementCell.Entity.JobApplications;
 import com.Project.PlacementCell.Entity.JobsDetails;
-import com.Project.PlacementCell.Entity.Student;
 import com.Project.PlacementCell.Entity.StudentProfile;
 import com.Project.PlacementCell.Repository.JobApplicationsRepository;
 import com.Project.PlacementCell.Repository.JobRepository;
 import com.Project.PlacementCell.Repository.StudentProfileRepository;
-import com.Project.PlacementCell.Repository.StudentRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Service
 public class JobAppllicationService {
 
     private final JobApplicationsRepository jobApplicationsRepository;
-
     private final StudentProfileRepository studentRepository;
-
     private final JobRepository jobRepository;
 
     public JobAppllicationService(JobApplicationsRepository jobApplicationsRepository,
@@ -32,44 +32,19 @@ public class JobAppllicationService {
         this.jobRepository = jobRepository;
     }
 
-//    public String applyForJob(ApplyJobDTO dto) {
-//
-//        String studentId = dto.getStudentId();
-//        Integer jobId = dto.getJobId();
-//
-//        if(jobApplicationsRepository.existsByStudent_StudentIdAndJob_Id(studentId,jobId)){
-//            return "You already applied for this job";
-//        }
-//
-//        StudentProfile student = studentRepository.findByStudent_StudentId(studentId)
-//                .orElseThrow(() -> new RuntimeException("Student not found"));
-//
-//        JobsDetails job = jobRepository.findById(jobId)
-//                .orElseThrow(() -> new RuntimeException("Job not found"));
-//
-//        JobApplications application = new JobApplications();
-//        application.setStudent(student);
-//        application.setJob(job);
-//      //  application.setStatus("APPLIED");
-//
-//        jobApplicationsRepository.save(application);
-////        jobApplicationsRepository.save(application);
-//
-//        return "Job applied successfully";
-//    }
-
-public String applyForJob(ApplyJobDTO dto) {
+    public ResponseEntity<?> applyForJob(ApplyJobDTO dto) {
 
         String studentId = dto.getStudentId();
         Integer jobId = dto.getJobId();
 
-        if(jobApplicationsRepository.existsByStudent_Student_StudentIdAndJob_Id(studentId, jobId)){
-            return "You already applied for this job";
+        if (jobApplicationsRepository.existsByStudent_Student_StudentIdAndJob_Id(studentId, jobId)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("message", "You already applied for this job"));
         }
 
         StudentProfile student = studentRepository
-            .findByStudent_StudentId(studentId)
-            .orElseThrow(() -> new RuntimeException("Student not found"));
+                .findByStudent_StudentId(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
 
         JobsDetails job = jobRepository.findById(jobId)
                 .orElseThrow(() -> new RuntimeException("Job not found"));
@@ -80,12 +55,12 @@ public String applyForJob(ApplyJobDTO dto) {
 
         jobApplicationsRepository.save(application);
 
-        return "Job applied successfully";
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Map.of("message", "Successfully Applied"));
     }
 
-    public List<AppliedJobDTO> getMyApplications(String studentId) {
-
-        return jobApplicationsRepository
-                .findJobsAppliedByStudent(studentId);
+    public Page<AppliedJobDTO> getMyApplications(String studentId, Pageable pageable) {
+        return jobApplicationsRepository.findJobsAppliedByStudent(studentId, pageable);
     }
+
 }

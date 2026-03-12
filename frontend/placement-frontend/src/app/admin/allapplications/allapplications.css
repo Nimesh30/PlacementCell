@@ -1,0 +1,94 @@
+.container{
+  width:99%;
+  margin:40px auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.header h1{
+    font-size:30px;
+}
+
+.header p{
+  color:gray;
+  font-size: 15px;
+}
+
+.export-btn{
+  background:#e6f7ec;
+  border:1px solid #9be0b5;
+  color:#1e8e4d;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.filters{
+  display:flex;
+  gap:30px;
+  margin-top:20px;
+}
+
+.search{
+  flex:1;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+.company-filter{
+  padding:12px;
+  border-radius:10px;
+  border:2px solid #3b82f6;
+  width: 190px;
+}
+
+.table{
+  margin-top:25px;
+  background:white;
+  border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.table-header{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  padding:15px 20px;
+  font-weight:bold;
+  color:#777;
+  border-bottom:1px solid #eee;
+}
+
+.table-row{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  padding:18px 20px;
+  align-items:center;
+}
+
+.status{
+  padding:5px 12px;
+  border-radius:20px;   
+  font-size:14px;
+  width:fit-content;
+}
+
+.selected{
+  background:#e6f7ec;
+  color:#1e8e4d;
+}
+
+.pending{
+  background:#fff3cd;
+  color:#856404;
+}
+
+.rejected{
+  background:#f8d7da;
+  color:#842029;
+}

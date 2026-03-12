@@ -10,26 +10,59 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class Myapplications {
 
-  constructor(private jobservice:JobService,private cdr:ChangeDetectorRef){}
+  constructor(public jobservice:JobService,private cdr:ChangeDetectorRef){}
 
-  applications: any[] = [];
+  studentId: string | null = null;
 
-// onstructor(private jobservice: JobService) {}
+applications: any[] = [];
+currentPage = 0;
+totalPages = 0;
+pageSize = 3;
 
-  ngOnInit(): void {
-    const studentId = localStorage.getItem("studentId");
+ngOnInit(): void {
+  this.studentId = localStorage.getItem("studentId");
 
-    if (studentId) {
-      this.jobservice.getMyApplications(studentId).subscribe({
-        next: (res) => {
-          this.applications = res;
-          this.cdr.detectChanges();
-          console.log(this.applications);
-        },
-        error: (err) => {
-          console.error("Error fetching applications:", err);
-        }
-      });
-    }
+  if (this.studentId) {
+    this.loadApplications();
   }
+}
+loadApplications() {
+  if (!this.studentId) return;
+
+  this.jobservice
+    .getMyApplications(this.studentId, this.currentPage, this.pageSize)
+    .subscribe({
+      next: (res) => {
+
+        this.applications = res.content;
+
+        this.currentPage = res.number;   // important
+        this.totalPages = res.totalPages;
+
+        this.jobservice.setApplicationCount(res.totalElements);
+
+        console.log("Current Page:", this.currentPage);
+        console.log("Total Pages:", this.totalPages);
+        this.cdr.detectChanges();
+
+      },
+      error: (err) => {
+        console.error("Error fetching applications:", err);
+      }
+    });
+}
+
+nextPage() {
+  if (this.currentPage + 1 < this.totalPages) {
+    this.currentPage++;
+    this.loadApplications();
+  }
+}
+
+prevPage() {
+  if (this.currentPage > 0) {
+    this.currentPage--;
+    this.loadApplications();
+  }
+}
 }

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Data
 public class JobDTO {
-
+    private Long id;
     private String companyName;
     private String jobTitle;
     private Double packageLpa;
@@ -16,4 +16,5 @@ public class JobDTO {
     private Double minCgpa;
     private String description;
     private String eligibleDegrees;
+    private Long applicationCount;
 }

@@ -3,14 +3,19 @@ package com.Project.PlacementCell.Controllers;
 //import com.Project.PlacementCell.DTO.StudentDTO.StudentProfileResponse;
 import com.Project.PlacementCell.DTO.StudentDTO.StudentProfileResponse;
 import com.Project.PlacementCell.Entity.StudentProfile;
+import com.Project.PlacementCell.Service.ExportService;
 import com.Project.PlacementCell.Service.StudentService;
 import jakarta.annotation.security.RolesAllowed;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 @RestController
@@ -52,6 +57,7 @@ public class StudentController {
 
         return ResponseEntity.ok(updatedProfile);
     }
+
 
 }
 

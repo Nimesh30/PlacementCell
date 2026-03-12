@@ -1,6 +1,7 @@
 :host {
-  display: block;
+  
 }
+
 
 /* ================= Header ================= */
 
@@ -121,6 +122,20 @@ header p {
 
 .blue-text {
   color: var(--primary-blue);
+}
+.job-section{
+  height: 400px;        /* fixed card height */
+  display: flex;
+  flex-direction: column;
+}
+
+.job-slider{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  padding-right: 6px;
 }
 
 /* ================= Responsive ================= */

@@ -1,19 +1,19 @@
-/* Page Background */
+/* Main container */
 .mainContainer {
+  background-color: #f4f6f9;
   min-height: 100vh;
-  background-color: #f5f6f8;
-  padding: 40px 20px;
-  font-family: "Segoe UI", sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 40px 60px;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* Header Section */
+/* Header fixed */
 .headerSection {
   width: 100%;
-  max-width: 900px;
-  margin-bottom: 30px;
+  position: sticky;
+  top: 0;
+  background: #f4f6f9;
+  z-index: 10;
+  padding-bottom: 15px;
 }
 
 .headerSection h1 {
@@ -56,7 +56,6 @@
 /* Job Card */
 .jobCard {
   width: 100%;
-  max-width: 900px;
   background: #fff;
   border-radius: 16px;
   padding: 25px;
@@ -97,18 +96,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* padding: -20px; */
   margin: 0;
 }
 
 .topRow h2 {
   margin: 0;
-  font-size: 22px;
+  font-size: 20px;
 }
 
 .role {
   color: #666;
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 /* Salary Badge */
@@ -180,4 +178,123 @@
 
 .applyBtn:hover {
   opacity: 0.9;
+}
+
+/* Scrollable job area */
+.jobSlider {
+  width: 100%;
+  height: calc(100vh - 180px);
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* Smooth vertical scrolling */
+.jobSlider {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+.jobSlider::-webkit-scrollbar {
+  width: 6px;
+}
+
+.jobSlider::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+
+/* =========================
+   Tablet Responsive
+   ========================= */
+@media (max-width: 1024px) {
+
+  .mainContainer {
+    padding: 30px 30px;
+  }
+
+  .jobCard {
+    padding: 20px;
+  }
+
+  .topRow h2 {
+    font-size: 18px;
+  }
+
+}
+
+/* =========================
+   Mobile Responsive
+   ========================= */
+@media (max-width: 768px) {
+
+  .mainContainer {
+    padding: 20px;
+  }
+
+  .jobCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .topRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .metaInfo {
+    gap: 10px;
+  }
+
+  .buttons {
+    width: 100%;
+  }
+
+  .viewBtn,
+  .applyBtn {
+    flex: 1;
+    width: 100%;
+  }
+
+  .buttons {
+    display: flex;
+  }
+
+}
+
+/* =========================
+   Small Mobile Responsive
+   ========================= */
+@media (max-width: 480px) {
+
+  .headerSection h1 {
+    font-size: 24px;
+  }
+
+  .headerSection p {
+    font-size: 14px;
+  }
+
+  .searchBox input {
+    font-size: 14px;
+    padding: 10px 14px 10px 38px;
+  }
+
+  .companyLogo {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .topRow h2 {
+    font-size: 16px;
+  }
+
+  .salary {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
 }

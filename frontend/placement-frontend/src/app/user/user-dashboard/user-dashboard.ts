@@ -1,7 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobService } from '../../Services/jobservice/jobservice';
-
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
@@ -15,18 +14,22 @@ export class UserDashboard implements OnInit {
   username = signal<string | null>('');
   jobs = signal<any[]>([]);
   totaljobs=signal(0);
-  constructor(private jobService:JobService) {}
+  constructor(public jobService:JobService) {}
 
   ngOnInit(): void {
 
     // Set username from localStorage
     this.username.set(localStorage.getItem("username"));
-
+    const studentId = localStorage.getItem("studentId");
     // Fetch jobs
     this.jobService.getAvailableJobs().subscribe((data: any[]) => {
       this.jobs.set(data);
       this.totaljobs.set(data.length)
     });
+
+    if(studentId){
+    this.jobService.loadApplicationCount(studentId);
+    }
   }
 
   getInitial(companyName: string): string {

@@ -26,16 +26,17 @@ public class JobsController {
         return jobService.addJob(dto);
     }
 
+
+
     // User Get Jobs (only not expired)
 
     @GetMapping("/available")
-    public List<JobsDetails> getAvailableJobs(@RequestParam(required = false) String keyword) {
+    public List<JobDTO> getAvailableJobs(@RequestParam(required = false) String keyword) {
         // Service internally uses LocalDate.now()
         return jobService.getAvailableJobs(keyword);
     }
 
-//    @PostMapping("/applyjob"){
-//
-//    }
+
+
 
 }

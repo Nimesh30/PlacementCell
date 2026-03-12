@@ -8,7 +8,8 @@
       ✓ AUTO-FILLED FROM YOUR PROFILE
     </div>
 
-    <div class="grid">  
+    <div class="grid">
+
       <div class="card">
         <label>Name</label>
         <p>{{student.fullName}}</p>
@@ -38,11 +39,24 @@
         <label>Department</label>
         <p>{{student.department}}</p>
       </div>
+
     </div>
 
     <div class="actions">
-      <button class="cancel" (click)="close.emit()">Cancel</button>
-     <button class="submit" (click)="submitApplication()">Submit Application</button>
+
+      <button class="cancel" (click)="close.emit()">
+        Cancel
+      </button>
+
+      <button
+        class="submit"
+        (click)="submitApplication()"
+        [disabled]="applied">
+
+        {{ applied ? 'Applied' : 'Apply' }}
+
+      </button>
+
     </div>
 
   </div>

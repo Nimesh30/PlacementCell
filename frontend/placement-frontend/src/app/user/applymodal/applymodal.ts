@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobService } from 'app/Services/jobservice/jobservice';
+
 @Component({
   selector: 'app-applymodal',
   standalone: true,
@@ -11,41 +12,42 @@ import { JobService } from 'app/Services/jobservice/jobservice';
 export class Applymodal {
 
   @Input() student: any;
-  @Input() job:any;
-  @Output() close = new EventEmitter<void>();
-  @Output() submit = new EventEmitter<void>();
+  @Input() job: any;
 
-  constructor(private jobservice:JobService){}
+  @Output() close = new EventEmitter<void>();
+
+  applied: boolean = false;
+
+  constructor(private jobservice: JobService) {}
+
   submitApplication() {
 
-    console.log(this.student.student); 
-    console.log(this.job);
-
-    if(confirm('Are you sure you want to apply')){
-
-    console.log(this.student); 
-    console.log(this.job);
+    if (!confirm('Are you sure you want to apply?')) {
+      return;
+    }
 
     const studentId = this.student.studentId;
     const jobId = this.job.id;
 
     console.log(studentId, jobId);
 
-    this.jobservice.applyJob(studentId, jobId)
-      .subscribe({
-        next: (res) => {
-          alert("Application submitted");
-        },
-        error: (err) => {
-          console.error(err);
-          alert("you already applied")
-        }
-      });
+    this.jobservice.applyJob(studentId, jobId).subscribe({
 
-  }
-     this.submit.emit();
-   //  console.log("submit your application");
+      next: (res) => {
+        alert("Application submitted successfully");
 
-     
+        // change button state
+        this.applied = true;
+        this.close.emit()
+      },
+
+      error: (err) => {
+        console.error(err);
+        alert("You already applied for this job");
+        this.close.emit()
+      }
+
+    });
   }
+
 }
