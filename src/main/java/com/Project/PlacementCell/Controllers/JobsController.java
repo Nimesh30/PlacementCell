@@ -3,6 +3,8 @@ package com.Project.PlacementCell.Controllers;
 import com.Project.PlacementCell.DTO.JobDTO;
 import com.Project.PlacementCell.Entity.JobsDetails;
 import com.Project.PlacementCell.Service.JobService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +37,13 @@ public class JobsController {
         // Service internally uses LocalDate.now()
         return jobService.getAvailableJobs(keyword);
     }
+
+    @GetMapping("/alljobs")
+    public Page<JobDTO> getAllJobs(@RequestParam(required = false) String keyword, Pageable pageable) {
+        return jobService.getAllJobs(keyword,pageable);
+    }
+
+
 
 
 

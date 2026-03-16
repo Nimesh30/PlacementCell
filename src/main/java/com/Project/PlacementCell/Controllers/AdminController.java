@@ -36,10 +36,6 @@ public class AdminController {
         return adminServices.getDashboard();
     }
 
-    @GetMapping("/students")
-    public ResponseEntity<?> getStudents() {
-        return adminServices.getStudents();
-    }
 
     @GetMapping("/export/{jobId}")
     public ResponseEntity<InputStreamResource> exportStudents(@PathVariable Integer jobId) throws IOException {
@@ -54,6 +50,4 @@ public class AdminController {
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(new InputStreamResource(stream));
     }
-
-
 }

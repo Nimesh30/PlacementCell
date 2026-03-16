@@ -14,11 +14,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Managejobs {
 
+
+
   isOpen = false;
   jobs = signal<any[]>([]);
   totaljobs=signal(0);
   searchText = signal('');
-
+  currentPage = signal(0);
+  pageSize = 3;
+  totalPages = signal(0);
   
   filteredJobs = computed(() => {
     const search = this.searchText().toLowerCase();
@@ -36,27 +40,33 @@ export class Managejobs {
 
   }
 
-  loadJobs(keyword: string = '') {
+loadJobs(keyword: string = '') {
 
-  this.jobService.getAvailableJobs(keyword)
-    .subscribe((data: any) => {
-      this.jobs.set(data);
-      this.totaljobs.set(data.length)
-    //  console.log(this.totaljobs)
-    });
+  this.jobService.getAllJobs(
+    keyword,
+    this.currentPage(),
+    this.pageSize
+  ).subscribe((data: any) => {
 
-  }
+    this.jobs.set(data.content);
+    this.totaljobs.set(data.totalElements);
+    this.totalPages.set(data.totalPages);
+
+  });
+
+}
 
    updateSearch(event: Event) {
 
-    const input = event.target as HTMLInputElement;
-    const value = input.value;
+  const input = event.target as HTMLInputElement;
+  const value = input.value;
 
-    this.searchText.set(value);
+  this.searchText.set(value);
 
-    // Call backend
-    this.loadJobs(value);
-  }
+  this.currentPage.set(0);   // reset page
+  this.loadJobs(value);
+
+}
 
   downloadStudents(jobId: number, companyName: string){
 
@@ -91,5 +101,27 @@ export class Managejobs {
   closeModal() {
     this.isOpen = false;
   }
+
+  nextPage() {
+
+  if (this.currentPage() < this.totalPages() - 1) {
+
+    this.currentPage.set(this.currentPage() + 1);
+    this.loadJobs(this.searchText());
+
+  }
+
+}
+
+prevPage() {
+
+  if (this.currentPage() > 0) {
+
+    this.currentPage.set(this.currentPage() - 1);
+    this.loadJobs(this.searchText());
+
+  }
+
+}
 
 }

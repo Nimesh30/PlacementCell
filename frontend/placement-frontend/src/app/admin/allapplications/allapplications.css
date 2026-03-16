@@ -92,3 +92,62 @@
   background:#f8d7da;
   color:#842029;
 }
+
+/* Pagination Container */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 25px;
+  padding: 12px 0;
+}
+
+/* Page Info */
+.pagination span {
+  font-size: 15px;
+  font-weight: 500;
+  color: #444;
+}
+
+/* Buttons */ 
+.pagination button {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  background-color: #3f51b5;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Hover */
+.pagination button:hover:not(:disabled) {
+  background-color: #2f3ea8;
+  transform: translateY(-1px);
+}
+
+/* Disabled Button */
+.pagination button:disabled {
+  background-color: #c5c5c5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .pagination {
+    gap: 10px;
+  }
+
+  .pagination button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .pagination span {
+    font-size: 13px;
+  }
+}
