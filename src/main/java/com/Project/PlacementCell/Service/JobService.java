@@ -1,10 +1,13 @@
 package com.Project.PlacementCell.Service;
 
+import com.Project.PlacementCell.DTO.CompanyDTO;
 import com.Project.PlacementCell.DTO.JobDTO;
 import com.Project.PlacementCell.Entity.JobsDetails;
 import com.Project.PlacementCell.Repository.JobApplicationsRepository;
 import com.Project.PlacementCell.Repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -76,5 +79,43 @@ public class JobService {
         }
 
         return jobDTOList;
+    }
+
+    public Page<JobDTO> getAllJobs(String keyword, Pageable pageable) {
+
+        Page<JobsDetails> jobs;
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            jobs = jobRepository.findAllByOrderByIdDesc(pageable);
+        } else {
+            jobs = jobRepository.SearchJobs(keyword, pageable);
+        }
+
+        return jobs.map(job -> {
+
+            JobDTO dto = new JobDTO();
+
+            dto.setId(job.getId());
+            dto.setCompanyName(job.getCompanyName());
+            dto.setJobTitle(job.getJobTitle());
+            dto.setPackageLpa(job.getPackageLpa());
+            dto.setLocation(job.getLocation());
+            dto.setDeadline(job.getDeadline());
+            dto.setMinCgpa(job.getMinCgpa());
+            dto.setDescription(job.getDescription());
+            dto.setEligibleDegrees(job.getEligibleDegrees());
+
+            // Count applications for this job
+            dto.setApplicationCount(
+                    jobApplicationsRepository.countApplicationsByJobId(job.getId().intValue())
+            );
+
+            return dto;
+        });
+    }
+
+    public List<String> getAllComapnies(){
+//        List<CompanyDTO> findAllCompanies();
+        return jobRepository. getDistinctCompanies();
     }
 }

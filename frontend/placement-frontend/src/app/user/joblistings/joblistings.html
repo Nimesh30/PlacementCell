@@ -13,57 +13,75 @@
     </div>
   </div>
 
-  <!-- Vertical Slider Container -->
-  <div class="jobSlider">
+  <!-- @for (job of jobs(); track job){
+    <p>{{job.companyName}}</p>
+  } -->
 
-    <div class="jobCard" *ngFor="let job of jobs()">
+  <!-- Dynamic Job Cards -->
+  <div class="jobCard" *ngFor="let job of jobs()">
 
-      <div class="companyLogo">
-        {{ job.companyName.charAt(0) }}
-      </div>
-
-      <div class="jobDetails">
-
-        <div class="topRow">
-          <div class="companydetails">
-            <h2>{{ job.companyName }}</h2>
-            <p class="role">{{ job.jobTitle }}</p>
-          </div>
-
-          <div class="salary">
-            {{ job.packageLpa }} LPA
-          </div>
-        </div>
-
-        <div class="metaInfo">
-          <span>📍 {{ job.location }}</span>
-          <span>📅 Deadline: {{ job.deadline }}</span>
-          <span>✔ Min CGPA: {{ job.minCgpa }}</span>
-        </div>
-
-        <div class="tags">
-          <span *ngFor="let degree of job.eligibleDegrees.split(',')">
-            {{ degree }}
-          </span>
-        </div>
-
-        <div *ngIf="job.showDescription" class="descriptionBox">
-          <p>{{ job.description }}</p>
-        </div>
-
-        <div class="buttons">
-          <button class="viewBtn" (click)="toggleDescription(job)">
-            {{ job.showDescription ? '▲ Hide Description' : '▼ View Description' }}
-          </button>
-
-          <button class="applyBtn" (click)="openApplyModal(job)">
-            Apply Now →
-          </button>
-        </div>
-
-      </div>
+    <div class="companyLogo">
+      {{ job.companyName.charAt(0) }}
     </div>
 
+    <div class="jobDetails">
+
+      <div class="topRow">
+        <div>
+          <h2>{{ job.companyName }}</h2>
+          <p class="role">{{ job.jobTitle }}</p>
+        </div>
+
+        <div class="salary">
+          {{ job.packageLpa }} LPA
+        </div>
+      </div>
+
+      <div class="metaInfo">
+        <span>📍 {{ job.location }}</span>
+        <span>📅 Deadline: {{ job.deadline }}</span>
+        <span>✔ Min CGPA: {{ job.minCgpa }}</span>
+      </div>
+
+      <div class="tags">
+        <span *ngFor="let degree of job.eligibleDegrees.split(',')">
+          {{ degree }}
+        </span>
+      </div>
+
+
+      <div *ngIf="job.showDescription" class="descriptionBox">
+        <p>{{ job.description }}</p>
+      </div>
+
+      <div class="buttons">
+        <button class="viewBtn"
+                (click)="toggleDescription(job)">
+          {{ job.showDescription ? '▲ Hide Description' : '▼ View Description' }}
+        </button>
+
+           <button class="applyBtn"
+                (click)="openApplyModal(job)">
+           Apply Now →
+        </button>
+      </div>
+
+    </div>
   </div>
 
 </div>
+<!-- <app-applymodal
+  *ngIf="selectedJob && studentData()"
+  [student]="studentData()"
+  (close)="closeModal()"
+  (submit)="closeModal()">
+</app-applymodal>  -->
+
+@if(selectedJob && studentData()) {
+  <app-applymodal
+    [student]="studentData()"
+    [job]="selectedJob"
+    (close)="closeModal()"
+    (submit)="closeModal()">
+  </app-applymodal>
+}

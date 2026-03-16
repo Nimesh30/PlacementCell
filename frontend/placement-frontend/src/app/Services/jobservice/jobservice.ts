@@ -9,16 +9,31 @@
   })
   export class JobService {
 
-    private baseUrl = 'http://localhost:8085/api/jobs';
+   private baseUrl = 'http://localhost:8085/api/jobs';
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-    getAvailableJobs(keyword?: string) {
+  getAvailableJobs(keyword?: string) {
       return this.http.get<any[]>(
           `${this.baseUrl}/available`,
         { params: { keyword: keyword || '' } }
       );
-    }
+  }
+
+  getAllJobs(keyword?: string, page: number = 0, size: number = 10) {
+    return this.http.get<any>(
+      `${this.baseUrl}/alljobs`,
+      {
+        params: {
+          keyword: keyword || '',
+          page: page,
+          size: size
+        }
+      }
+    );
+  }
+
+
     
     addJob(job: any) {
       console.log("In add job before return ...")

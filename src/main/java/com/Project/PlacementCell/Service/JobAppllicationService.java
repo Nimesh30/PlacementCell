@@ -1,5 +1,6 @@
 package com.Project.PlacementCell.Service;
 
+import com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO;
 import com.Project.PlacementCell.DTO.AppliedJobDTO;
 import com.Project.PlacementCell.DTO.StudentDTO.ApplyJobDTO;
 import com.Project.PlacementCell.Entity.JobApplications;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -61,6 +63,14 @@ public class JobAppllicationService {
 
     public Page<AppliedJobDTO> getMyApplications(String studentId, Pageable pageable) {
         return jobApplicationsRepository.findJobsAppliedByStudent(studentId, pageable);
+    }
+
+    public Page<PlacedLeaderBoardDTO> getStudentsandCompany(
+            String keyword,
+            String company,
+            Pageable page) {
+
+        return jobApplicationsRepository.getStudentsandCompany(keyword, company, page);
     }
 
 }

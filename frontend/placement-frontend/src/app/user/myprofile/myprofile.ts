@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'myprofile',
@@ -20,7 +21,7 @@ export class Myprofile implements OnInit {
 
   baseUrl = 'http://localhost:8085/students';
 
-  constructor(private fb: FormBuilder,private http: HttpClient) { }
+  constructor(private fb: FormBuilder,private http: HttpClient,private cdr:ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
@@ -171,6 +172,7 @@ console.log("In fetch profile...",studentId)
           next: () => {
             // alert("Profile saved successfully!");
             console.log("Saved profile..");
+            this.cdr.detectChanges();
             
             this.isEditMode = true;
             this.disableForm();

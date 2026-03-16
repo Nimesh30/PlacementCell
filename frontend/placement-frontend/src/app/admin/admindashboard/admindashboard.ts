@@ -23,6 +23,10 @@ export class Admindashboard implements OnInit {
       next: (data) => {
         console.log("Dashboard Data:", data);
         this.dashboardData = data;
+        const dashboard = data as any;
+
+      localStorage.setItem('totalApplication',dashboard.application.toString());
+
         this.cdr.detectChanges()
       },
       error: (err) => {
