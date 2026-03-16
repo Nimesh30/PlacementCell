@@ -1,3 +1,4 @@
+
 package com.Project.PlacementCell.Controllers;
 
 import com.Project.PlacementCell.DTO.AdminDTO.AdminLoginDTO;
@@ -34,6 +35,12 @@ public class AdminController {
     @GetMapping("/dashboard")
     public ResponseEntity<?> getDashboard() {
         return adminServices.getDashboard();
+    }
+
+
+    @GetMapping("/students")
+    public ResponseEntity<?> getStudents() {
+        return adminServices.getStudents();
     }
 
 

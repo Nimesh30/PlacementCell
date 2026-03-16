@@ -1,3 +1,4 @@
+
 package com.Project.PlacementCell.Service;
 
 import com.Project.PlacementCell.DTO.AdminDTO.AllStudentsDTO;
@@ -43,7 +44,8 @@ public class AdminServices {
 
         //Placement LeaderBoard
         //Pageable will retrieve only top 5 records...
-        Pageable topFive = PageRequest.of(0, 5);
+//        Pageable topFive = PageRequest.of(0, 5);
+        Pageable topFive =PageRequest.of(0,5);
         List<PlacedLeaderBoardDTO> placedLeaderBoard =
                 jobApplicationsRepository.getPlacedLeaderBoard(topFive);
         List<CompanyWiseHiringDTO> companywiseHiring =
@@ -68,7 +70,7 @@ public class AdminServices {
 
     public ResponseEntity<?> getStudents() {
 
-            List<AllStudentsDTO> studentsList = adminRepository.getAllStudents();
+        List<AllStudentsDTO> studentsList = adminRepository.getAllStudents();
         return ResponseEntity.ok(studentsList);
     }
 }

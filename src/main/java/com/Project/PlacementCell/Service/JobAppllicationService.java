@@ -62,7 +62,7 @@ public class JobAppllicationService {
     }
 
     public Page<AppliedJobDTO> getMyApplications(String studentId, Pageable pageable) {
-        return jobApplicationsRepository.findJobsAppliedByStudent(studentId, pageable);
+        return jobApplicationsRepository.findJobsAppliedByStudent(studentId,pageable);
     }
 
     public Page<PlacedLeaderBoardDTO> getStudentsandCompany(

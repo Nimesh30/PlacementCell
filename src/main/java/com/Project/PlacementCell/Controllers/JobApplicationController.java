@@ -7,6 +7,7 @@ import com.Project.PlacementCell.Entity.StudentProfile;
 import com.Project.PlacementCell.Service.JobAppllicationService;
 //import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
@@ -44,7 +45,7 @@ public class JobApplicationController {
             @RequestParam(defaultValue = "5") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        return jobAppllicationService.getMyApplications(studentId, pageable);
+        return jobAppllicationService.getMyApplications(studentId,pageable);
     }
 
 
