@@ -73,46 +73,19 @@
           <tr>
             <th>Company</th>
             <th>Hires</th>
-            <th>Departments</th>
+            <!-- <th>Departments</th> -->
             <th>Avg Pkg</th>
           </tr>
         </thead>
   
         <tbody>
-          <tr>
-            <td>Google</td>
-            <td><span class="circle">1</span></td>
-            <td><span class="dept">B.Tech CSE</span></td>
-            <td class="pkg">25 LPA</td>
+          <tr *ngFor="let company of dashboardData?.companywiseHiring">
+            <td>{{company?.companyName}}</td>
+            <td><span class="circle">{{company?.hiringCount}}</span></td>
+            <!-- <td><span class="dept">B.Tech CSE</span></td> -->
+            <td class="pkg">{{company?.packageLpa}}</td>
           </tr>
-  
-          <tr>
-            <td>Infosys</td>
-            <td><span class="circle">1</span></td>
-            <td><span class="dept">B.Tech IT</span></td>
-            <td class="pkg">3.6 LPA</td>
-          </tr>
-  
-          <tr>
-            <td>TCS</td>
-            <td><span class="circle">1</span></td>
-            <td><span class="dept">MCA</span></td>
-            <td class="pkg">3.4 LPA</td>
-          </tr>
-  
-          <tr>
-            <td>Wipro</td>
-            <td><span class="circle">1</span></td>
-            <td><span class="dept">MSc IT</span></td>
-            <td class="pkg">3.5 LPA</td>
-          </tr>
-  
-          <tr>
-            <td>Capgemini</td>
-            <td><span class="circle">1</span></td>
-            <td><span class="dept">B.Tech CSE</span></td>
-            <td class="pkg">6 LPA</td>
-          </tr>
+
         </tbody>
       </table>
     </div>

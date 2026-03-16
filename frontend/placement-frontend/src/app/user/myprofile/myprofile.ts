@@ -80,7 +80,7 @@ console.log("In fetch profile...",studentId)
     this.http.get<any>(`${this.baseUrl}/profile/${studentId}`)
       .subscribe({
         next: (response) => {
-          console.log("API Response ", response)
+          console.log("API Response with null first time", response)
 
           if (response.imageUrl === "null") {
             response.imageUrl = null;
@@ -154,7 +154,7 @@ console.log("In fetch profile...",studentId)
     }
 
     if (this.isEditMode) {
-        console.log("Updating mode on before url..")
+        console.log("Updating mode on before url..",formData)
       this.http.patch(`${this.baseUrl}/update/${studentId}`, formData)
         .subscribe({
           next: () => {
@@ -165,11 +165,11 @@ console.log("In fetch profile...",studentId)
         });
 
     } else {
-
+      console.log("Posting data in else part ",formData)
       this.http.post(`${this.baseUrl}/add`, formData)
         .subscribe({
           next: () => {
-            // alert("Profile saved successfully!");
+            alert("Profile saved successfully!");
             console.log("Saved profile..");
             
             this.isEditMode = true;

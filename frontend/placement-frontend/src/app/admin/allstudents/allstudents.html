@@ -1,0 +1,87 @@
+<div class="students-page">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h2>Students</h2>
+      <p>{{placedCount}} placed · {{notPlacedCount}} not yet placed</p>
+    </div>
+
+    <button class="export-btn">⬇ Export All</button>
+  </div>
+
+  <!-- Search + Filter -->
+  <div class="toolbar">
+
+    <input
+      type="text"
+      placeholder="Search students..."
+      [(ngModel)]="searchText"
+      (input)="applyFilters()"
+    />
+
+    <div class="filters">
+      <button (click)="setFilter('all')" [class.active]="filterType==='all'">All</button>
+      <button (click)="setFilter('placed')" [class.active]="filterType==='placed'">Placed</button>
+      <button (click)="setFilter('notPlaced')" [class.active]="filterType==='notPlaced'">Not Placed</button>
+    </div>
+
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>ID</th>
+          <th>Department</th>
+          <th>CGPA</th>
+          <th>Year</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let s of filteredStudents">
+
+          <td class="student">
+            <div class="avatar">👤</div>
+            <div>
+              <strong>{{s.name}}</strong>
+              <p>{{s.email}}</p>
+            </div>
+          </td>
+
+          <td>{{s.studentId}}</td>
+
+          <td>{{s.branch || 'N/A'}}</td>
+
+          <td class="cgpa">{{s.cgpa}}</td>
+
+          <td>{{s.year}}</td>
+
+          <td>
+
+            <span *ngIf="s.placed" class="placed">
+              ✔ Placed
+            </span>
+
+            <span *ngIf="!s.placed" class="not-placed">
+              ✖ Not Placed
+            </span>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

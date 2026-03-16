@@ -17,6 +17,7 @@ import { Managejobs } from './admin/managejobs/managejobs';
 import { Students } from './admin/students/students';
 import { Allapplications } from './admin/allapplications/allapplications';
 import { Adminnoticeboard } from './admin/adminnoticeboard/adminnoticeboard';
+import { Allstudents } from './admin/allstudents/allstudents';
 export const routes: Routes = [
 
   { path: '', component: Home },
@@ -29,7 +30,7 @@ export const routes: Routes = [
     children:[
       {path:'admindashboard',component:Admindashboard},
       {path:'managejobs',component:Managejobs},
-      {path:'students',component:Students},
+      {path:'students',component:Allstudents},
       {path:'allapplication',component:Allapplications},
       {path:'adminnoticeboard',component:Adminnoticeboard}
     ]

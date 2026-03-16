@@ -85,6 +85,7 @@ export class Joblistings {
     this.http.get<any>(`http://localhost:8085/students/profile/${studentId}`)
       .subscribe(res => {
 
+        console.log(res); // store full profile
         this.studentData.set(res);
         console.log(this.studentData); // store full profile
       });

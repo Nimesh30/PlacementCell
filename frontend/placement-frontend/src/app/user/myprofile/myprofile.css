@@ -92,3 +92,19 @@
 .full-width {
   grid-column: span 2;
 }
+
+/* error message display */
+.error{
+  color:#e53935;
+  font-size:12px;
+  margin-top:4px;
+  display:block;
+}
+
+input.ng-touched.ng-invalid{
+  border:1px solid #e53935;
+}
+
+input.ng-touched.ng-valid{
+  border:1px solid #4caf50;
+}

@@ -14,4 +14,5 @@ public class DashboardDTO {
     private long application;
     //PlacedLeaderDTO which is created for Placement LeaderBoard
     private List<PlacedLeaderBoardDTO> placedLeaderBoard;
+    private List<CompanyWiseHiringDTO> companywiseHiring;
 }
