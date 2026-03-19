@@ -27,28 +27,34 @@ public class LoginService {
         Optional<Admin> optionalAdmin =
                 adminRepository.findByEmail(adminLoginDTO.getEmail());
 
-
         if(optionalAdmin.isEmpty()){
             return ResponseEntity
                     .status(401)
                     .body(Map.of("message", "Invalid credentials"));
         }
 
-
         Admin admin = optionalAdmin.get();
-        // DO NOT USE regex matches
+
+        // ⚠️ NOTE: You should use passwordEncoder here ideally
         if (!adminLoginDTO.getPassword().equals(admin.getPassword())) {
             return ResponseEntity
                     .status(401)
                     .body(Map.of("message", "Invalid credentials"));
         }
 
-        String token = authUtil.generateAccessToken(admin.getAdminid(), "admin");
-        return ResponseEntity
-                .status(200)
-                .body(Map.of(
-                        "message", "Login Successful",
-                        "username", admin.getName()
-                ));
+        // ✅ FIX: use uppercase role
+        String token = authUtil.generateAccessToken(admin.getAdminid(), "ADMIN");
+
+        // ✅ FIX: return token + role + email etc.
+        return ResponseEntity.ok(
+                Map.of(
+                        "adminId", admin.getAdminid(),
+                        "username", admin.getName(),
+                        "email", admin.getEmail(),
+                        "token", token,
+                        "Role", "ADMIN",
+                        "message", "Login Successful"
+                )
+        );
     }
 }

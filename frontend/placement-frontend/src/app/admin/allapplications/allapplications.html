@@ -4,7 +4,7 @@
     <div class="header">
       <div>
         <h1>All Applications</h1>
-        <!-- <p>{{totalApplication}} total applications</p> -->
+        <p>{{totalApplication}} total applications</p>
       </div>
 
       <button class="export-btn">
@@ -29,6 +29,11 @@
     <div class="table">
 
       <div class="table-header">
+  <input 
+    type="checkbox" 
+    [checked]="parentChecked"
+    (change)="onParentChange($event)"
+  />
         <span>STUDENT</span>
         <span>COMPANY</span>
         <span>APPLIED</span>
@@ -42,6 +47,14 @@
 
 
         <div class="table-row">
+           <label>
+    <input 
+      type="checkbox"
+      [(ngModel)]="app.checked"
+      (change)="onChildChange()"
+    />
+    {{ app.name }}
+  </label>
           <span>{{app.studentName}}</span>
           <span>{{app.companyName}}</span>
       <span>{{ app.applicationdate | date:'dd-MM-yyyy HH:mm' }}</span>

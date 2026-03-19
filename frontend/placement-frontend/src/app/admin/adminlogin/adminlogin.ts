@@ -13,6 +13,9 @@ export class Adminlogin {
 
     email: string = '';
     password: string = '';
+    
+  
+
 
     constructor(private router: Router, private http: HttpClient) {}
 
@@ -27,6 +30,8 @@ export class Adminlogin {
       .subscribe({
        next: (response) => {
 
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("role",response.Role);  
       localStorage.setItem("username", response.username);
       // localStorage.setItem("userEmail", response.email);
 
@@ -54,5 +59,6 @@ export class Adminlogin {
     toHome(){
       this.router.navigate(['/']);
     }
+
 
 }

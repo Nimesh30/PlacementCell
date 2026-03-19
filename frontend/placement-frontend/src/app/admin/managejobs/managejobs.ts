@@ -1,127 +1,158 @@
-import { Component,signal,computed } from '@angular/core';
+import { Component,signal,computed, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { Addnewjobmodal } from 'app/addnewjobmodal/addnewjobmodal';
-import { Addnewjobmodal } from '../../user/addnewjobmodal/addnewjobmodal';
+import { AddNewJobModal } from '../../user/addnewjobmodal/addnewjobmodal';
 import { JobService } from 'app/Services/jobservice/jobservice';
 import { HttpClient } from '@angular/common/http';
+import { HostListener } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-managejobs',
   standalone: true,
-  imports: [CommonModule,Addnewjobmodal],  //  Add CommonModule here
+  imports: [CommonModule, AddNewJobModal],
   templateUrl: './managejobs.html',
   styleUrl: './managejobs.css',
 })
-export class Managejobs {
+export class ManageJobs {
 
-
-
-  isOpen = false;
+  @Input() jobData :any=null;
+  // @Output() close = new EventEmitter<void>();
+  // Signals
   jobs = signal<any[]>([]);
-  totaljobs=signal(0);
+  totaljobs = signal(0);
   searchText = signal('');
   currentPage = signal(0);
-  pageSize = 3;
   totalPages = signal(0);
-  
-  filteredJobs = computed(() => {
-    const search = this.searchText().toLowerCase();
+  pageSize = 3;
 
-    return this.jobs().filter(job => 
-    job.companyName.toLowerCase().includes(search) ||
-    job.jobTitle.toLowerCase().includes(search));
-  });
-  
-  // constructor(private jobService:JobService){}
-  constructor(private jobService: JobService,private http:HttpClient) {}
+  // Modal control
+  isOpen = false;
+  selectedJob: any = null; // Pass job data to modal if editing
+
+  constructor(
+    private jobService: JobService,
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadJobs();
-
   }
 
-loadJobs(keyword: string = '') {
-
-  this.jobService.getAllJobs(
-    keyword,
-    this.currentPage(),
-    this.pageSize
-  ).subscribe((data: any) => {
-
-    this.jobs.set(data.content);
-    this.totaljobs.set(data.totalElements);
-    this.totalPages.set(data.totalPages);
-
+  // Filtered jobs
+  filteredJobs = computed(() => {
+    const search = this.searchText().toLowerCase();
+    return this.jobs().filter(job =>
+      job.companyName.toLowerCase().includes(search) ||
+      job.jobTitle.toLowerCase().includes(search)
+    );
   });
 
-}
-
-   updateSearch(event: Event) {
-
-  const input = event.target as HTMLInputElement;
-  const value = input.value;
-
-  this.searchText.set(value);
-
-  this.currentPage.set(0);   // reset page
-  this.loadJobs(value);
-
-}
-
-  downloadStudents(jobId: number, companyName: string){
-
-  this.jobService.exportStudents(jobId).subscribe((data: Blob) => {
-
-    const blob = new Blob([data], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  // Load jobs from backend
+  loadJobs(keyword: string = '') {
+    this.jobService.getAllJobs(keyword, this.currentPage(), this.pageSize).subscribe((data: any) => {
+      console.log(data);
+      this.jobs.set(data.content);
+      this.totaljobs.set(data.totalElements);
+      this.totalPages.set(data.totalPages);
     });
+  }
 
-    const url = window.URL.createObjectURL(blob);
+  // Search
+  updateSearch(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.searchText.set(input.value);
+    this.currentPage.set(0);
+    this.loadJobs(input.value);
+  }
 
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = companyName + '.xlsx';
-    a.click();
+  // Pagination
+  nextPage() {
+    if (this.currentPage() < this.totalPages() - 1) {
+      this.currentPage.set(this.currentPage() + 1);
+      this.loadJobs(this.searchText());
+    }
+  }
 
-    window.URL.revokeObjectURL(url);
+  prevPage() {
+    if (this.currentPage() > 0) {
+      this.currentPage.set(this.currentPage() - 1);
+      this.loadJobs(this.searchText());
+      this.cdr.detectChanges();
+    }
+  }
 
-  });
-
-}
-
+  // Toggle job description
   toggleDescription(job: any) {
     job.showDescription = !job.showDescription;
   }
 
-
+  // Open Add Job modal
   openAddnewjobModal() {
+    this.selectedJob = null;
     this.isOpen = true;
+  }
+
+  // Edit job
+  editJob(job: any, event: Event) {
+    event.stopPropagation();
+    job.showMenu=false;
+    this.selectedJob = job;
+    this.isOpen = true;
+  }
+
+  // Delete job
+  deleteJob(jobId: number, event: Event,job:any) {
+    event.stopPropagation();
+    job.showMenu=false;
+    if (confirm('Are you sure you want to delete this job?')) {
+      this.jobService.deleteJob(jobId).subscribe({
+        next: () => {
+          alert('Job deleted successfully ✅');
+          this.loadJobs(this.searchText());
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Delete failed ❌');
+        }
+      });
+    }
+  }
+
+  // Download students applied
+  downloadStudents(jobId: number, companyName: string) {
+    this.jobService.exportStudents(jobId).subscribe((data: Blob) => {
+      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = companyName + '.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
+  // 3-dot menu toggle
+  toggleJobMenu(job: any, event: Event) {
+    event.stopPropagation();
+    this.jobs().forEach(j => j.showMenu = false);
+    job.showMenu = !job.showMenu;
+  }
+
+  // Close all menus when clicking outside
+  @HostListener('document:click', ['$event'])
+  closeMenu(event: any) {
+    if (!event.target.closest('.action-menu')) {
+      this.jobs().forEach(j => j.showMenu = false);
+    }
   }
 
   closeModal() {
     this.isOpen = false;
+    this.selectedJob = null;
+    this.currentPage.set(0);
+     this.loadJobs(this.searchText());
   }
-
-  nextPage() {
-
-  if (this.currentPage() < this.totalPages() - 1) {
-
-    this.currentPage.set(this.currentPage() + 1);
-    this.loadJobs(this.searchText());
-
-  }
-
-}
-
-prevPage() {
-
-  if (this.currentPage() > 0) {
-
-    this.currentPage.set(this.currentPage() - 1);
-    this.loadJobs(this.searchText());
-
-  }
-
-}
-
 }

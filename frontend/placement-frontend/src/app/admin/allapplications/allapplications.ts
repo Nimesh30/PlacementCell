@@ -2,10 +2,11 @@ import { Component, signal } from '@angular/core';
 // import { JobService } from 'app/Services/jobservice/jobservice';
 import { ApplicationsService } from 'app/Services/applications-service';
 import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-allapplications',
-  imports: [DatePipe],
+  imports: [DatePipe,FormsModule],
   templateUrl: './allapplications.html',
   styleUrl: './allapplications.css',
 })
@@ -24,7 +25,9 @@ companyList: string[] = [];
 selectedCompanies: string[] = [];
 
   totalPages = signal(0);
-
+  
+parentChecked: boolean = false;
+  
   constructor(private appService : ApplicationsService){ }
 
  onSearch(event: any) {
@@ -125,5 +128,22 @@ prevPage() {
     this.loadJobs();
   }
 }
+
+onParentChange(event: any) {
+  this.parentChecked = event.target.checked;
+
+  this.applications().forEach(item => {
+    item.checked = this.parentChecked;
+  });
+}
+
+// ✅ Child checkbox (multiple allowed)
+onChildChange() {
+
+  // Check if ALL children are selected
+  this.parentChecked = this.applications().every(item => item.checked);
+
+}
+
 
 }

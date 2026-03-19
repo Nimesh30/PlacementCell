@@ -1,66 +1,81 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-//import { JobService } from 'app/Services/jobservice/jobservice';
-import { JobService } from '../../Services/jobservice/jobservice';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { JobService } from 'app/Services/jobservice/jobservice';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-addnewjobmodal',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './addnewjobmodal.html',
-  styleUrl: './addnewjobmodal.css',
+  styleUrls: ['./addnewjobmodal.css']
 })
-export class Addnewjobmodal {
-
+export class AddNewJobModal implements OnInit {
+  @Input() jobData: any = null;  // <-- receive job for editing
   @Output() close = new EventEmitter<void>();
 
-  jobForm: FormGroup;
-  isSubmitting = false;   // ✅ ADD THIS LINE
+  jobForm: FormGroup = new FormGroup({
+    companyName: new FormControl(''),
+    jobTitle: new FormControl(''),
+    packageLpa: new FormControl(''),
+    location: new FormControl(''),
+    minCgpa: new FormControl(''),
+    deadline: new FormControl(''),
+    eligibleDegrees: new FormControl(''),
+    description: new FormControl(''),
+  });
 
-  constructor(
-    private fb: FormBuilder,
-    private jobService : JobService
-  ) {
-    this.jobForm = this.fb.group({
-      companyName: ['', Validators.required],
-      jobTitle: ['', Validators.required],
-      packageLpa: [null],
-      location: [''],
-      minCgpa: [null],
-      deadline: ['', Validators.required],
-      eligibleDegrees: [''],
-      description: ['', Validators.required],
-    });
-  }
+  constructor(private jobService: JobService , private cdr:ChangeDetectorRef) {}
 
-  closeModal() {
-    this.close.emit();
+  ngOnInit(): void {
+    if (this.jobData) {
+      // Pre-fill form when editing
+      this.jobForm.patchValue({
+        companyName: this.jobData.companyName,
+        jobTitle: this.jobData.jobTitle,
+        packageLpa: this.jobData.packageLpa,
+        location: this.jobData.location,
+        minCgpa: this.jobData.minCgpa,
+        deadline: this.jobData.deadline,
+        eligibleDegrees: this.jobData.eligibleDegrees,
+        description: this.jobData.description
+      });
+    }
   }
 
   submitJob() {
+    const payload = this.jobForm.value;
 
-    if (this.jobForm.invalid) {
-      this.jobForm.markAllAsTouched();
-      return;
+    if (this.jobData?.id) {
+      // Update job
+      this.jobService.updateJob(this.jobData.id, payload).subscribe({
+        next: () => {
+          alert('Job updated successfully ✅');
+          this.close.emit();
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Update failed ❌');
+        }
+      });
+    } else {
+      // Create job
+      this.jobService.addJob(payload).subscribe({
+        next: () => {
+          alert('Job posted successfully ✅');
+          this.close.emit();
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Post failed ❌');
+        }
+      });
     }
-
-    this.isSubmitting = true;
-
-    this.jobService.addJob(this.jobForm.value).subscribe({
-      next: () => {
-        alert('Job added successfully!');
-        this.isSubmitting = false;
-        this.jobForm.reset();
-        this.closeModal();
-        this.jobService.getAvailableJobs();
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Failed to add job');
-        this.isSubmitting = false;
-      }
-    });
   }
 
+
+  closeModal(){
+    this.close.emit();
+  }
 }

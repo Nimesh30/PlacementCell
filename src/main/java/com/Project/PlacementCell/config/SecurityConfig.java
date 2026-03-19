@@ -13,7 +13,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     private final JwtFilter jwtFilter;
 
     @Bean
@@ -32,15 +31,22 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/auth/**").permitAll()
-//                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        //authetication for student
+                        .requestMatchers("/api/auth/**").permitAll()
+                        //authentication for admin
+                        .requestMatchers("/admin/login").permitAll()
 
-//                        .requestMatchers("/students/**").hasRole("STUDENT")
-                        .anyRequest().permitAll()
+                        .requestMatchers("/adminlayout/admindashboard").hasRole("ADMIN")
+
+                        // 🔒 all other APIs require token
+                                .anyRequest().permitAll()
+//                        .anyRequest().authenticated()
                 )
 
+                // ✅ add JWT filter
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 }

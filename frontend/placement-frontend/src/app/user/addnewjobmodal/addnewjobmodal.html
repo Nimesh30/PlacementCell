@@ -7,8 +7,8 @@
     <!-- Header -->
     <div class="modal-header">
       <div>
-        <h2>Post New Job</h2>
-        <p>Fill in company and job details</p>
+        <h2>{{ jobData ? 'Update Job' : 'Post New Job' }}</h2>
+        <p>{{ jobData ? 'Edit job details' : 'Fill in company and job details' }}</p>
       </div>
       <button class="close-btn" (click)="closeModal()">✕</button>
     </div>
@@ -61,10 +61,9 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn-cancel" (click)="closeModal()">Cancel</button>
-        <button class="btn-submit" type="submit">Post Job</button>
+        <button  type="button" class="btn-cancel" (click)="closeModal()">Cancel</button>
+        <button class="btn-submit" type="submit">{{ jobData ? 'Update Job' : 'Post Job' }}</button>
       </div>
-
 
       </form> 
 

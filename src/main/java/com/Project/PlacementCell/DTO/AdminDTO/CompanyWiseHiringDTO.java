@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanyWiseHiringDTO {
-
     private String companyName;
     private Long hiringCount;
     private Double packageLpa;

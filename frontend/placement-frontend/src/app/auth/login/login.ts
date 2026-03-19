@@ -18,48 +18,46 @@
     constructor(private router: Router, private http: HttpClient) {}
     login() {
 
-      const loginData = {
-        email: this.email,
-        password: this.password
-      };
+  const loginData = {
+    email: this.email,
+    password: this.password
+  };
 
-      this.http.post<any>('http://localhost:8085/api/auth/loginUser', loginData)
-        .subscribe({
-          next: (response) => {
-            
-              console.log("Login API Response:", response);
-            
-            // Save common values
-            localStorage.setItem("username", response.username);
-            localStorage.setItem("studentId", response.studentId);
-            localStorage.setItem("collegeEmail", response.email);
-          //  localStorage.setItem('studentProfile', JSON.stringify(res));
-            console.log("already in local storage ",response.studentId)
+  this.http.post<any>('http://localhost:8085/api/auth/loginUser', loginData)
+    .subscribe({
+      next: (response) => {
 
-            if (response.firstLogin === true) {
-              localStorage.setItem("userEmail", this.email);
-              localStorage.setItem("studentId", response.studentId);
-              localStorage.setItem("collegeEmail", response.email);
-              this.router.navigate(['/change-password']);
-            
-            } else {
+        console.log("Login API Response:", response);
 
-              this.router.navigate(['/layout/userdashboard']);
-            }
+        // ✅ STORE TOKEN (IMPORTANT)
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("role",response.Role);
 
-          },
+        // Existing data
+        localStorage.setItem("username", response.username);
+        localStorage.setItem("studentId", response.studentId);
+        localStorage.setItem("collegeEmail", response.email);
 
-          error: (error) => {
+        if (response.firstLogin === true) {
+          localStorage.setItem("userEmail", this.email);
 
-            if (error.status === 401) {
-              alert("Invalid Credentials");
-            } else {
-              alert("Something went wrong. Try again.");
-            }
+          this.router.navigate(['/change-password']);
 
-          }
-        });
-    }
+        } else {
+          this.router.navigate(['/layout/userdashboard']);
+        }
+
+      },
+
+      error: (error) => {
+        if (error.status === 401) {
+          alert("Invalid Credentials");
+        } else {
+          alert("Something went wrong. Try again.");
+        }
+      }
+    });
+}
 
     goToRegister(){
       this.router.navigate(['/register'],)

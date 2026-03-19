@@ -13,11 +13,12 @@ import { Applymodal } from './user/applymodal/applymodal';
 import { Adminlogin } from './admin/adminlogin/adminlogin';
 import { Adminlayout } from './admin/adminlayout/adminlayout';
 import { Admindashboard } from './admin/admindashboard/admindashboard';
-import { Managejobs } from './admin/managejobs/managejobs';
+import { ManageJobs } from './admin/managejobs/managejobs';
 import { Students } from './admin/students/students';
 import { Allapplications } from './admin/allapplications/allapplications';
 import { Adminnoticeboard } from './admin/adminnoticeboard/adminnoticeboard';
 import { Allstudents } from './admin/allstudents/allstudents';
+import { roleGuard } from './auth/role.guard';
 export const routes: Routes = [
 
   { path: '', component: Home },
@@ -28,8 +29,12 @@ export const routes: Routes = [
   {path:'adminlogin',component:Adminlogin},
   {path:'adminlayout',component:Adminlayout,
     children:[
-      {path:'admindashboard',component:Admindashboard},
-      {path:'managejobs',component:Managejobs},
+      {path:'admindashboard',
+        component:Admindashboard,
+        canActivate: [roleGuard],
+      data: { roles: ['ADMIN'] }
+      },
+      {path:'managejobs',component:ManageJobs},
       {path:'students',component:Allstudents},
       {path:'allapplication',component:Allapplications},
       {path:'adminnoticeboard',component:Adminnoticeboard}
@@ -40,7 +45,11 @@ export const routes: Routes = [
     path: 'layout',
     component: Layout,
     children: [
-      { path: 'userdashboard', component: UserDashboard },
+      { path: 'userdashboard',
+        component: UserDashboard, 
+        canActivate: [roleGuard],
+        data: { roles: ['STUDENT'] }
+      },
       { path: 'myprofile', component: Myprofile },
       { path: 'jobs', component: Joblistings },
       { path: 'applications', component: Myapplications },

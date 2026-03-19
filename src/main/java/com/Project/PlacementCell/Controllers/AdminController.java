@@ -37,6 +37,12 @@ public class AdminController {
     }
 
 
+    @GetMapping("/students")
+    public ResponseEntity<?> getStudents() {
+        return adminServices.getStudents();
+    }
+
+
     @GetMapping("/export/{jobId}")
     public ResponseEntity<InputStreamResource> exportStudents(@PathVariable Integer jobId) throws IOException {
 

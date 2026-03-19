@@ -5,6 +5,7 @@ import com.Project.PlacementCell.Entity.JobsDetails;
 import com.Project.PlacementCell.Service.JobService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,8 +45,19 @@ public class JobsController {
     }
 
 
+    @DeleteMapping("deletejob/{id}")
+    public ResponseEntity<String> deleteJob(@PathVariable Integer id) {
+        jobService.deleteJob(id);
+        return ResponseEntity.ok("Job and related applications deleted successfully");
+    }
 
-
+    @PutMapping("updatejob/{id}")
+    public ResponseEntity<JobDTO> updateJob(
+            @PathVariable Integer id,
+            @RequestBody JobDTO dto
+    ) {
+        return ResponseEntity.ok(jobService.updateJob(id, dto));
+    }
 
 
 }

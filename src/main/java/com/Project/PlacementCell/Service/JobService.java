@@ -118,4 +118,44 @@ public class JobService {
 //        List<CompanyDTO> findAllCompanies();
         return jobRepository. getDistinctCompanies();
     }
+
+    public void deleteJob(Integer jobId) {
+
+        JobsDetails job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        // Cascade will delete applications automatically
+        jobRepository.delete(job);
+    }
+
+    public JobDTO updateJob(Integer id, JobDTO dto) {
+
+        JobsDetails job = jobRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        job.setCompanyName(dto.getCompanyName());
+        job.setJobTitle(dto.getJobTitle());
+        job.setPackageLpa(dto.getPackageLpa());
+        job.setLocation(dto.getLocation());
+        job.setMinCgpa(dto.getMinCgpa());
+        job.setEligibleDegrees(dto.getEligibleDegrees());
+        job.setDeadline(dto.getDeadline());
+        job.setDescription(dto.getDescription());
+
+        JobsDetails updated = jobRepository.save(job);
+
+        // convert to DTO
+        JobDTO response = new JobDTO();
+        response.setId(updated.getId());
+        response.setCompanyName(updated.getCompanyName());
+        response.setJobTitle(updated.getJobTitle());
+        response.setPackageLpa(updated.getPackageLpa());
+        response.setLocation(updated.getLocation());
+        response.setMinCgpa(updated.getMinCgpa());
+        response.setEligibleDegrees(updated.getEligibleDegrees());
+        response.setDeadline(updated.getDeadline());
+        response.setDescription(updated.getDescription());
+
+        return response;
+    }
 }

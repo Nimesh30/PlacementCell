@@ -89,5 +89,20 @@ loadApplicationCount(studentId: string) {
         responseType: 'blob'
       });
     }
+
+
+   deleteJob(jobId: number) {
+   // console.log("calling service"+)
+    return this.http.delete(
+      `http://localhost:8085/api/jobs/deletejob/${jobId}`,
+      { responseType: 'text' } // optional (if backend returns string)
+    );
+
+}
+
+    updateJob(jobId: number, payload: any): Observable<any> {
+    return this.http.put(`http://localhost:8085/api/jobs/updatejob/${jobId}`, payload);
+  }
+
     
   }
