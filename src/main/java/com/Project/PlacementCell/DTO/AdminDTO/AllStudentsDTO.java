@@ -1,5 +1,6 @@
 package com.Project.PlacementCell.DTO.AdminDTO;
 
+import com.Project.PlacementCell.enums.ApplicationStatus;
 import com.Project.PlacementCell.enums.Branch;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class AllStudentsDTO {
     private Branch branch;
     private Double cgpa;
     private Integer year;
-    private Boolean placed;
+//    private Boolean placed;
+    private ApplicationStatus status;
 
 }

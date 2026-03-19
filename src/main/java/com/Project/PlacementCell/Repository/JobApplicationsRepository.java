@@ -9,6 +9,7 @@ import com.Project.PlacementCell.DTO.AppliedJobDTO;
 import com.Project.PlacementCell.DTO.JobDTO;
 import com.Project.PlacementCell.DTO.StudentDTO.ApplyJobDTO;
 import com.Project.PlacementCell.Entity.JobApplications;
+import com.Project.PlacementCell.enums.ApplicationStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -122,5 +123,5 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
             String company,
             Pageable pageable);
 
-
+    long countByStatus(ApplicationStatus applicationStatus);
 }
