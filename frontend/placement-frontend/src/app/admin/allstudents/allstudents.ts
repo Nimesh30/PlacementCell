@@ -35,8 +35,8 @@ export class Allstudents implements OnInit {
           console.log("Admin Students....",data);
         this.students = data;
 
-        this.placedCount = this.students.filter(s => s.placed === true).length;
-        this.notPlacedCount = this.students.filter(s => !s.placed).length;
+        this.placedCount = this.students.filter(s => s.status === "SELECTED").length;
+        this.notPlacedCount = this.students.filter(s => s.status !== "SELECTED").length;
         this.applyFilters();
         this.cdr.detectChanges();
 
@@ -53,13 +53,12 @@ export class Allstudents implements OnInit {
         student.studentId.toLowerCase().includes(this.searchText.toLowerCase());
 
       let filterMatch = true;
-
-      if (this.filterType === "placed") {
-        filterMatch = student.placed === true;
+      if (this.filterType === "selected") {
+        filterMatch = student.status === "SELECTED";
       }
 
       if (this.filterType === "notPlaced") {
-        filterMatch = !student.placed;
+        filterMatch = student.status !== "SELECTED";
       }
 
       return searchMatch && filterMatch;

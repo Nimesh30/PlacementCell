@@ -108,3 +108,12 @@ input.ng-touched.ng-invalid{
 input.ng-touched.ng-valid{
   border:1px solid #4caf50;
 }
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+  height: 40px;
+}
