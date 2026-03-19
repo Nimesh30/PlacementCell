@@ -22,10 +22,22 @@ SELECT new com.Project.PlacementCell.DTO.AdminDTO.AllStudentsDTO(
     sp.branch,
     sp.bachelorsCgpa,
     sp.passingYear,
-    s.placed
+    CASE 
+        WHEN COUNT(CASE WHEN ja.status = 'SELECTED' THEN 1 END) > 0 
+        THEN com.Project.PlacementCell.enums.ApplicationStatus.SELECTED
+        ELSE com.Project.PlacementCell.enums.ApplicationStatus.APPLIED
+    END
 )
 FROM StudentProfile sp
 JOIN sp.student s
+LEFT JOIN JobApplications ja ON ja.student = sp
+GROUP BY 
+    s.studentId,
+    s.email,
+    sp.fullName,
+    sp.branch,
+    sp.bachelorsCgpa,
+    sp.passingYear
 """)
     List<AllStudentsDTO> getAllStudents();
 }

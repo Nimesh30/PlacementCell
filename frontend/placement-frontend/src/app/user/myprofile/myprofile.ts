@@ -36,7 +36,7 @@ export class Myprofile implements OnInit {
       tenthMarks: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
       twelfthMarks: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
       stream: [{ value: '', disabled: true }, Validators.required],
-      branch:[{value:'',disabled:true}],
+      branch:[{value:'',disabled:true}, Validators.required],
       bachelorsCgpa: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(10)]],
       mastersCgpa: [{ value: '', disabled: true }],
       institute: [{ value: '', disabled: true }, Validators.required],
@@ -84,6 +84,7 @@ console.log("In fetch profile...",studentId)
           console.log("API Response with null first time", response)
 
           if (response.imageUrl === "null") {
+            
             response.imageUrl = null;
           }
 
@@ -91,6 +92,7 @@ console.log("In fetch profile...",studentId)
           this.isEditMode = true;
 
           this.academicForm.patchValue(response);
+          this.cdr.detectChanges();
           this.disableForm();   // disable after loading
 
         },
@@ -161,6 +163,7 @@ console.log("In fetch profile...",studentId)
           next: () => {
             alert("Profile updated successfully!");
             this.disableForm();
+            this.cdr.detectChanges();
           },
           error: () => alert("Error updating profile")
         });
@@ -172,10 +175,10 @@ console.log("In fetch profile...",studentId)
           next: () => {
             alert("Profile saved successfully!");
             console.log("Saved profile..");
-            this.cdr.detectChanges();
             
             this.isEditMode = true;
             this.disableForm();
+            this.cdr.detectChanges();
           },
           error: () => alert("Error saving profile")
         });

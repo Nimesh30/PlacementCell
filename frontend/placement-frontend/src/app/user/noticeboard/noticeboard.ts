@@ -1,11 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NoticeService } from 'app/Services/noticeBoard/notice';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-noticeboard',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './noticeboard.html',
-  styleUrl: './noticeboard.css',
+  styleUrls: ['./noticeboard.css'], // ✅ fix (plural)
 })
-export class Noticeboard {
+export class Noticeboard implements OnInit {
 
+  notices: any[] = [];
+
+  constructor(private noticeService: NoticeService,private cdr:ChangeDetectorRef) { }
+
+  ngOnInit(): void {
+    this.loadNotices();
+  }
+
+  loadNotices() {
+    this.noticeService.getNotices().subscribe({
+      next: (data: any) => {
+        this.notices = data.map((n: any) => ({
+          ...n,
+          expanded: false
+        }));
+        this.cdr.detectChanges()
+      },
+      error: (err) => {
+        console.error("Error fetching notices", err);
+      }
+    });
+  }
+
+  toggleNotice(selected: any) {
+    this.notices.forEach(n => {
+      if (n !== selected) n.expanded = false;
+    });
+    selected.expanded = !selected.expanded;
+  }
+
+  isNew(notice: any): boolean {
+    const now = new Date().getTime();
+    const created = new Date(notice.createdAt).getTime();
+    return (now - created) < (24 * 60 * 60 * 1000);
+  }
 }

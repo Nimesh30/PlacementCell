@@ -10,7 +10,7 @@ import { JobService } from '../../Services/jobservice/jobservice';
 })
 export class UserDashboard implements OnInit {
 
-  // ✅ Signals
+  // Signals
   username = signal<string | null>('');
   jobs = signal<any[]>([]);
   totaljobs=signal(0);

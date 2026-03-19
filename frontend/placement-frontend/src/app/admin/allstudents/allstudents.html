@@ -65,18 +65,14 @@
           <td>{{s.year}}</td>
 
           <td>
-
-            <span *ngIf="s.placed" class="placed">
-              ✔ Placed
+            <span *ngIf="s.status === 'SELECTED'" class="placed">
+              Placed
             </span>
-
-            <span *ngIf="!s.placed" class="not-placed">
-              ✖ Not Placed
+          
+            <span *ngIf="s.status !== 'SELECTED'" class="applied">
+              Applied
             </span>
-
-          </td>
-
-        </tr>
+          </td>        </tr>
 
       </tbody>
 

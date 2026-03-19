@@ -1,3 +1,4 @@
+
 package com.Project.PlacementCell.Repository;
 
 import ch.qos.logback.core.status.Status;
@@ -8,6 +9,7 @@ import com.Project.PlacementCell.DTO.AppliedJobDTO;
 import com.Project.PlacementCell.DTO.JobDTO;
 import com.Project.PlacementCell.DTO.StudentDTO.ApplyJobDTO;
 import com.Project.PlacementCell.Entity.JobApplications;
+import com.Project.PlacementCell.enums.ApplicationStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -55,7 +57,7 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
             FROM JobApplications ja
             JOIN ja.student s
             JOIN ja.job j
-            WHERE ja.status = 'SELECTED'
+            WHERE ja.status = 'SELECTED' order by j.packageLpa desc
             """)
     List<PlacedLeaderBoardDTO> getPlacedLeaderBoard(Pageable pageable);
 
@@ -121,5 +123,5 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
             String company,
             Pageable pageable);
 
-
+    long countByStatus(ApplicationStatus applicationStatus);
 }

@@ -27,7 +27,7 @@ public class UploadService {
                 file.getBytes(),
 //                ObjectUtils.emptyMap()
                 ObjectUtils.asMap(
-                        "resource_type", "raw",
+                        "resource_type", "auto",
 //                        "public_id", file.getOriginalFilename(),
                         "use_filename", true,
                         "unique_filename", false

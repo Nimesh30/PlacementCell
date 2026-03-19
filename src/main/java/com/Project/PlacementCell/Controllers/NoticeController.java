@@ -1,0 +1,40 @@
+package com.Project.PlacementCell.Controller;
+
+import com.Project.PlacementCell.DTO.NoticeDTO;
+import com.Project.PlacementCell.Entity.Notice;
+import com.Project.PlacementCell.Service.NoticeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequestMapping("/api")
+public class NoticeController {
+
+    @Autowired
+    private NoticeService noticeService;
+
+    // ADMIN
+    @PostMapping("/admin/notices")
+    public Notice createNotice(@RequestBody NoticeDTO dto) {
+        return noticeService.createNotice(dto);
+    }
+
+    @PutMapping("/admin/notices/{id}")
+    public Notice updateNotice(@PathVariable Long id, @RequestBody NoticeDTO dto) {
+        return noticeService.updateNotice(id, dto);
+    }
+
+    @DeleteMapping("/admin/notices/{id}")
+    public String deleteNotice(@PathVariable Long id) {
+        noticeService.deleteNotice(id);
+        return "Deleted Successfully";
+    }
+
+    // STUDENT
+    @GetMapping("/students/notices")
+    public List<Notice> getAllNotices() {
+        return noticeService.getAllNotices();
+    }
+}

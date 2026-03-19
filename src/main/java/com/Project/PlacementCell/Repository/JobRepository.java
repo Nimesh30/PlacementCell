@@ -1,3 +1,4 @@
+
 package com.Project.PlacementCell.Repository;
 
 import com.Project.PlacementCell.DTO.CompanyDTO;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public interface JobRepository extends JpaRepository<JobsDetails, Integer> {
 
     List<JobsDetails> findByDeadlineAfterAndActiveTrueOrderByIdDesc(LocalDate date);
-//    Page<JobsDetails> findAllBYOrderByIdDesc(Pageable pageable);
+    //    Page<JobsDetails> findAllBYOrderByIdDesc(Pageable pageable);
     Page<JobsDetails> findAllByOrderByIdDesc(Pageable pageable);
 //
 //    List<JobsDetails> findByDeadlineAfterAndActiveTrueAndCompanyNameContainingIgnoreCaseOrRoleContainingIgnoreCaseOrderByIdDesc(

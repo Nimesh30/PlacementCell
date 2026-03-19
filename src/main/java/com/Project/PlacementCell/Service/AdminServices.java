@@ -1,3 +1,4 @@
+
 package com.Project.PlacementCell.Service;
 
 import com.Project.PlacementCell.DTO.AdminDTO.AllStudentsDTO;
@@ -9,6 +10,7 @@ import com.Project.PlacementCell.Repository.AdminRepository;
 import com.Project.PlacementCell.Repository.JobApplicationsRepository;
 import com.Project.PlacementCell.Repository.JobRepository;
 import com.Project.PlacementCell.Repository.StudentRepository;
+import com.Project.PlacementCell.enums.ApplicationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +40,7 @@ public class AdminServices {
 
         long totalStudents = studentRepository.count();
         long jobsPosted = jobRepository.count();
-        long placedStudents = studentRepository.countByPlacedTrue();
+        long placedStudents = jobApplicationsRepository.countByStatus(ApplicationStatus.SELECTED);
         long applications = jobApplicationsRepository.count();
 
         //Placement LeaderBoard
@@ -69,7 +71,7 @@ public class AdminServices {
 
     public ResponseEntity<?> getStudents() {
 
-            List<AllStudentsDTO> studentsList = adminRepository.getAllStudents();
+        List<AllStudentsDTO> studentsList = adminRepository.getAllStudents();
         return ResponseEntity.ok(studentsList);
     }
 }
