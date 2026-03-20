@@ -44,6 +44,7 @@ public class AuthController {
 
     @PostMapping("/change-password")
     public ResponseEntity<?> changePassword(@RequestBody ChangepasswordDTO changePasswordDTO) {
+        System.out.println("in controller..."+changePasswordDTO.getNewPassword());
         return authService.changePassword(changePasswordDTO);
     }
 

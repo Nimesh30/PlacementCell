@@ -55,11 +55,18 @@ export class Allstudents implements OnInit {
       let filterMatch = true;
       if (this.filterType === "selected") {
         filterMatch = student.status === "SELECTED";
+        console.log("Filter type in first if ",filterMatch)
       }
-
+      
       if (this.filterType === "notPlaced") {
         filterMatch = student.status !== "SELECTED";
+        console.log("Filter type in second if ",filterMatch)
       }
+
+      // if (this.filterType === "notPlaced") {
+      //   filterMatch = student.status === "REJECTED";
+      //   console.log("Filter type in THIRD if ",filterMatch)
+      // }
 
       return searchMatch && filterMatch;
 

@@ -5,17 +5,18 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const token = localStorage.getItem('token');
 
-  // ✅ Skip ALL login APIs
+  //  Skip ALL login APIs
   if (
     req.url.includes('/api/auth/loginUser') ||
-    req.url.includes('/admin/login')
+    req.url.includes('/admin/login') ||
+    req.url.includes('/api/auth/change-password') 
   ) {
     return next(req);
   }
 
   let clonedRequest = req;
 
-  // ✅ Attach token if exists
+  //  Attach token if exists
   if (token) {
     clonedRequest = req.clone({
       setHeaders: {
@@ -34,7 +35,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
         const role = localStorage.getItem('role');
 
-        // 🔥 Role-based redirect
+        //  Role-based redirect
         localStorage.clear();
 
         if (role === 'ADMIN') {

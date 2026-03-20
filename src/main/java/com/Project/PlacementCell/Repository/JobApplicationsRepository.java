@@ -95,7 +95,7 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
         FROM JobApplications ja
         JOIN ja.job j
         WHERE ja.status = 'SELECTED'
-        GROUP BY j.companyName, j.packageLpa
+        GROUP BY j.companyName, j.packageLpa order by j.packageLpa desc
         """)
     List<CompanyWiseHiringDTO> getCompanyHiringStats();
 

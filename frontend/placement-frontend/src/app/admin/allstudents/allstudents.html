@@ -22,7 +22,7 @@
 
     <div class="filters">
       <button (click)="setFilter('all')" [class.active]="filterType==='all'">All</button>
-      <button (click)="setFilter('placed')" [class.active]="filterType==='placed'">Placed</button>
+      <button (click)="setFilter('selected')" [class.active]="filterType==='placed'">Placed</button>
       <button (click)="setFilter('notPlaced')" [class.active]="filterType==='notPlaced'">Not Placed</button>
     </div>
 
@@ -70,8 +70,12 @@
             </span>
           
             <span *ngIf="s.status !== 'SELECTED'" class="applied">
-              Applied
+              Not Placed
             </span>
+
+            <!-- <span *ngIf="s.status === 'REJECTED'" class="applied">
+              Rejected
+            </span> -->
           </td>        </tr>
 
       </tbody>

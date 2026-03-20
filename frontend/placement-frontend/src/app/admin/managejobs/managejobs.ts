@@ -1,7 +1,6 @@
 import { Component,signal,computed, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { Addnewjobmodal } from 'app/addnewjobmodal/addnewjobmodal';
-import { AddNewJobModal } from '../../user/addnewjobmodal/addnewjobmodal';
+import { AddNewJobModal } from 'app/user/addnewjobmodal/addnewjobmodal';
 import { JobService } from 'app/Services/jobservice/jobservice';
 import { HttpClient } from '@angular/common/http';
 import { HostListener } from '@angular/core';

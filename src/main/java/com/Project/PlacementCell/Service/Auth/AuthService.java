@@ -73,7 +73,7 @@ public class AuthService {
         if (optionalStudent.isEmpty()) {
             return ResponseEntity
                     .status(401)
-                    .body("Invalid credentials");
+                    .body("Invalid credentials.......is empty");
         }
 
         Student student = optionalStudent.get();
@@ -84,7 +84,7 @@ public class AuthService {
         )) {
             return ResponseEntity
                     .status(401)
-                    .body("Invalid credentials");
+                    .body("You entered diffferent password..");
         }
 
         // FIRST LOGIN CHECK
