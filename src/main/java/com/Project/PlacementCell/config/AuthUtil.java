@@ -27,7 +27,7 @@ public class AuthUtil {
                .claim("userId",id)
                .claim("role",role)
                .setIssuedAt(new Date())
-               .setExpiration(new Date(System.currentTimeMillis()+1500*60*60))
+               .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*24*7))
                .signWith(getSecretKey())
                .compact();
     }

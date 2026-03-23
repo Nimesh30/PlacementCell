@@ -2,11 +2,11 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobService } from '../../Services/jobservice/jobservice';
 import { OfferReceivedModel } from '../offer-received-model/offer-received-model';
-import { OfferReceivedmodal } from '../offer-receivedmodal/offer-receivedmodal';
+
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [CommonModule,OfferReceivedModel,OfferReceivedmodal],
+  imports: [CommonModule,OfferReceivedModel],
   templateUrl: './user-dashboard.html',
   styleUrl: './user-dashboard.css',
 })

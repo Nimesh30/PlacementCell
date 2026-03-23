@@ -108,5 +108,11 @@ loadApplicationCount(studentId: string) {
       return this.http.get<number>(`http://localhost:8085/students/selected-count/${studentid}`);
   }
 
+  getSelectedOffers(studentId: string) {
+  return this.http.get<any[]>(
+    `http://localhost:8085/students/selected-offers/${studentId}`
+  );
+}
+
     
   }

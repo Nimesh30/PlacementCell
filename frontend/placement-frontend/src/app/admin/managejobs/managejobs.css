@@ -91,6 +91,10 @@
   font-size: 20px;
 }
 
+.companyd h2{
+  font-size:calc(0.325rem + .9vw)
+}
+
 /* Role */
 .role {
   color: #6b7280;

@@ -59,12 +59,5 @@
   </main>
   @if (isOfferModalOpen()) {
   <app-offer-received-model (closeModal)="closeOfferModal()"></app-offer-received-model>
-}
-<!-- 
-<app-offer-receivedmodal></app-offer-receivedmodal> -->
-
-<app-offer-received-model 
-  [style.display]="isOfferModalOpen() ? 'block' : 'none'" 
-  (closeModal)="closeOfferModal()">
-</app-offer-received-model>
+} 
 </div>

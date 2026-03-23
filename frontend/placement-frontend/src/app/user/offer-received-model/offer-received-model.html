@@ -1,34 +1,55 @@
-<div class="overlay">
-  <div class="modal">
+<div class="overlay" (click)="close()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
 
     <!-- Header -->
     <div class="modal-header">
       <h2>Your Offers</h2>
-      <span class="close-btn" (click)="close()">✕</span>
+      <button class="close-btn" (click)="close()">✕</button>
     </div>
 
-    <!-- Offer Card -->
-    <div class="offer-card">
-      <div class="left">
-        <div class="icon">🏢</div>
-        <div>
-          <h3>Wipro</h3>
-          <p>Project Engineer</p>
-          <div class="details">
-            <span>₹ 3.5 LPA</span>
-            <span>📍 Pan India</span>
+    <!-- 🔥 LOOP HERE -->
+    @for (offer of offers(); track offer.applicationId) {
+
+      <div class="offer-card">
+
+        <div class="left">
+          <div class="icon">🏢</div>
+
+          <div class="info">
+            <h3>{{ offer.companyName }}</h3>
+            <p>{{ offer.jobTitle }}</p>
+
+            <div class="details">
+              <span>₹ {{ offer.packageLpa }} LPA</span>
+              <span>📍 {{ offer.location }}</span>
+            </div>
           </div>
+        </div>
+
+        <div class="status">
+          ⏳ {{ offer.studentResponse }}
         </div>
       </div>
 
-      <div class="status">⏳ Awaiting Response</div>
-    </div>
+      <!-- Actions per offer -->
+      <div class="actions">
+        <button class="accept" (click)="acceptOffer(offer)">
+          ✔ Accept Offer
+        </button>
 
-    <!-- Actions -->
-    <div class="actions">
-      <button class="accept" (click)="acceptOffer()">✔ Accept Offer</button>
-      <button class="decline" (click)="declineOffer()">✖ Decline</button>
-    </div>
+        <button class="decline" (click)="declineOffer(offer)">
+          ✖ Decline
+        </button>
+      </div>
+
+    }
+
+    <!-- ✅ If no offers -->
+    @if (offers().length === 0) {
+      <p style="text-align:center; margin-top:20px;">
+        No offers available
+      </p>
+    }
 
   </div>
 </div>
