@@ -44,8 +44,9 @@ export class ChangePassword implements OnInit {
           this.router.navigate(['/login']);
         
         },
-        error: () => {
-          alert("Failed to change password. Try again.");
+        error: (error) => {
+          console.log(error)
+          //  alert("Failed to change password. Try again.");
         }
       });
   }

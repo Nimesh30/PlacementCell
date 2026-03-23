@@ -1,89 +1,159 @@
-  <div class="container">
+<div class="container">
 
-    <!-- Header -->
-    <div class="header">
-      <div>
-        <h1>All Applications</h1>
-        <p>{{totalApplication}} total applications</p>
-      </div>
-
-      <button class="export-btn">
-        ⬇ Export Excel
-      </button>
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h1>All Applications</h1>
+      <p>{{ totalApplication }} total applications</p>
     </div>
 
+    <button class="export-btn">
+      ⬇ Export Excel
+    </button>
+  </div>
 
-    <!-- Filters -->
-    <div class="filters">
+  <!-- ✅ Selection Bar -->
+  @if (selectedCount() > 0) {
+    <div class="selection-bar">
 
-    <input type="text" placeholder="Search student..." class="search" (input)="onSearch($event)">
-   <select class="company-filter" (change)="filterByCompany($event)">
-  @for (com of companies(); track com) {
-    <option [value]="com === 'All' ? '' : com">{{com}}</option>
+      <div class="left">
+        <input 
+          type="checkbox" 
+          [checked]="parentChecked"
+          (change)="onParentChange($event)"
+        />
+        <span>{{ selectedCount() }} selected</span>
+      </div>
+
+      <div class="right">
+        <button 
+          class="status-btn applied"
+          (click)="updateStatus('APPLIED')"
+          [disabled]="selectedCount() === 0"
+        >
+          Applied
+        </button>
+
+        <button 
+          class="status-btn selected"
+          (click)="updateStatus('SELECTED')"
+          [disabled]="selectedCount() === 0"
+        >
+          Selected
+        </button>
+
+        <button 
+          class="status-btn rejected"
+          (click)="updateStatus('REJECTED')"
+          [disabled]="selectedCount() === 0"
+        >
+          Rejected
+        </button>
+
+        <button class="close-btn" (click)="clearSelection()">✕</button>
+      </div>
+
+    </div>
   }
-</select>
-    </div>
 
+  <!-- Filters -->
+  <div class="filters">
 
-    <!-- Table -->
-    <div class="table">
-
-      <div class="table-header">
-  <input 
-    type="checkbox" 
-    [checked]="parentChecked"
-    (change)="onParentChange($event)"
-  />
-        <span>STUDENT</span>
-        <span>COMPANY</span>
-        <span>APPLIED</span>
-        <span>STATUS</span>
-      </div>
-
-
-        <!-- <h1>This is not only the thign you want to do for fetch the  data</h1>
-    -->
-    @for (app of applications(); track app.id){
-
-
-        <div class="table-row">
-           <label>
+    <!-- 🔍 Search -->
     <input 
-      type="checkbox"
-      [(ngModel)]="app.checked"
-      (change)="onChildChange()"
+      type="text" 
+      placeholder="Search student..." 
+      class="search" 
+      (input)="onSearch($event)"
     />
-    {{ app.name }}
-  </label>
-          <span>{{app.studentName}}</span>
-          <span>{{app.companyName}}</span>
-      <span>{{ app.applicationdate | date:'dd-MM-yyyy HH:mm' }}</span>
 
-          <span
-            class="status">
-            {{app.status}}
-          </span>
-
-        </div>
-
+    <!-- 🏢 Company -->
+    <select class="company-filter" (change)="filterByCompany($event)">
+      @for (com of companies(); track com) {
+        <option [value]="com === 'All' ? '' : com">
+          {{ com }}
+        </option>
       }
+    </select>
 
-    </div>
-  <div class="pagination">
-
-  <button (click)="prevPage()" [disabled]="currentPage() === 0">
-    ⬅ Previous
-  </button>
-
-  <span>
-    Page {{ currentPage() + 1 }} of {{ totalPages() }}
-  </span>
-
-  <button (click)="nextPage()" 
-          [disabled]="currentPage() >= totalPages() - 1">
-    Next ➡
-  </button>
-
-</div>
+    <!-- 📊 Status -->
+    <select class="company-filter" (change)="filterByStatus($event)">
+      <option value="">All Status</option>
+      @for (status of statuses(); track status) {
+        <option [value]="status">
+          {{ status.toLowerCase() | titlecase }}
+        </option>
+      }
+    </select>
 
   </div>
+
+  <!-- Table -->
+  <div class="table">
+
+    <!-- Header -->
+    <div class="table-header">
+      <input 
+        type="checkbox" 
+        [checked]="parentChecked"
+        (change)="onParentChange($event)"
+      />
+      <span>STUDENT</span>
+      <span>COMPANY</span>
+      <span>APPLIED</span>
+      <span>STATUS</span>
+    </div>
+
+    <!-- Rows -->
+    @for (app of applications(); track app.id) {
+      <div class="table-row">
+
+        <!-- Checkbox -->
+        <input 
+          type="checkbox"
+          [(ngModel)]="app.checked"
+          (change)="onChildChange()"
+        />
+
+        <span>{{ app.studentName }}</span>
+        <span>{{ app.companyName }}</span>
+        <span>{{ app.applicationdate | date:'dd-MM-yyyy HH:mm' }}</span>
+
+        <!-- Status Badge -->
+        <span 
+          class="status"
+          [ngClass]="{
+            'applied': app.status === 'APPLIED',
+            'selected': app.status === 'SELECTED',
+            'rejected': app.status === 'REJECTED'
+          }"
+        >
+          {{ app.status }}
+        </span>
+
+      </div>
+    }
+
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+
+    <button (click)="prevPage()" [disabled]="currentPage() === 0">
+      ⬅ Previous
+    </button>
+
+    <span>
+      Page {{ currentPage() + 1 }} of {{ totalPages() }}
+    </span>
+
+    <button 
+      (click)="nextPage()" 
+      [disabled]="currentPage() >= totalPages() - 1"
+    >
+      Next ➡
+    </button>
+
+  </div>
+
+</div>

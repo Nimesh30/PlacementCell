@@ -104,5 +104,9 @@ loadApplicationCount(studentId: string) {
     return this.http.put(`http://localhost:8085/api/jobs/updatejob/${jobId}`, payload);
   }
 
+    jobsoffercount(studentid: string) {
+      return this.http.get<number>(`http://localhost:8085/students/selected-count/${studentid}`);
+  }
+
     
   }

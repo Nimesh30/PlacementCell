@@ -1,149 +1,169 @@
 import { Component, signal } from '@angular/core';
-// import { JobService } from 'app/Services/jobservice/jobservice';
 import { ApplicationsService } from 'app/Services/applications-service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-allapplications',
-  imports: [DatePipe,FormsModule],
+  standalone: true,
+  imports: [DatePipe, FormsModule, TitleCasePipe,CommonModule],
   templateUrl: './allapplications.html',
   styleUrl: './allapplications.css',
 })
 export class Allapplications {
 
-   totalApplication=localStorage.getItem('totalApplication');
-  // currentPage=0;
-  // totalPages=10;
+  totalApplication = localStorage.getItem('totalApplication');
+
   applications = signal<any[]>([]);
   companies = signal<any[]>([]);
+  statuses = signal<string[]>([]);
+
   currentPage = signal(0);
-  pageSize = 6;
-  selectedCompany = signal('');
-searchKeyword = signal('');
-companyList: string[] = [];
-selectedCompanies: string[] = [];
-
   totalPages = signal(0);
-  
-parentChecked: boolean = false;
-  
-  constructor(private appService : ApplicationsService){ }
 
- onSearch(event: any) {
+  pageSize = 6;
 
-  const keyword = event.target.value;
+  selectedCompany = signal('');
+  selectedStatus = signal('');
+  searchKeyword = signal('');
 
-  this.searchKeyword.set(keyword);
-  this.currentPage.set(0);
+  selectedCount = signal(0);
+  parentChecked: boolean = false;
 
-  this.loadJobs();
+  constructor(private appService: ApplicationsService) {}
 
-}
+  ngOnInit(): void {
+    this.loadJobs();
 
-filterByCompany(event: any) {
+    this.appService.getAllCompanies().subscribe((data: any) => {
+      this.companies.set(["All", ...data]);
+    });
 
-  const company = event.target.value;
-
-  this.selectedCompany.set(company);
-  this.currentPage.set(0);
-
-  this.loadJobs();
-
-}
-
-  // companies=["Web","infosisy"];
-
-ngOnInit(): void {
-
-  this.loadJobs();
-
-  this.appService.getAllCompanies()
-  .subscribe((data: any) => {
-
-    this.companies.set(["All", ...data]);
-
-  });
-
-}  
-  
-loadJobs() {
-
-  this.appService.getStudentwithCompan(
-    this.searchKeyword(),
-    this.selectedCompany(),
-    this.currentPage(),
-    this.pageSize
-  ).subscribe((data: any) => {
-
-    this.applications.set(data.content);
-    this.totalPages.set(data.totalPages);
-
-  });
-
-}
-
-// loadCompanies(){
-//   this.appService.getAllCompanies()
-//   .subscribe((data:any)=>{
-//     this.data
-//   })
-// }
-
-onCompanyChange(event: any) {
-
-  const company = event.target.value;
-
-  if (company === 'All') {
-
-    if (event.target.checked) {
-      this.selectedCompanies = [...this.companyList.slice(1)];
-    } else {
-      this.selectedCompanies = [];
-    }
-
-  } else {
-
-    if (event.target.checked) {
-      this.selectedCompanies.push(company);
-    } else {
-      this.selectedCompanies = this.selectedCompanies.filter(c => c !== company);
-    }
-
+    this.appService.getStatuses().subscribe((data: string[]) => {
+      this.statuses.set(data);
+    });
   }
 
-  console.log(this.selectedCompanies);
-}
-
-nextPage() {
-  if (this.currentPage() < this.totalPages() - 1) {
-    this.currentPage.update(p => p + 1);
+  // 🔍 SEARCH
+  onSearch(event: any) {
+    this.searchKeyword.set(event.target.value);
+    this.currentPage.set(0);
     this.loadJobs();
   }
-}
 
-prevPage() {
-  if (this.currentPage() > 0) {
-    this.currentPage.update(p => p - 1);
+  // 🏢 FILTER COMPANY
+  filterByCompany(event: any) {
+    this.selectedCompany.set(event.target.value);
+    this.currentPage.set(0);
     this.loadJobs();
   }
-}
 
-onParentChange(event: any) {
-  this.parentChecked = event.target.checked;
+  // 📊 FILTER STATUS
+  filterByStatus(event: any) {
+    this.selectedStatus.set(event.target.value);
+    this.currentPage.set(0);
+    this.loadJobs();
+  }
 
-  this.applications().forEach(item => {
-    item.checked = this.parentChecked;
-  });
-}
+  // 📥 LOAD DATA (IMPORTANT FIX HERE)
+  loadJobs() {
 
-// ✅ Child checkbox (multiple allowed)
-onChildChange() {
+    const status = this.selectedStatus()
+      ? this.selectedStatus().toUpperCase()
+      : '';
 
-  // Check if ALL children are selected
-  this.parentChecked = this.applications().every(item => item.checked);
+    this.appService.getStudentwithCompan(
+      this.searchKeyword(),
+      this.selectedCompany(),
+      status,
+      this.currentPage(),
+      this.pageSize
+    ).subscribe((data: any) => {
 
-}
+      // 🔥 FIX: normalize id + add checked
+      this.applications.set(
+        data.content.map((item: any) => ({
+          ...item,
+          id: item.applicationid,   // ✅ IMPORTANT FIX
+          checked: false
+        }))
+      );
 
+      this.totalPages.set(data.totalPages);
+    });
+  }
 
+  // ✅ UPDATE STATUS
+  updateStatus(status: string) {
+
+    const selectedIds = this.applications()
+      .filter(app => app.checked)
+      .map(app => app.id);   // ✅ now safe
+
+    console.log("Payload:", { ids: selectedIds, status });
+
+    if (selectedIds.length === 0) {
+      alert("No students selected");
+      return;
+    }
+
+    this.appService.updateApplicationStatus(selectedIds, status)
+      .subscribe({
+        next: () => {
+          alert("Status Updated ✅");
+
+          this.clearSelection();
+          this.loadJobs(); // refresh UI
+        },
+        error: (err) => {
+          console.error(err);
+          alert("Update failed ❌");
+        }
+      });
+  }
+
+  // ✅ SELECT ALL
+  onParentChange(event: any) {
+    this.parentChecked = event.target.checked;
+
+    this.applications().forEach(item => {
+      item.checked = this.parentChecked;
+    });
+
+    this.updateSelectedCount();
+  }
+
+  // ✅ CHILD CHECKBOX
+  onChildChange() {
+    this.parentChecked = this.applications().every(item => item.checked);
+    this.updateSelectedCount();
+  }
+
+  // ✅ COUNT
+  updateSelectedCount() {
+    const count = this.applications().filter(item => item.checked).length;
+    this.selectedCount.set(count);
+  }
+
+  // ❌ CLEAR
+  clearSelection() {
+    this.applications().forEach(item => item.checked = false);
+    this.parentChecked = false;
+    this.selectedCount.set(0);
+  }
+
+  // ⏭ PAGINATION
+  nextPage() {
+    if (this.currentPage() < this.totalPages() - 1) {
+      this.currentPage.update(p => p + 1);
+      this.loadJobs();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage() > 0) {
+      this.currentPage.update(p => p - 1);
+      this.loadJobs();
+    }
+  }
 }

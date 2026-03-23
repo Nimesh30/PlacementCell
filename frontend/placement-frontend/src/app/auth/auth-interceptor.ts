@@ -8,7 +8,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   // ✅ Skip ALL login APIs
   if (
     req.url.includes('/api/auth/loginUser') ||
-    req.url.includes('/admin/login')
+    req.url.includes('/admin/login')||
+    req.url.includes('/api/auth/change-password')
   ) {
     return next(req);
   }

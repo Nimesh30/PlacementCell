@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlacedLeaderBoardDTO {
-
+    private  Long applicationid;
     private String studentName;
     private Branch branch;
     private String companyName;
