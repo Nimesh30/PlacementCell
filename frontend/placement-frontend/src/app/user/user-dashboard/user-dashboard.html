@@ -56,11 +56,8 @@
 
   </div>
 </section>
-</main>
-
-<app-offer-received-model
-  *ngIf="isOfferModalOpen()"
-  (closeModal)="closeOfferModal()">
-</app-offer-received-model>
-
+  </main>
+  @if (isOfferModalOpen()) {
+  <app-offer-received-model (closeModal)="closeOfferModal()"></app-offer-received-model>
+} 
 </div>

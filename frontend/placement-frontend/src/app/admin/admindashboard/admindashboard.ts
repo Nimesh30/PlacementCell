@@ -32,7 +32,15 @@ export class Admindashboard implements OnInit {
       error: (err) => {
         console.error("Error fetching dashboard:", err);
       }
+      
     });
+  }
+
+  isModalOpen = true; // Set to true to test, or false by default
+
+  // Add this function to handle the (closeModal) event
+  toggleModal() {
+    this.isModalOpen = false;
   }
 
 }

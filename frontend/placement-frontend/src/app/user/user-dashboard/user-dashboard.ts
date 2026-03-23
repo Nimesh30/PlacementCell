@@ -2,8 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobService } from '../../Services/jobservice/jobservice';
 import { OfferReceivedModel } from '../offer-received-model/offer-received-model';
-// import { OfferReceivedmodal } from '../offer-receivedmodal/offer-receivedmodal';
-import { ChangeDetectorRef } from '@angular/core';
+
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
@@ -19,7 +18,7 @@ export class UserDashboard implements OnInit {
   totaljobs=signal(0);
   totaloffers=signal(0);
   isOfferModalOpen = signal(false);
-  constructor(public jobService:JobService,private cdr:ChangeDetectorRef) {}
+  constructor(public jobService:JobService) {}
 
   ngOnInit(): void {
 
@@ -59,21 +58,10 @@ getstudenttotaloffers() {
   }
 }
 
-// openOfferModal() {
-//   console.log("clicked ...1");
-//   this.isOfferModalOpen.set(true);
-//   console.log("Model open in first condition...")
-// }
-
-
-  openOfferModal() {
-    console.log("clicked");
-    if (!this.isOfferModalOpen()) {
-      console.log("Model open in second condition...")
-      this.cdr.detectChanges();
-      this.isOfferModalOpen.set(true);
-    }
-  }
+openOfferModal() {
+  console.log("clicked");
+  this.isOfferModalOpen.set(true);
+}
 
 closeOfferModal() {
   this.isOfferModalOpen.set(false);

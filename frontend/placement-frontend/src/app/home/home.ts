@@ -9,11 +9,12 @@ import {Router, RouterLink } from '@angular/router';
 export class Home {
 
   constructor(private router: Router) { 
-    
   }
+
   goToLogin() {
     this.router.navigate(['/login']);
   }
+  
   goTOAdminLogin(){
     this.router.navigate(['/adminlogin']);
   }
