@@ -7,13 +7,16 @@ import com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO;
 import com.Project.PlacementCell.DTO.AdminDTO.StudentExportDTO;
 import com.Project.PlacementCell.DTO.AppliedJobDTO;
 import com.Project.PlacementCell.DTO.JobDTO;
+import com.Project.PlacementCell.DTO.OfferDTO;
 import com.Project.PlacementCell.DTO.StudentDTO.ApplyJobDTO;
 import com.Project.PlacementCell.Entity.JobApplications;
 import com.Project.PlacementCell.enums.ApplicationStatus;
+import com.Project.PlacementCell.enums.StudentResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -42,11 +45,12 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
             WHERE ja.student.student.studentId = :studentId
             ORDER BY ja.appliedAt DESC
             """)
-    Page<AppliedJobDTO> findJobsAppliedByStudent(String studentId,Pageable pageable);
+    Page<AppliedJobDTO> findJobsAppliedByStudent(String studentId, Pageable pageable);
 
     @Query("""
             
                 SELECT new com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO(
+                           ja.applicationId,
                 s.fullName,
                 s.branch,
                 j.companyName,
@@ -62,7 +66,8 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
     List<PlacedLeaderBoardDTO> getPlacedLeaderBoard(Pageable pageable);
 
     @Query("""
-        SELECT COUNT(ja)
+
+            SELECT COUNT(ja)
         FROM JobApplications ja
         WHERE ja.job.id = :jobId
         """)
@@ -102,6 +107,7 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
 
     @Query("""
             SELECT new com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO(
+                ja.applicationId,
                 s.fullName,
                 s.branch,
                 j.companyName,
@@ -115,13 +121,41 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
             WHERE
             (:company IS NULL OR :company = '' OR j.companyName = :company)
             AND
-            (:keyword IS NULL OR :keyword = '' 
-                OR LOWER(s.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')))
+            (:keyword IS NULL OR :keyword = '' OR LOWER(s.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')))
+            AND 
+            (:status IS NULL OR ja.status = :status)           
             """)
     Page<PlacedLeaderBoardDTO> getStudentsandCompany(
             String keyword,
             String company,
+            ApplicationStatus status,
             Pageable pageable);
 
     long countByStatus(ApplicationStatus applicationStatus);
-}
+
+    long countByStudent_Student_StudentIdAndStatusAndStudentResponseNot(
+            String studentId,
+            ApplicationStatus status,
+            StudentResponse response
+    );
+@Query("""
+SELECT new com.Project.PlacementCell.DTO.OfferDTO(
+    a.applicationId,
+    j.companyName,
+    j.jobTitle,
+    j.packageLpa,
+    j.location,
+    a.status,
+    a.studentResponse,
+    a.appliedAt
+)
+FROM JobApplications a
+JOIN a.job j
+JOIN a.student sp
+JOIN sp.student s
+WHERE s.studentId = :studentId  
+AND a.status = 'SELECTED'
+AND a.studentResponse <> 'DECLINED'
+""")
+List<OfferDTO> getSelectedOffers(@Param("studentId") String studentId);
+    }

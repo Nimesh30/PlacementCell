@@ -32,12 +32,12 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         //authetication for student
-                        .requestMatchers("/api/auth/**").permitAll()
+//                        .requestMatchers("/api/auth/**").permitAll()
                         //authentication for admin
-                        .requestMatchers("/admin/login").permitAll()
+//                        .requestMatchers("/admin/login").permitAll()
 
-                        .requestMatchers("/adminlayout/admindashboard").hasRole("ADMIN")
-
+//                        .requestMatchers("/adminlayout/admindashboard").hasRole("ADMIN")
+                        .requestMatchers("/api/auth/change-password").permitAll()
                         // 🔒 all other APIs require token
                                 .anyRequest().permitAll()
 //                        .anyRequest().authenticated()

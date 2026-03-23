@@ -16,10 +16,10 @@
         <h3>{{jobService.applicationCount()}}</h3>
         <p>Applications Sent</p>
       </div>
-      <div class="card stat-card">
+      <div class="card stat-card" (click)="openOfferModal()">
         <div class="icon-box green-bg">✅</div>
-        <h3>0</h3>
-        <p>Offers Received</p>
+          <h3>{{totaloffers()}}</h3>
+          <p>Offers Received</p>
       </div>
       <div class="card stat-card">
         <div class="icon-box grey-bg">🕒</div>
@@ -57,5 +57,14 @@
   </div>
 </section>
   </main>
-</div>
+  @if (isOfferModalOpen()) {
+  <app-offer-received-model (closeModal)="closeOfferModal()"></app-offer-received-model>
+}
+<!-- 
+<app-offer-receivedmodal></app-offer-receivedmodal> -->
 
+<app-offer-received-model 
+  [style.display]="isOfferModalOpen() ? 'block' : 'none'" 
+  (closeModal)="closeOfferModal()">
+</app-offer-received-model>
+</div>

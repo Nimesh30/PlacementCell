@@ -1,10 +1,12 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobService } from '../../Services/jobservice/jobservice';
+import { OfferReceivedModel } from '../offer-received-model/offer-received-model';
+import { OfferReceivedmodal } from '../offer-receivedmodal/offer-receivedmodal';
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,OfferReceivedModel,OfferReceivedmodal],
   templateUrl: './user-dashboard.html',
   styleUrl: './user-dashboard.css',
 })
@@ -14,6 +16,8 @@ export class UserDashboard implements OnInit {
   username = signal<string | null>('');
   jobs = signal<any[]>([]);
   totaljobs=signal(0);
+  totaloffers=signal(0);
+  isOfferModalOpen = signal(false);
   constructor(public jobService:JobService) {}
 
   ngOnInit(): void {
@@ -30,9 +34,38 @@ export class UserDashboard implements OnInit {
     if(studentId){
     this.jobService.loadApplicationCount(studentId);
     }
+
+    this.getstudenttotaloffers();
+
   }
 
   getInitial(companyName: string): string {
     return companyName?.charAt(0).toUpperCase();
   }
+
+getstudenttotaloffers() {
+  const studentId = localStorage.getItem("studentId");
+
+  if (studentId) {
+    this.jobService.jobsoffercount(studentId).subscribe({
+      next: (res: number) => {
+        this.totaloffers.set(res);
+      },
+      error: (err) => {
+        console.error("Failed to fetch offers count:", err);
+      }
+    });
+  }
+}
+
+openOfferModal() {
+  console.log("clicked");
+  this.isOfferModalOpen.set(true);
+}
+
+closeOfferModal() {
+  this.isOfferModalOpen.set(false);
+}
+
+
 }

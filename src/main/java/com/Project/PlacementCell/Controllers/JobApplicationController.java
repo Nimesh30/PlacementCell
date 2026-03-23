@@ -1,11 +1,13 @@
 package com.Project.PlacementCell.Controllers;
 
 import com.Project.PlacementCell.DTO.AppliedJobDTO;
+import com.Project.PlacementCell.DTO.StatusUpdateDTO;
 import com.Project.PlacementCell.DTO.StudentDTO.ApplyJobDTO;
 import com.Project.PlacementCell.Entity.JobApplications;
 import com.Project.PlacementCell.Entity.StudentProfile;
 import com.Project.PlacementCell.Service.JobAppllicationService;
 //import org.springframework.data.domain.Pageable;
+import com.Project.PlacementCell.enums.ApplicationStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -49,5 +51,17 @@ public class JobApplicationController {
     }
 
 
+        @GetMapping("/status")
+        public ApplicationStatus[] getAllStatuses() {
+            return ApplicationStatus.values();
+        }
+
+        @PutMapping("/updatestatus")
+        public String updateStatus(@RequestBody StatusUpdateDTO dto) {
+
+            jobAppllicationService.updateStatus(dto.getIds(), dto.getStatus());
+
+            return "Status Updated Successfully";
+        }
 
 }

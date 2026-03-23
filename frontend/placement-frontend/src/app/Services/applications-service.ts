@@ -12,11 +12,12 @@ export class ApplicationsService {
   getStudentwithCompan(
     keyword: string,
     company: string,
+    status:string,
     page: number,
     size: number
   ) {
     return this.http.get(
-      `${this.baseUrl}/studentwithCompanyStatus?keyword=${keyword}&company=${company}&page=${page}&size=${size}`
+      `${this.baseUrl}/studentwithCompanyStatus?keyword=${keyword}&company=${company}&status=${status}&page=${page}&size=${size}`
     );
   }
 
@@ -25,6 +26,19 @@ export class ApplicationsService {
         `${this.baseUrl}/getAllcompanies`
     );
   }
+
+ updateApplicationStatus(ids: number[], status: string) {
+  return this.http.put(
+    'http://localhost:8085/api/applications/updatestatus',
+    {
+      ids: ids,
+      status: status
+    },
+    {
+      responseType: 'text' // ✅ FIX
+    }
+  );
+}
 
 
 
@@ -36,5 +50,9 @@ export class ApplicationsService {
   // createNotice(data: any) {
   //   return this.http.post('http://localhost:8080/api/admin/notices', data);
   // }
+
+  getStatuses() {
+  return this.http.get<string[]>('http://localhost:8085/api/applications/status');
+  }
 
 }

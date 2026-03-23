@@ -2,6 +2,7 @@ package com.Project.PlacementCell.Service;
 
 import com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO;
 import com.Project.PlacementCell.DTO.AppliedJobDTO;
+import com.Project.PlacementCell.DTO.OfferDTO;
 import com.Project.PlacementCell.DTO.StudentDTO.ApplyJobDTO;
 import com.Project.PlacementCell.Entity.JobApplications;
 import com.Project.PlacementCell.Entity.JobsDetails;
@@ -10,11 +11,14 @@ import com.Project.PlacementCell.Repository.JobApplicationsRepository;
 import com.Project.PlacementCell.Repository.JobRepository;
 import com.Project.PlacementCell.Repository.StudentProfileRepository;
 
+import com.Project.PlacementCell.enums.ApplicationStatus;
+import com.Project.PlacementCell.enums.StudentResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Map;
@@ -68,9 +72,51 @@ public class JobAppllicationService {
     public Page<PlacedLeaderBoardDTO> getStudentsandCompany(
             String keyword,
             String company,
+            ApplicationStatus status,
             Pageable page) {
 
-        return jobApplicationsRepository.getStudentsandCompany(keyword, company, page);
+        return jobApplicationsRepository.getStudentsandCompany(keyword, company,status, page);
+    }
+
+    public void updateStatus(List<Long> ids, String status) {
+
+        ApplicationStatus newStatus = ApplicationStatus.valueOf(status);
+
+        List<JobApplications> applications = jobApplicationsRepository.findAllById(ids);
+
+        for (JobApplications app : applications) {
+            app.setStatus(newStatus);
+
+            if(newStatus == ApplicationStatus.SELECTED && app.getStudentResponse() == null){
+                app.setStudentResponse(StudentResponse.PENDING);
+            }
+            else {
+                app.setStudentResponse(null);
+            }
+        }
+
+        jobApplicationsRepository.saveAll(applications);
+    }
+
+    public long getSelectedCount(String studentId) {
+        return jobApplicationsRepository.countByStudent_Student_StudentIdAndStatusAndStudentResponseNot(
+                studentId,
+                ApplicationStatus.SELECTED,
+                StudentResponse.DECLINED
+        );
+    }
+
+    public List<OfferDTO> getSelectedOffers(String studentId) {
+        return jobApplicationsRepository.getSelectedOffers(studentId);
+    }
+
+    // ✅ Accept / Reject
+    public void updateStudentResponse(Long id, String response) {
+        JobApplications app = jobApplicationsRepository.findById(id).orElseThrow();
+
+        app.setStudentResponse(StudentResponse.valueOf(response));
+
+        jobApplicationsRepository.save(app);
     }
 
 }

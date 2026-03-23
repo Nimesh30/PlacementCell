@@ -1,0 +1,34 @@
+<div class="overlay">
+  <div class="modal">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <h2>Your Offers</h2>
+      <span class="close-btn" (click)="close()">✕</span>
+    </div>
+
+    <!-- Offer Card -->
+    <div class="offer-card">
+      <div class="left">
+        <div class="icon">🏢</div>
+        <div>
+          <h3>Wipro</h3>
+          <p>Project Engineer</p>
+          <div class="details">
+            <span>₹ 3.5 LPA</span>
+            <span>📍 Pan India</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="status">⏳ Awaiting Response</div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="accept" (click)="acceptOffer()">✔ Accept Offer</button>
+      <button class="decline" (click)="declineOffer()">✖ Decline</button>
+    </div>
+
+  </div>
+</div>

@@ -1,6 +1,7 @@
 package com.Project.PlacementCell.Entity;
 
 import com.Project.PlacementCell.enums.ApplicationStatus;
+import com.Project.PlacementCell.enums.StudentResponse;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -32,6 +33,8 @@ public class JobApplications {
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status = ApplicationStatus.APPLIED;
 
+    @Enumerated(EnumType.STRING)
+    private StudentResponse studentResponse;
     @org.hibernate.annotations.CreationTimestamp
     private LocalDateTime appliedAt;
 
