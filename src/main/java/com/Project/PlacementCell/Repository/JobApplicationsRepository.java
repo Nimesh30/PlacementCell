@@ -106,31 +106,31 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
 
 
     @Query("""
-            SELECT new com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO(
-                ja.applicationId,
-                s.fullName,
-                s.branch,
-                j.companyName,
-                j.packageLpa,
-                ja.appliedAt,
-                ja.status
-            )
-            FROM JobApplications ja
-            JOIN ja.student s
-            JOIN ja.job j
-            WHERE
-            (:company IS NULL OR :company = '' OR j.companyName = :company)
-            AND
-            (:keyword IS NULL OR :keyword = '' OR LOWER(s.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')))
-            AND 
-            (:status IS NULL OR ja.status = :status)           
-            """)
+        SELECT new com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO(
+            ja.applicationId,
+            s.fullName, 
+            s.branch,
+            j.companyName,
+            j.packageLpa,
+            ja.appliedAt,
+            ja.status
+        )
+        FROM JobApplications ja
+        JOIN ja.student s
+        JOIN ja.job j
+        WHERE
+        (:company IS NULL OR :company = '' OR j.companyName = :company)
+        AND
+        (:keyword IS NULL OR :keyword = '' OR LOWER(s.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')))
+        AND 
+        (:status IS NULL OR ja.status = :status)
+        ORDER BY ja.appliedAt DESC
+        """)
     Page<PlacedLeaderBoardDTO> getStudentsandCompany(
             String keyword,
             String company,
             ApplicationStatus status,
             Pageable pageable);
-
     long countByStatus(ApplicationStatus applicationStatus);
 
     long countByStudent_Student_StudentIdAndStatusAndStudentResponseNot(
