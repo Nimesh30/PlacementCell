@@ -106,25 +106,26 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
 
 
     @Query("""
-            SELECT new com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO(
-                ja.applicationId,
-                s.fullName,
-                s.branch,
-                j.companyName,
-                j.packageLpa,
-                ja.appliedAt,
-                ja.status
-            )
-            FROM JobApplications ja
-            JOIN ja.student s
-            JOIN ja.job j
-            WHERE
-            (:company IS NULL OR :company = '' OR j.companyName = :company)
-            AND
-            (:keyword IS NULL OR :keyword = '' OR LOWER(s.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')))
-            AND 
-            (:status IS NULL OR ja.status = :status)           
-            """)
+        SELECT new com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO(
+            ja.applicationId,
+            s.fullName, 
+            s.branch,
+            j.companyName,
+            j.packageLpa,
+            ja.appliedAt,
+            ja.status
+        )
+        FROM JobApplications ja
+        JOIN ja.student s
+        JOIN ja.job j
+        WHERE
+        (:company IS NULL OR :company = '' OR j.companyName = :company)
+        AND
+        (:keyword IS NULL OR :keyword = '' OR LOWER(s.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')))
+        AND 
+        (:status IS NULL OR ja.status = :status)
+        ORDER BY ja.appliedAt DESC
+        """)
     Page<PlacedLeaderBoardDTO> getStudentsandCompany(
             String keyword,
             String company,
@@ -138,24 +139,25 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
             ApplicationStatus status,
             StudentResponse response
     );
-@Query("""
-SELECT new com.Project.PlacementCell.DTO.OfferDTO(
-    a.applicationId,
-    j.companyName,
-    j.jobTitle,
-    j.packageLpa,
-    j.location,
-    a.status,
-    a.studentResponse,
-    a.appliedAt
-)
-FROM JobApplications a
-JOIN a.job j
-JOIN a.student sp
-JOIN sp.student s
-WHERE s.studentId = :studentId  
-AND a.status = 'SELECTED'
-AND a.studentResponse <> 'DECLINED'
-""")
-List<OfferDTO> getSelectedOffers(@Param("studentId") String studentId);
-    }
+
+    @Query("""
+            SELECT new com.Project.PlacementCell.DTO.OfferDTO(
+                a.applicationId,
+                j.companyName,
+                j.jobTitle,
+                j.packageLpa,
+                j.location,
+                a.status,
+                a.studentResponse,
+                a.appliedAt
+            )
+            FROM JobApplications a
+            JOIN a.job j
+            JOIN a.student sp
+            JOIN sp.student s
+            WHERE s.studentId = :studentId  
+            AND a.status = 'SELECTED'
+            AND a.studentResponse <> 'DECLINED'
+            """)
+    List<OfferDTO> getSelectedOffers(@Param("studentId") String studentId);
+}
