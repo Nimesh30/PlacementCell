@@ -78,7 +78,7 @@ public class StudentService {
         );
     }
 
-    public StudentProfile addStudent(
+    public StudentProfileResponse addStudent(
             StudentProfile studProfile,
             MultipartFile file,
             String studentId
@@ -87,19 +87,17 @@ public class StudentService {
         Student student = studentRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 
-        Optional<StudentProfile> existingProfile =
-                studentProfileRepo.findByStudent_StudentId(studentId);
-//        System.out.println("Existing Profile"+existingProfile);
         StudentProfile profile;
 
-        if (existingProfile.isPresent()) {
-            profile = existingProfile.get(); // UPDATE
+        if (student.getProfile() != null) {
+            // UPDATE
+            profile = student.getProfile();
         } else {
-            profile = new StudentProfile(); // CREATE
-            profile.setStudent(student);
+            // CREATE
+            profile = new StudentProfile();
         }
 
-        // Set all fields
+        // ✅ Set fields
         profile.setFullName(studProfile.getFullName());
         profile.setPersonalEmail(studProfile.getPersonalEmail());
         profile.setMobileNumber(studProfile.getMobileNumber());
@@ -112,13 +110,42 @@ public class StudentService {
         profile.setDepartment(studProfile.getDepartment());
         profile.setBranch(studProfile.getBranch());
         profile.setPassingYear(studProfile.getPassingYear());
+
         if (file != null && !file.isEmpty()) {
-            UploadResponse uploadResponse = uploadService. uploadImage(file);
+            UploadResponse uploadResponse = uploadService.uploadImage(file);
             profile.setImageUrl(uploadResponse.getImageUrl());
             profile.setImagePublicId(uploadResponse.getPublicId());
         }
 
-        return studentProfileRepo.save(profile);
+        // 🔥 RELATION
+        student.setProfile(profile);
+        profile.setStudent(student);
+
+        studentRepository.save(student);
+
+        // ✅ RETURN DTO INSTEAD OF ENTITY
+        return new StudentProfileResponse(
+                student.getStudentId(),
+                student.getEmail(),
+
+                profile.getFullName(),
+                profile.getPersonalEmail(),
+                profile.getMobileNumber(),
+
+                profile.getTenthMarks(),
+                profile.getTwelfthMarks(),
+                profile.getStream(),
+
+                profile.getBachelorsCgpa(),
+                profile.getMastersCgpa(),
+
+                profile.getInstitute(),
+                profile.getDepartment(),
+                profile.getBranch(),
+                profile.getPassingYear(),
+
+                profile.getImageUrl()
+        );
     }
 
     public Optional<Student> getStudentbyE(String email) {

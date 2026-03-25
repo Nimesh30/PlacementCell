@@ -1,6 +1,4 @@
-
 package com.Project.PlacementCell.Repository;
-
 //import com.Project.PlacementCell.DTO.CompanyDTO;
 import com.Project.PlacementCell.Entity.JobsDetails;
 import org.springframework.data.domain.Page;
@@ -64,7 +62,4 @@ public interface JobRepository extends JpaRepository<JobsDetails, Integer> {
             @Param("status") String status,
             Pageable pageable
     );
-
-
-
 }

@@ -128,63 +128,56 @@ export class Myprofile implements OnInit {
 
   onSave(): void {
 
-    // If not editable → make editable first
-    if (!this.isFormEditable) {
-      this.enableForm();
-      return;
-    }
-
-    if (this.academicForm.invalid) {
-      this.academicForm.markAllAsTouched();
-      return;
-    }
-
-    const studentId = localStorage.getItem('studentId');
-    if (!studentId) {
-      alert("Student not logged");
-      return;
-    }
-
-    const rawData = this.academicForm.getRawValue();
-    const formData = new FormData();
-
-    Object.keys(rawData).forEach(key => {
-      formData.append(key, rawData[key]);
-    });
-
-    if (this.selectedFile) {
-      formData.append('file', this.selectedFile);
-    }
-
-    if (this.isEditMode) {
-      console.log("Updating mode on before url..", formData)
-      this.http.patch(`${this.baseUrl}/update/${studentId}`, formData)
-        .subscribe({
-          next: () => {
-            alert("Profile updated successfully!");
-            this.disableForm();
-            this.cdr.detectChanges();
-          },
-          error: () => alert("Error updating profile")
-        });
-
-    } else {
-      console.log("Posting data in else part ", formData)
-      this.http.post(`${this.baseUrl}/add`, formData)
-        .subscribe({
-          next: () => {
-            alert("Profile saved successfully!");
-            console.log("Saved profile..");
-
-            this.isEditMode = true;
-            this.disableForm();
-            this.cdr.detectChanges();
-          },
-          error: () => alert("Error saving profile")
-        });
-
-    }
+  if (!this.isFormEditable) {
+    this.enableForm();
+    return;
   }
+
+  if (this.academicForm.invalid) {
+    this.academicForm.markAllAsTouched();
+    return;
+  }
+
+  const studentId = localStorage.getItem('studentId');
+  if (!studentId) {
+    alert("Student not logged");
+    return;
+  }
+
+  const rawData = this.academicForm.getRawValue();
+  const formData = new FormData();
+
+  // ✅ IMPORTANT FIX (SEND JSON AS BLOB)
+  const profileBlob = new Blob(
+    [JSON.stringify(rawData)],
+    { type: 'application/json' }
+  );
+
+  formData.append('profile', profileBlob);
+
+  // ✅ File
+  if (this.selectedFile) {
+    formData.append('file', this.selectedFile);
+  }
+
+  if (this.isEditMode) {
+
+    this.http.post(`${this.baseUrl}/add/${studentId}`, formData)
+      .subscribe({
+        next: () => {
+          alert("Profile saved successfully!");
+          this.isEditMode = true;
+          this.disableForm();
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error(err);
+          alert("Error saving profile");
+        }
+      });
+
+  }
+}
 
   // ================= CANCEL =================
 

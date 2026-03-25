@@ -14,11 +14,10 @@ import java.util.List;
 @Table(name = "student_profiles")
 public class StudentProfile {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    //    private String studentId;
+
     private String fullName;
     private String personalEmail;
     private String mobileNumber;
@@ -32,21 +31,16 @@ public class StudentProfile {
 
     private String institute;
     private String department;
-    @Enumerated(EnumType.STRING)
 
+    @Enumerated(EnumType.STRING)
     private Branch branch = Branch.Select;
+
     private Integer passingYear;
     private String imageUrl;
     private String imagePublicId;
 
-    // Foreign Key
+    // 🔥 NOW inverse side
     @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "profile")
     private Student student;
-
-    @OneToMany(mappedBy = "student")
-    @JsonIgnore
-    private List<JobApplications> applications;
-
 }
