@@ -7,9 +7,7 @@
 
     <div class="searchBox">
       <span class="searchIcon">🔍</span>
-      <input type="text"
-             placeholder="Search companies or roles..."
-             (input)="updateSearch($event)" />
+      <input type="text" placeholder="Search companies or roles..." (input)="updateSearch($event)" />
     </div>
   </div>
 
@@ -54,7 +52,7 @@
         <p>{{ job.description }}</p>
       </div>
 
-      <div class="buttons">
+      <!-- <div class="buttons">
         <button class="viewBtn"
                 (click)="toggleDescription(job)">
           {{ job.showDescription ? '▲ Hide Description' : '▼ View Description' }}
@@ -64,6 +62,22 @@
                 (click)="openApplyModal(job)">
            Apply Now →
         </button>
+      </div> -->
+
+      <div class="buttons">
+        <button class="viewBtn" (click)="toggleDescription(job)">
+          {{ job.showDescription ? '▲ Hide Description' : '▼ View Description' }}
+        </button>
+
+        <!-- ✅ Show Apply button if eligible -->
+        <button *ngIf="isEligible(job)" class="applyBtn" (click)="openApplyModal(job)">
+          Apply Now →
+        </button>
+
+        <!-- ❌ Show message if not eligible -->
+        <span *ngIf="studentData() && !isEligible(job)" class="notEligible">
+          ❌ Not Eligible (Min CGPA: {{ job.minCgpa }})
+        </span>
       </div>
 
     </div>
@@ -78,10 +92,6 @@
 </app-applymodal>  -->
 
 @if(selectedJob && studentData()) {
-  <app-applymodal
-    [student]="studentData()"
-    [job]="selectedJob"
-    (close)="closeModal()"
-    (submit)="closeModal()">
-  </app-applymodal>
+<app-applymodal [student]="studentData()" [job]="selectedJob" (close)="closeModal()" (submit)="closeModal()">
+</app-applymodal>
 }

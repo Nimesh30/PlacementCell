@@ -14,7 +14,7 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './managejobs.html',
   styleUrl: './managejobs.css',
 })
-export class ManageJobs {
+export class Managejobs {
 
   @Input() jobData :any=null;
   // @Output() close = new EventEmitter<void>();
@@ -25,7 +25,7 @@ export class ManageJobs {
   currentPage = signal(0);
   totalPages = signal(0);
   pageSize = 3;
-
+  filterType = signal<'all' | 'active' | 'expired'>('all');
   // Modal control
   isOpen = false;
   selectedJob: any = null; // Pass job data to modal if editing
@@ -40,32 +40,46 @@ export class ManageJobs {
     this.loadJobs();
   }
 
-  // Filtered jobs
-  filteredJobs = computed(() => {
-    const search = this.searchText().toLowerCase();
-    return this.jobs().filter(job =>
-      job.companyName.toLowerCase().includes(search) ||
-      job.jobTitle.toLowerCase().includes(search)
-    );
-  });
+  
+updateFilter(event: Event) {
+  const value = (event.target as HTMLSelectElement).value;
+
+  console.log("Selected Filter:", value); // 🔥
+
+  this.filterType.set(value as any);
+  this.currentPage.set(0);
+  this.loadJobs(this.searchText()); 
+}
 
   // Load jobs from backend
   loadJobs(keyword: string = '') {
-    this.jobService.getAllJobs(keyword, this.currentPage(), this.pageSize).subscribe((data: any) => {
-      console.log(data);
+  this.jobService
+    .getAllJobs(
+      keyword,
+      this.currentPage(),
+      this.pageSize,
+      this.filterType()   // ✅ send filter to backend
+    )
+    .subscribe((data: any) => {
+      console.log("jobs"+data)
       this.jobs.set(data.content);
       this.totaljobs.set(data.totalElements);
       this.totalPages.set(data.totalPages);
     });
-  }
+}
 
   // Search
-  updateSearch(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.searchText.set(input.value);
-    this.currentPage.set(0);
+ updateSearch(event: Event) {
+  const input = event.target as HTMLInputElement;
+  this.searchText.set(input.value);
+  this.currentPage.set(0);
+
+  clearTimeout((this as any).searchTimeout);
+
+  (this as any).searchTimeout = setTimeout(() => {
     this.loadJobs(input.value);
-  }
+  }, 300);
+}
 
   // Pagination
   nextPage() {
@@ -154,4 +168,5 @@ export class ManageJobs {
     this.currentPage.set(0);
      this.loadJobs(this.searchText());
   }
+
 }

@@ -1,5 +1,4 @@
 package com.Project.PlacementCell.Controllers;
-
 import com.Project.PlacementCell.DTO.AuthDTO.ChangepasswordDTO;
 import com.Project.PlacementCell.DTO.AuthDTO.LoginDTO;
 import com.Project.PlacementCell.DTO.AuthDTO.RegisterDTO;
@@ -11,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-//import com.Project.PlacementCell.Service.Auth.AuthService;
-
 import java.io.IOException;
 
 //@StudentController
@@ -56,6 +53,5 @@ public class AuthController {
         UploadResponse response = uploadService.uploadImage(file);
         return ResponseEntity.ok(response);
     }
-
 
 }

@@ -13,7 +13,7 @@ import { Applymodal } from './user/applymodal/applymodal';
 import { Adminlogin } from './admin/adminlogin/adminlogin';
 import { Adminlayout } from './admin/adminlayout/adminlayout';
 import { Admindashboard } from './admin/admindashboard/admindashboard';
-import { ManageJobs } from './admin/managejobs/managejobs';
+import { Managejobs } from './admin/managejobs/managejobs';
 import { Students } from './admin/students/students';
 import { Allapplications } from './admin/allapplications/allapplications';
 import { Adminnoticeboard } from './admin/adminnoticeboard/adminnoticeboard';
@@ -34,7 +34,7 @@ export const routes: Routes = [
         canActivate: [roleGuard],
       data: { roles: ['ADMIN'] }
       },
-      {path:'managejobs',component:ManageJobs},
+      {path:'managejobs',component:Managejobs},
       {path:'students',component:Allstudents},
       {path:'allapplication',component:Allapplications},
       {path:'adminnoticeboard',component:Adminnoticeboard}
