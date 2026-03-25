@@ -1,130 +1,121 @@
-<!-- <div class="admin-container">
+<div class="admin-container">
 
-    <h2>📢 Create Notice</h2>
-  
-    <form (ngSubmit)="submitNotice()">
-  
-      <label>Title</label>
-      <input type="text" [(ngModel)]="notice.title" name="title" required>
-  
-      <label>Message</label>
-      <textarea [(ngModel)]="notice.message" name="message" rows="4" required></textarea>
-  
-      <label>File URL (optional)</label>
-      <input type="text" [(ngModel)]="notice.fileUrl" name="fileUrl">
-  
-      <label class="checkbox">
-        <input type="checkbox" [(ngModel)]="notice.pinned" name="pinned">
-        Mark as Urgent
-      </label>
-  
-      <button type="submit">Post Notice</button>
-  
-    </form>
-  
-  </div> -->
+  <!-- Header -->
+
+  <div class="header">
+    <div>
+      <h1> Manage Notices</h1>
+      <p>{{notices.length}} notices posted</p>
+    </div>
+
+    <button class="create-btn" (click)="openForm()">
+      + Create Notice
+    </button>
+  </div>
 
 
+  <!-- Create / Edit Form -->
 
+  <div class="form-card" *ngIf="showForm">
 
-
-  <div class="admin-container">
-
-    <h1>📢 Admin Notice Board</h1>
-    
-    <!-- Create Notice Form -->
-    
-    <div class="form-card">
-    
     <h2>{{isEditMode ? 'Update Notice' : 'Create Notice'}}</h2>
-    
+
     <form (ngSubmit)="submitNotice()">
-    
-    <input
-    type="text"
-    placeholder="Notice Title"
-    [(ngModel)]="notice.title"
-    name="title"
-    required
-    />
-    
-    <textarea
-    placeholder="Notice Message"
-    [(ngModel)]="notice.message"
-    name="message"
-    required>
-    </textarea>
-    
-    <input
-    type="text"
-    placeholder="File URL (optional)"
-    [(ngModel)]="notice.fileUrl"
-    name="fileUrl"
-    />
-    
-    <label class="checkbox">
-    <input type="checkbox"
-    [(ngModel)]="notice.pinned"
-    name="pinned">Pin notice</label>
-    
-    <button type="submit">
-    {{isEditMode ? 'Update Notice' : 'Post Notice'}}
-    </button>
-    
-    <button
-    type="button"
-    class="cancel"
-    *ngIf="isEditMode"
-    (click)="resetForm()">
-    Cancel
-    </button>
-    
+
+      <input
+        type="text"
+        placeholder="Notice Title"
+        [(ngModel)]="notice.title"
+        name="title"
+        required
+      />
+
+      <textarea
+        placeholder="Notice Message"
+        [(ngModel)]="notice.message"
+        name="message"
+        required>
+      </textarea>
+
+      <input
+        type="text"
+        placeholder="File URL (optional)"
+        [(ngModel)]="notice.fileUrl"
+        name="fileUrl"
+      />
+
+      <label class="checkbox">
+        <input
+          type="checkbox"
+          [(ngModel)]="notice.pinned"
+          name="pinned"
+        />
+        Pin Notice
+      </label>
+
+      <div class="form-buttons">
+
+        <button type="submit">
+          {{isEditMode ? 'Update Notice' : 'Post Notice'}}
+        </button>
+
+        <button
+          type="button"
+          class="cancel"
+          (click)="closeForm()">
+          Cancel
+        </button>
+
+      </div>
+
     </form>
-    
+
+  </div>
+
+
+  <!-- Notice Cards -->
+
+  <div class="notice-card" *ngFor="let n of notices">
+
+    <div class="notice-left">
+
+      <div class="icon">📄</div>
+
+      <div class="notice-details">
+
+        <h3>
+          {{n.title}}
+          <span *ngIf="n.pinned" class="urgent">URGENT</span>
+        </h3>
+
+        <p>{{n.message}}</p>
+
+        <div class="meta">
+          <span>{{n.createdAt | date:'mediumDate'}}</span>
+        </div>
+
+      </div>
+
     </div>
-    
-    
-    <!-- Notices List -->
-    
-    <div class="notice-list">
-    
-    <h2>All Notices</h2>
-    
-    <div
-    class="notice-card"
-    *ngFor="let n of notices">
-    
-    <div class="notice-info">
-    
-    <h3>
-    {{n.title}}
-    <span *ngIf="n.pinned" class="urgent">URGENT</span>
-    </h3>
-    
-    <p>{{n.message}}</p>
-    
-    <span class="date">
-    {{n.createdAt | date:'medium'}}
-    </span>
-    
+
+    <div class="notice-actions">
+
+      <!-- <button class="view">View</button> -->
+      <!-- class="edit" -->
+      <button
+   
+        (click)="editNotice(n)">
+        Edit
+      </button>
+
+      <!-- class="delete" -->
+      <button
+        (click)="deleteNotice(n.id)">
+        Delete
+      </button>
+
     </div>
-    
-    <div class="actions">
-    
-    <button class="edit"
-    (click)="editNotice(n)">
-    Edit
-    </button>
-    
-    <button class="delete"
-    (click)="deleteNotice(n.id)">
-    Delete
-    </button>
-    
-    </div>
-    
-    </div>
-    
-    </div>
-    
-    </div>
+
+  </div>
+
+</div>
