@@ -73,7 +73,7 @@ export class AddNewJobModal implements OnInit {
   constructor(
     private jobService: JobService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
 
   // Getter for easy access
   get eligibleDegrees(): FormArray<FormControl<boolean>> {

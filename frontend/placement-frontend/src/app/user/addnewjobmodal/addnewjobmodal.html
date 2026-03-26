@@ -8,7 +8,7 @@
     <div class="modal-header">
       <div>
         <h2>{{ jobData ? 'Update Job' : 'Post New Job' }}</h2>
-        <p>{{ jobData ? 'Edit job details' : 'Fill in company and job details' }}</p>
+        <p>{{ jobData ? 'Edit job details' : 'Fill in company and job details (*) Required'  }}</p>
       </div>
       <button class="close-btn" (click)="closeModal()">✕</button>
     </div>
@@ -25,7 +25,7 @@
 
         <div class="form-group">
           <label>Job Title *</label>
-          <input type="text"  formControlName="jobTitle" placeholder="e.g. Software Engineer">
+          <input type="text" formControlName="jobTitle" placeholder="e.g. Software Engineer">
         </div>
 
         <div class="form-group">
@@ -48,28 +48,38 @@
           <input type="date" formControlName="deadline">
         </div>
 
+        <!-- ✅ UPDATED CHECKBOX SECTION -->
         <div class="form-group full-width">
-          <label>Eligible Degrees (Comma Separated)</label>
-          <input type="text" formControlName="eligibleDegrees" placeholder="B.Tech, BE">
+          <label>Eligible Degrees</label>
+
+          <div class="checkbox-group">
+            <div *ngFor="let degree of degreeList; let i = index" class="checkbox-item">
+              <input 
+             type="checkbox" 
+             [formControl]="eligibleDegrees.at(i)" 
+                />
+              <label for="degree{{i}}">{{ degree }}</label>
+            </div>
+          </div>
         </div>
 
-      <div class="form-group full-width">
-        <label>Job Description *</label>
-        <textarea rows="5"
-          placeholder="Describe the role, responsibilities, requirements..." formControlName="description">
-        </textarea>
-      </div>
+        <div class="form-group full-width">
+          <label>Job Description *</label>
+          <textarea rows="5"
+            placeholder="Describe the role, responsibilities, requirements..."
+            formControlName="description">
+          </textarea>
+        </div>
 
-      <div class="modal-footer">
-        <button  type="button" class="btn-cancel" (click)="closeModal()">Cancel</button>
-        <button class="btn-submit" type="submit">{{ jobData ? 'Update Job' : 'Post Job' }}</button>
-      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" (click)="closeModal()">Cancel</button>
+          <button class="btn-submit" type="submit">
+            {{ jobData ? 'Update Job' : 'Post Job' }}
+          </button>
+        </div>
 
       </form> 
 
-     
     </div>
-
-    <!-- Footer -->
   </div>
 </div>

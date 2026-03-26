@@ -1,321 +1,224 @@
-/* .admin-container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-  }
-  
-  h2 {
-    margin-bottom: 20px;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  input, textarea {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-  }
-  
-  button {
-    background: #007bff;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background: #0056b3;
-  }
-  
-  .checkbox {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  } */
-
-
-
-
-  /* .admin-container{
-    max-width:900px;
-    margin:auto;
+.admin-container{
+    max-width:1000px;
+    margin:40px auto;
     padding:20px;
-    }
-    
-    h1{
-    margin-bottom:20px;
-    }
-    
-    .form-card{
-    background:#f4f6fb;
-    padding:20px;
-    border-radius:10px;
-    margin-bottom:30px;
-    }
-    
-    input,textarea{
-    width:100%;
-    padding:10px;
-    margin-bottom:12px;
-    border-radius:6px;
-    border:1px solid #ccc;
-    }
-    
-    textarea{
-    height:100px;
-    }
-    
-    .checkbox{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-bottom:10px;
-    }
-    
-    button{
-    padding:8px 14px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-    background:#4f46e5;
-    color:white;
-    margin-right:8px;
-    }
-    
-    .cancel{
-    background:gray;
-    }
-    
-    .notice-list h2{
-    margin-bottom:10px;
-    }
-    
-    .notice-card{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ================= HEADER ================= */
+
+.header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:15px;
-    border:1px solid #ddd;
+    margin-bottom:25px;
+}
+
+.header h1{
+    margin:0;
+}
+
+.header p{
+    color:#666;
+    font-size:14px;
+}
+
+/* Create Button */
+
+.create-btn{
+    background:#3b82f6;
+    color:white;
+    border:none;
+    padding:10px 18px;
     border-radius:8px;
-    margin-bottom:12px;
+    cursor:pointer;
+    font-weight:500;
+    transition:0.2s;
+}
+
+.create-btn:hover{
+    opacity:0.9;
+}
+
+/* ================= FORM ================= */
+
+.form-card{
     background:white;
-    }
-    
-    .notice-info p{
-    margin:5px 0;
-    }
-    
-    .date{
-    font-size:12px;
-    color:gray;
-    }
-    
-    .urgent{
-    background:red;
+    padding:25px;
+    border-radius:12px;
+    margin-bottom:25px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.06);
+}
+
+.form-card h2{
+    margin-bottom:15px;
+}
+
+/* Inputs */
+
+input,
+textarea{
+    width:100%;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #ddd;
+    margin-bottom:14px;
+    font-size:14px;
+}
+
+textarea{
+    height:100px;
+    resize:none;
+}
+
+input:focus,
+textarea:focus{
+    outline:none;
+    border-color:#3b82f6;
+}
+
+/* Checkbox */
+
+.checkbox{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:15px;
+}
+
+.checkbox input{
+    width:auto;
+    margin:0;
+}
+/* Form Buttons */
+
+.form-buttons{
+    display:flex;
+    gap:10px;
+}
+
+.form-buttons button{
+    border:none;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.form-buttons button[type="submit"]{
+    background:#3b82f6;
+    color:white;
+}
+
+.cancel{
+    background:#6b7280;
+    color:white;
+}
+
+/* ================= NOTICE CARDS ================= */
+
+.notice-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#fff;
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:18px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.06);
+}
+
+/* Left Section */
+
+.notice-left{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+}
+
+.icon{
+    background:#e8f0ff;
+    padding:10px;
+    border-radius:10px;
+    font-size:20px;
+}
+
+.notice-details h3{
+    margin:0;
+    font-size:18px;
+}
+
+.notice-details p{
+    margin:6px 0;
+    color:#555;
+}
+
+.meta{
+    font-size:13px;
+    color:#777;
+}
+
+/* ================= URGENT BADGE ================= */
+
+.urgent{
+    background:#ef4444;
     color:white;
     font-size:11px;
-    padding:3px 6px;
-    border-radius:5px;
+    padding:4px 7px;
+    border-radius:6px;
     margin-left:8px;
-    }
-    
-    .actions button{
-    margin-left:8px;
-    }
-    
-    .edit{
+}
+
+/* ================= ACTION BUTTONS ================= */
+
+.notice-actions{
+    display:flex;
+    gap:10px;
+}
+
+.notice-actions button{
+    border:none;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+/* Buttons */
+
+.view{
+    background:#e5e7eb;
+}
+
+.edit{
     background:#10b981;
-    }
-    
-    .delete{
+    color:white;
+}
+
+.delete{
     background:#ef4444;
-    }
-    
-    /* Responsive */
-    
-    /* @media(max-width:600px){
-    
-    .notice-card{
+    color:white;
+}
+
+/* Hover */
+
+.notice-actions button:hover{
+    opacity:0.9;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:700px){
+
+.notice-card{
     flex-direction:column;
     align-items:flex-start;
-    gap:10px;
-    }
-    
-    .actions{
+    gap:15px;
+}
+
+.notice-actions{
     width:100%;
-    display:flex;
     justify-content:flex-end;
-    } */
-    
-    /* }  */
+}
 
-
-
-    .admin-container{
-        max-width:850px;
-        margin:40px auto;
-        padding:20px;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-    
-    h1{
-        text-align:center;
-        margin-bottom:30px;
-        color:#333;
-    }
-    
-    h2{
-        margin-bottom:15px;
-        color:#444;
-    }
-    
-    /* Form Card */
-    
-    .form-card{
-        background:#ffffff;
-        padding:25px;
-        border-radius:10px;
-        box-shadow:0 4px 10px rgba(0,0,0,0.08);
-        margin-bottom:35px;
-    }
-    
-    /* Inputs */
-    
-    input, textarea{
-        width:100%;
-        padding:10px 12px;
-        margin-bottom:14px;
-        border-radius:6px;
-        border:1px solid #dcdcdc;
-        font-size:14px;
-    }
-    
-    input:focus, textarea:focus{
-        outline:none;
-        border-color:#4f46e5;
-    }
-    
-    /* Checkbox */
-    
-    .checkbox{
-        display:flex;
-        align-items:center;
-        gap:8px;
-        margin-bottom:15px;
-        font-size:14px;
-    }
-    
-    /* Buttons */
-    
-    button{
-        padding:8px 16px;
-        border:none;
-        border-radius:6px;
-        cursor:pointer;
-        font-size:14px;
-        background:#4f46e5;
-        color:white;
-        transition:0.2s;
-    }
-    
-    button:hover{
-        opacity:0.9;
-    }
-    
-    .cancel{
-        background:#6b7280;
-    }
-    
-    /* Notice List */
-    
-    .notice-list h2{
-        margin-bottom:15px;
-    }
-    
-    /* Notice Card */
-    
-    .notice-card{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        padding:18px;
-        border-radius:8px;
-        border:1px solid #e5e5e5;
-        background:#fff;
-        margin-bottom:15px;
-        box-shadow:0 2px 6px rgba(0,0,0,0.05);
-    }
-    
-    .notice-info{
-        max-width:70%;
-    }
-    
-    .notice-info h3{
-        margin:0;
-        font-size:18px;
-        color:#222;
-    }
-    
-    .notice-info p{
-        margin:6px 0;
-        color:#555;
-    }
-    
-    .date{
-        font-size:12px;
-        color:#888;
-    }
-    
-    /* Urgent Tag */
-    
-    .urgent{
-        background:#ef4444;
-        color:white;
-        font-size:11px;
-        padding:3px 7px;
-        border-radius:5px;
-        margin-left:8px;
-    }
-    
-    /* Actions */
-    
-    .actions{
-        display:flex;
-        gap:8px;
-    }
-    
-    .edit{
-        background:#10b981;
-    }
-    
-    .delete{
-        background:#ef4444;
-    }
-    
-    /* Responsive */
-    
-    @media(max-width:600px){
-    
-    .notice-card{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:12px;
-    }
-    
-    .notice-info{
-        max-width:100%;
-    }
-    
-    .actions{
-        width:100%;
-        display:flex;
-        justify-content:flex-end;
-    }
-    
-    }
+}
