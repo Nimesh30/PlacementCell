@@ -86,6 +86,10 @@ textarea:focus{
     margin-bottom:15px;
 }
 
+.checkbox input{
+    width:auto;
+    margin:0;
+}
 /* Form Buttons */
 
 .form-buttons{
