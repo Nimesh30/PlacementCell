@@ -51,24 +51,24 @@ export class AddNewJobModal implements OnInit {
       // Update job
       this.jobService.updateJob(this.jobData.id, payload).subscribe({
         next: () => {
-          alert('Job updated successfully ✅');
+          alert('Job updated successfully ');
           this.close.emit();
         },
         error: (err) => {
           console.error(err);
-          alert('Update failed ❌');
+          alert('Update failed ');
         }
       });
     } else {
       // Create job
       this.jobService.addJob(payload).subscribe({
         next: () => {
-          alert('Job posted successfully ✅');
+          alert('Job posted successfully ');
           this.close.emit();
         },
         error: (err) => {
           console.error(err);
-          alert('Post failed ❌');
+          alert('Post failed ');
         }
       });
     }

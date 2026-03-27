@@ -332,6 +332,84 @@
   box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
 }
 
+
+
+
+/* Action menu container */
+
+.action-menu{
+  position: relative;
+  display: inline-block;
+}
+
+/* 3-dot button */
+
+.three-dot-btn{
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.three-dot-btn:hover{
+  background: #f3f4f6;
+}
+
+/* Dropdown menu */
+
+.dropdown{
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  min-width: 140px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+/* Menu items */
+
+.menu-item{
+  width: 100%;
+  padding: 10px 24px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.menu-item:hover{
+  background: #f3f4f6;
+}
+
+/* Delete button */
+
+.menu-item.delete{
+  color: #ef4444;
+  padding-left: 25px;
+  font-size: medium;
+}
+.menu-item.update{
+  padding-left: 25px;
+  font-size: medium;
+}
+
+.menu-item.delete:hover{
+  background: #fee2e2;
+}
+
+
+
+
+
+
 /* Mobile responsive */
 @media (max-width: 600px) {
   .filter-row {
