@@ -21,7 +21,7 @@ export class Myprofile implements OnInit {
 
   baseUrl = 'http://localhost:8085/students';
 
-  constructor(private fb: FormBuilder,private http: HttpClient,private cdr:ChangeDetectorRef) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
@@ -36,7 +36,7 @@ export class Myprofile implements OnInit {
       tenthMarks: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
       twelfthMarks: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(100)]],
       stream: [{ value: '', disabled: true }, Validators.required],
-      branch:[{value:'',disabled:true}, Validators.required],
+      branch: [{ value: '', disabled: true }, Validators.required],
       bachelorsCgpa: [{ value: '', disabled: true }, [Validators.required, Validators.min(0), Validators.max(10)]],
       mastersCgpa: [{ value: '', disabled: true }],
       institute: [{ value: '', disabled: true }, Validators.required],
@@ -77,14 +77,14 @@ export class Myprofile implements OnInit {
   // ================= FETCH PROFILE =================
 
   fetchProfile(studentId: string) {
-console.log("In fetch profile...",studentId)
+    console.log("In fetch profile...", studentId)
     this.http.get<any>(`${this.baseUrl}/profile/${studentId}`)
       .subscribe({
         next: (response) => {
           console.log("API Response with null first time", response)
 
           if (response.imageUrl === "null") {
-            
+
             response.imageUrl = null;
           }
 
@@ -157,7 +157,7 @@ console.log("In fetch profile...",studentId)
     }
 
     if (this.isEditMode) {
-        console.log("Updating mode on before url..",formData)
+      console.log("Updating mode on before url..", formData)
       this.http.patch(`${this.baseUrl}/update/${studentId}`, formData)
         .subscribe({
           next: () => {
@@ -169,13 +169,13 @@ console.log("In fetch profile...",studentId)
         });
 
     } else {
-      console.log("Posting data in else part ",formData)
+      console.log("Posting data in else part ", formData)
       this.http.post(`${this.baseUrl}/add`, formData)
         .subscribe({
           next: () => {
             alert("Profile saved successfully!");
             console.log("Saved profile..");
-            
+
             this.isEditMode = true;
             this.disableForm();
             this.cdr.detectChanges();

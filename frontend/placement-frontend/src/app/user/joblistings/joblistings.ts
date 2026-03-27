@@ -13,89 +13,88 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Joblistings {
 
+  
   jobs = signal<any[]>([]);
   searchText = signal('');
-  studentData=signal<any[]>([]);
 
-  //  Selected job for modal
+  // ✅ FIXED (object, not array)
 
-
+  studentData = signal<any | null>(null);
   selectedJob: any = null;
 
-  filteredJobs = computed(() => {
-    const search = this.searchText().toLowerCase();
-
-    return this.jobs().filter(job => 
-    job.companyName.toLowerCase().includes(search) ||
-    job.jobTitle.toLowerCase().includes(search));
-  });
-
-
-  constructor(private jobService: JobService,private http:HttpClient) {}
+  constructor(private jobService: JobService, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.loadJobs();
+    this.loadStudent();
   }
 
+  // ✅ Load student once
+  loadStudent() {
+    const studentId = localStorage.getItem('studentId');
+    if (studentId) {
+      this.http
+        .get<any>(`http://localhost:8085/students/profile/${studentId}`)
+        .subscribe(res => {
+          this.studentData.set(res);
+        });
+    }
+  }
+
+  // ✅ Load jobs (with backend search)
   loadJobs(keyword: string = '') {
-
-  this.jobService.getAvailableJobs(keyword)
-    .subscribe((data: any) => {
-      this.jobs.set(data);
-    });
-
+    this.jobService.getAvailableJobs(keyword)
+      .subscribe((data: any) => {
+        this.jobs.set(data);
+      });
   }
 
-  // updateSearch(event: Event) {
-  //   const input = event.target as HTMLInputElement;
-  //   this.searchText.set(input.value);
-  // }
-
+  // ✅ Search
   updateSearch(event: Event) {
-
-    const input = event.target as HTMLInputElement;
-    const value = input.value;
-
+    const value = (event.target as HTMLInputElement).value;
     this.searchText.set(value);
-
-    // Call backend
-    this.loadJobs(value);
+    this.loadJobs(value); // backend search
   }
 
   toggleDescription(job: any) {
     job.showDescription = !job.showDescription;
   }
 
-  applyJob() {
+  // ✅ Eligibility check
+  isEligible(job: any): boolean {
+    const student = this.studentData();
+    if (!student) return false;
 
-    if (this.selectedJob) {
-      this.selectedJob.applied = true;
+    return student.bachelorsCgpa >= job.minCgpa;
+  }
+
+  // ✅ Open modal ONLY if eligible
+  openApplyModal(job: any) {
+    const student = this.studentData();
+
+    if (!student) {
+      alert("Student not loaded");
+      return;
     }
 
-    this.closeModal();
+    if (this.isEligible(job)) {
+      this.selectedJob = job; // ✅ opens modal
+    } else {
+      alert(`Not eligible! Min CGPA required: ${job.minCgpa}`);
+    }
+
   }
 
-
-  //  OPEN MODAL
-  openApplyModal(job: any) {
-  this.selectedJob = job;
-
-  const studentId = localStorage.getItem('studentId');
-  if (studentId) {
-    this.http.get<any>(`http://localhost:8085/students/profile/${studentId}`)
-      .subscribe(res => {
-
-        console.log(res); // store full profile
-        this.studentData.set(res);
-        console.log(this.studentData); // store full profile
-      });
-  } else {
-    alert('Student not logged in');
-  }
-}
-
-  //  CLOSE MODAL
+  // ✅ Close modal
   closeModal() {
     this.selectedJob = null;
   }
+
+  applyJob() {
+    if (this.selectedJob) {
+      this.selectedJob.applied = true;
+    }
+    this.closeModal();
+  }
+
 }

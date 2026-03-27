@@ -81,15 +81,13 @@ public class JobService {
         return jobDTOList;
     }
 
-    public Page<JobDTO> getAllJobs(String keyword, Pageable pageable) {
+    public Page<JobDTO> getAllJobs(String keyword, String status, Pageable pageable) {
 
         Page<JobsDetails> jobs;
 
-        if (keyword == null || keyword.trim().isEmpty()) {
-            jobs = jobRepository.findAllByOrderByIdDesc(pageable);
-        } else {
-            jobs = jobRepository.SearchJobs(keyword, pageable);
-        }
+        if (keyword == null) keyword = "";
+
+        jobs = jobRepository.findJobsWithFilter(keyword, status, pageable);
 
         return jobs.map(job -> {
 
@@ -105,7 +103,6 @@ public class JobService {
             dto.setDescription(job.getDescription());
             dto.setEligibleDegrees(job.getEligibleDegrees());
 
-            // Count applications for this job
             dto.setApplicationCount(
                     jobApplicationsRepository.countApplicationsByJobId(job.getId().intValue())
             );

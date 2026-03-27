@@ -1,12 +1,10 @@
 
 package com.Project.PlacementCell.Repository;
 
-import ch.qos.logback.core.status.Status;
 import com.Project.PlacementCell.DTO.AdminDTO.CompanyWiseHiringDTO;
 import com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO;
 import com.Project.PlacementCell.DTO.AdminDTO.StudentExportDTO;
 import com.Project.PlacementCell.DTO.AppliedJobDTO;
-import com.Project.PlacementCell.DTO.JobDTO;
 import com.Project.PlacementCell.DTO.OfferDTO;
 import com.Project.PlacementCell.DTO.StudentDTO.ApplyJobDTO;
 import com.Project.PlacementCell.Entity.JobApplications;
@@ -138,24 +136,25 @@ public interface JobApplicationsRepository extends JpaRepository<JobApplications
             ApplicationStatus status,
             StudentResponse response
     );
-@Query("""
-SELECT new com.Project.PlacementCell.DTO.OfferDTO(
-    a.applicationId,
-    j.companyName,
-    j.jobTitle,
-    j.packageLpa,
-    j.location,
-    a.status,
-    a.studentResponse,
-    a.appliedAt
-)
-FROM JobApplications a
-JOIN a.job j
-JOIN a.student sp
-JOIN sp.student s
-WHERE s.studentId = :studentId  
-AND a.status = 'SELECTED'
-AND a.studentResponse <> 'DECLINED'
-""")
-List<OfferDTO> getSelectedOffers(@Param("studentId") String studentId);
+
+    @Query("""
+            SELECT new com.Project.PlacementCell.DTO.OfferDTO(
+                a.applicationId,
+                j.companyName,
+                j.jobTitle,
+                j.packageLpa,
+                j.location,
+                a.status,
+                a.studentResponse,
+                a.appliedAt
+            )
+            FROM JobApplications a
+            JOIN a.job j
+            JOIN a.student sp
+            JOIN sp.student s
+            WHERE s.studentId = :studentId  
+            AND a.status = 'SELECTED'
+            AND a.studentResponse <> 'DECLINED'
+            """)
+    List<OfferDTO> getSelectedOffers(@Param("studentId") String studentId);
     }

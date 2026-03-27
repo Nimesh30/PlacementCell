@@ -19,13 +19,22 @@
       </app-addnewjobmodal>
     </div>
 
-    <div class="search-box">
-      <input type="text" placeholder="Search companies or roles..." (input)="updateSearch($event)" />
-    </div>
+   <div class="filter-row">
+  <div class="search-box">
+    <input type="text" placeholder="Search companies or roles..." (input)="updateSearch($event)" />
   </div>
 
+  <div class="filter-dropdown">
+    <select (change)="updateFilter($event)">
+      <option value="all">All Jobs</option>
+      <option value="active">Active Jobs</option>
+      <option value="expired">Closed Jobs</option>
+    </select>
+  </div>
+</div>
+  </div>
   <!-- JOB LIST -->
-  <div class="job-card" *ngFor="let job of filteredJobs()">
+  <div class="job-card" *ngFor="let job of jobs()">
     <div class="job-top">
       <div class="left-section">
         <div class="company-icon">🏢</div>

@@ -30,7 +30,6 @@ public class JobsController {
     }
 
 
-
     // User Get Jobs (only not expired)
 
     @GetMapping("/available")
@@ -39,9 +38,15 @@ public class JobsController {
         return jobService.getAvailableJobs(keyword);
     }
 
+
     @GetMapping("/alljobs")
-    public Page<JobDTO> getAllJobs(@RequestParam(required = false) String keyword, Pageable pageable) {
-        return jobService.getAllJobs(keyword,pageable);
+    public Page<JobDTO> getAllJobs(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "all") String status,
+            Pageable pageable) {
+
+        System.out.println("STATUS: " + status);
+        return jobService.getAllJobs(keyword, status, pageable);
     }
 
 

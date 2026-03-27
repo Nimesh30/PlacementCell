@@ -20,18 +20,29 @@
       );
   }
 
-  getAllJobs(keyword?: string, page: number = 0, size: number = 10) {
-    return this.http.get<any>(
-      `${this.baseUrl}/alljobs`,
-      {
-        params: {
-          keyword: keyword || '',
-          page: page,
-          size: size
-        }
-      }
-    );
-  }
+  // getAllJobs(keyword?: string, page: number = 0, size: number = 10) {
+  //   return this.http.get<any>(
+  //     `${this.baseUrl}/alljobs`,
+  //     {
+  //       params: {
+  //         keyword: keyword || '',
+  //         page: page,
+  //         size: size
+  //       }
+  //     }
+  //   );
+  // }
+
+  getAllJobs(keyword: string, page: number, size: number, status: string) {
+  return this.http.get(`${this.baseUrl}/alljobs`, {
+    params: {
+      keyword,
+      page,
+      size,
+      status
+    }
+  });
+}
 
 
     
@@ -103,6 +114,8 @@ loadApplicationCount(studentId: string) {
     updateJob(jobId: number, payload: any): Observable<any> {
     return this.http.put(`http://localhost:8085/api/jobs/updatejob/${jobId}`, payload);
   }
+
+  
 
     jobsoffercount(studentid: string) {
       return this.http.get<number>(`http://localhost:8085/students/selected-count/${studentid}`);
