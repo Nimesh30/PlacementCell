@@ -2,6 +2,7 @@ package com.Project.PlacementCell.config;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -40,7 +41,13 @@ public class JwtFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        try{
+        // ✅ Allow preflight request without token
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        try {
             String authHeader = request.getHeader("Authorization");
 
             if(authHeader != null && authHeader.startsWith("Bearer ")){
@@ -53,15 +60,15 @@ public class JwtFilter extends OncePerRequestFilter {
                         .parseClaimsJws(token)
                         .getBody();
 
-                String username = claims.getSubject();
                 String userId = claims.get("userId").toString();
-                String role =claims.get("role").toString();
+                String role = claims.get("role").toString();
+
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 userId,
                                 null,
                                 Collections.singletonList(
-                                        new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + role.toUpperCase())
+                                        new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())
                                 )
                         );
 
@@ -69,14 +76,11 @@ public class JwtFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
-        }catch (Exception e){
-//            handlerExceptionResolver.resolveException(request,response,null,e);
+
+        } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Invalid or Expired Token");
-            return;
         }
-
-
     }
 
 }

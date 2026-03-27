@@ -6,6 +6,7 @@ import com.Project.PlacementCell.DTO.OfferDTO;
 import com.Project.PlacementCell.DTO.StudentDTO.ApplyJobDTO;
 import com.Project.PlacementCell.Entity.JobApplications;
 import com.Project.PlacementCell.Entity.JobsDetails;
+import com.Project.PlacementCell.Entity.Student;
 import com.Project.PlacementCell.Entity.StudentProfile;
 import com.Project.PlacementCell.Repository.JobApplicationsRepository;
 import com.Project.PlacementCell.Repository.JobRepository;
@@ -43,20 +44,24 @@ public class JobAppllicationService {
         String studentId = dto.getStudentId();
         Integer jobId = dto.getJobId();
 
-        if (jobApplicationsRepository.existsByStudent_Student_StudentIdAndJob_Id(studentId, jobId)) {
+        if (jobApplicationsRepository.existsByStudent_StudentIdAndJob_Id(studentId, jobId)) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(Map.of("message", "You already applied for this job"));
         }
 
-        StudentProfile student = studentRepository
+        // 🔥 get profile first
+        StudentProfile profile = studentRepository
                 .findByStudent_StudentId(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        // 🔥 extract student
+        Student student = profile.getStudent();
 
         JobsDetails job = jobRepository.findById(jobId)
                 .orElseThrow(() -> new RuntimeException("Job not found"));
 
         JobApplications application = new JobApplications();
-        application.setStudent(student);
+        application.setStudent(student); // ✅ FIXED
         application.setJob(job);
 
         jobApplicationsRepository.save(application);
@@ -99,7 +104,7 @@ public class JobAppllicationService {
     }
 
     public long getSelectedCount(String studentId) {
-        return jobApplicationsRepository.countByStudent_Student_StudentIdAndStatusAndStudentResponseNot(
+        return jobApplicationsRepository.countByStudent_StudentIdAndStatusAndStudentResponseNot(
                 studentId,
                 ApplicationStatus.SELECTED,
                 StudentResponse.DECLINED

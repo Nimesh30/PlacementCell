@@ -19,22 +19,21 @@ public class JobApplications {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applicationId;
 
+    // 🔥 CHANGE HERE
     @ManyToOne
     @JoinColumn(name="student_id", nullable=false)
-    private StudentProfile student;
+    private Student student;
 
     @ManyToOne
     @JoinColumn(name="job_id", nullable=false)
     private JobsDetails job;
-
-//    @Column(nullable=false)
-//    private String status = "APPLIED";   // default value
 
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status = ApplicationStatus.APPLIED;
 
     @Enumerated(EnumType.STRING)
     private StudentResponse studentResponse;
+
     @org.hibernate.annotations.CreationTimestamp
     private LocalDateTime appliedAt;
 

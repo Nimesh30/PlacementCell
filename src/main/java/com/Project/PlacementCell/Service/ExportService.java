@@ -23,7 +23,7 @@ public class ExportService {
 
     public ByteArrayInputStream exportStudents(Integer jobId) throws IOException {
 
-        List<StudentExportDTO> students = repo.getStudentsByJobId(jobId);
+            List<StudentExportDTO> students = repo.getStudentsByJobId(jobId);
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Students");
@@ -44,7 +44,7 @@ public class ExportService {
             Row row = sheet.createRow(rowIdx++);
 
             row.createCell(0).setCellValue(s.getStudentId());
-            row.createCell(1).setCellValue(s.getFullname());
+            row.createCell(1).setCellValue(s.getFullName());
             row.createCell(2).setCellValue(s.getEmail());
             row.createCell(3).setCellValue(s.getStream());
             row.createCell(4).setCellValue(s.getMobileNumber());

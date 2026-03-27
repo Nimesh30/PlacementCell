@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/students")
 public class StudentController {
     
@@ -45,38 +45,52 @@ public class StudentController {
     @Autowired
     private JobService jobService;
 
-    @PostMapping("/add")
-    public ResponseEntity<StudentProfile> addStudent(@ModelAttribute StudentProfile studProfile,
-                                                     @RequestParam("file") MultipartFile file,
-                                                     @RequestParam("studentId") String studentId) throws IOException {
+//    @PostMapping("/add")
+//    public ResponseEntity<StudentProfile> addStudent(@ModelAttribute StudentProfile studProfile,
+//                                                     @RequestParam("file") MultipartFile file,
+//                                                     @RequestParam("studentId") String studentId) throws IOException {
+//
+//        System.out.println("In Add student Controller");
+//        StudentProfile savedProfile =
+//                studentService.addStudent(studProfile, file, studentId);
+//
+//        return ResponseEntity.ok(savedProfile);
+//    }
 
-        System.out.println("In Add student Controller");
-        StudentProfile savedProfile =
-                studentService.addStudent(studProfile, file, studentId);
-
-        return ResponseEntity.ok(savedProfile);
-    }
-
-    @GetMapping("/profile/{studentId}")
-    public ResponseEntity<StudentProfileResponse> getProfile(
-            @PathVariable String studentId
+    // ✅ ADD PROFILE
+    @PostMapping("/add/{studentId}")
+    public ResponseEntity<?> addProfile(
+            @PathVariable String studentId,
+            @RequestPart("profile") StudentProfile profile,
+            @RequestPart(value = "file", required = false) MultipartFile file
     ) {
+        try {
+            return ResponseEntity.ok(
+                    studentService.addStudent(profile, file, studentId)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+//    @GetMapping("/profile/{studentId}")
+//    public ResponseEntity<StudentProfileResponse> getProfile(
+//            @PathVariable String studentId
+//    ) {
+//        return ResponseEntity.ok(
+//                studentService.getProfileByStudentId(studentId)
+//        );
+//    }
+
+    // ✅ GET PROFILE
+    @GetMapping("/profile/{studentId}")
+    public ResponseEntity<?> getProfile(@PathVariable String studentId) {
         return ResponseEntity.ok(
                 studentService.getProfileByStudentId(studentId)
         );
     }
 
-    @PatchMapping("/update/{studentId}")
-    public ResponseEntity<StudentProfile> updateStudent(
-            @ModelAttribute StudentProfile studProfile,
-            @RequestParam(value = "file", required = false) MultipartFile file,
-            @PathVariable String studentId) throws IOException {
 
-        StudentProfile updatedProfile =
-                studentService.addStudent(studProfile, file, studentId);
-
-        return ResponseEntity.ok(updatedProfile);
-    }
 
 
     @GetMapping("/studentwithCompanyStatus")

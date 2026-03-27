@@ -6,15 +6,15 @@ import lombok.Data;
 public class StudentExportDTO {
 
     private String studentId;
-    private String fullname;
+    private String fullName;
     private String email;
     private String department;
     private String mobileNumber;
     private String stream;
 
-    public StudentExportDTO(String studentId, String fullname, String email, String department, String mobileNumber, String stream) {
+    public StudentExportDTO(String studentId, String fullName, String email, String department, String mobileNumber, String stream) {
         this.studentId = studentId;
-        this.fullname = fullname;
+        this.fullName = fullName;
         this.email = email;
         this.department = department;
         this.mobileNumber = mobileNumber;
