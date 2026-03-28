@@ -5,7 +5,7 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 
 .header{
     display:flex;
@@ -33,14 +33,13 @@
     border-radius:8px;
     cursor:pointer;
     font-weight:500;
-    transition:0.2s;
 }
 
 .create-btn:hover{
     opacity:0.9;
 }
 
-/* ================= FORM ================= */
+/* FORM */
 
 .form-card{
     background:white;
@@ -90,6 +89,7 @@ textarea:focus{
     width:auto;
     margin:0;
 }
+
 /* Form Buttons */
 
 .form-buttons{
@@ -115,24 +115,32 @@ textarea:focus{
     color:white;
 }
 
-/* ================= NOTICE CARDS ================= */
+/* NOTICE CARDS */
 
 .notice-card{
     display:flex;
-    justify-content:space-between;
-    align-items:center;
+    flex-direction:column;
     background:#fff;
     border-radius:12px;
     padding:18px;
     margin-bottom:18px;
     box-shadow:0 3px 10px rgba(0,0,0,0.06);
+    cursor:pointer;
 }
 
-/* Left Section */
+/* Header inside card */
 
-.notice-left{
+.notice-header{
     display:flex;
-    gap:14px;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* Left side */
+
+.left{
+    display:flex;
+    gap:12px;
     align-items:flex-start;
 }
 
@@ -143,22 +151,34 @@ textarea:focus{
     font-size:20px;
 }
 
-.notice-details h3{
+/* Title */
+
+h3{
     margin:0;
-    font-size:18px;
 }
 
-.notice-details p{
-    margin:6px 0;
-    color:#555;
-}
+/* Short preview */
 
-.meta{
+.short-text{
     font-size:13px;
+    color:#666;
+    margin-top:4px;
+}
+
+/* Right side */
+
+.right{
+    text-align:right;
+}
+
+/* Date */
+
+.date{
+    font-size:12px;
     color:#777;
 }
 
-/* ================= URGENT BADGE ================= */
+/* URGENT badge */
 
 .urgent{
     background:#ef4444;
@@ -169,56 +189,57 @@ textarea:focus{
     margin-left:8px;
 }
 
-/* ================= ACTION BUTTONS ================= */
+/* Notice Body */
+
+.notice-body{
+    margin-top:12px;
+    border-top:1px solid #ddd;
+    padding-top:12px;
+}
+
+/* Actions */
 
 .notice-actions{
+    margin-top:6px;
     display:flex;
-    gap:10px;
+    gap:8px;
 }
 
 .notice-actions button{
     border:none;
-    padding:8px 14px;
-    border-radius:8px;
+    padding:6px 12px;
+    border-radius:6px;
     cursor:pointer;
-    font-size:14px;
-}
-
-/* Buttons */
-
-.view{
-    background:#e5e7eb;
+    font-size:13px;
 }
 
 .edit{
-    background:#10b981;
-    color:white;
+    color:rgb(0, 0, 0);
 }
 
 .delete{
-    background:#ef4444;
-    color:white;
+    color:rgb(0, 0, 0);
 }
-
-/* Hover */
 
 .notice-actions button:hover{
     opacity:0.9;
 }
 
-/* ================= RESPONSIVE ================= */
+/* Responsive */
 
 @media(max-width:700px){
 
-.notice-card{
+.notice-header{
     flex-direction:column;
     align-items:flex-start;
-    gap:15px;
+    gap:10px;
 }
 
-.notice-actions{
+.right{
     width:100%;
-    justify-content:flex-end;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 }

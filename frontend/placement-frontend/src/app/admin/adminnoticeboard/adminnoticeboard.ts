@@ -43,7 +43,7 @@ export class Adminnoticeboard implements OnInit {
         console.log("API Response:", data);
 
         this.notices = data;
-
+        
         // Force UI refresh
         this.cdr.detectChanges();
 
@@ -100,6 +100,14 @@ export class Adminnoticeboard implements OnInit {
     this.closeForm();
     this.resetForm();
     this.loadNotices();
+  }
+
+
+  toggleNotice(selected: any) {
+    this.notices.forEach(n => {
+      if (n !== selected) n.expanded = false;
+    });
+    selected.expanded = !selected.expanded;
   }
 
   /* ---------------- EDIT ---------------- */

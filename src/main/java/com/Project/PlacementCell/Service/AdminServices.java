@@ -60,11 +60,6 @@ public class AdminServices {
                 companywiseHiring
         );
 
-        //  Company-wise Hiring
-
-
-
-
         System.out.println("stats: " + stats);
         return ResponseEntity.ok(stats);
     }
