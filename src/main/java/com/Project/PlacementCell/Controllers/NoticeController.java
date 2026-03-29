@@ -1,4 +1,4 @@
-package com.Project.PlacementCell.Controller;
+package com.Project.PlacementCell.Controllers;
 
 import com.Project.PlacementCell.DTO.NoticeDTO;
 import com.Project.PlacementCell.Entity.Notice;
