@@ -41,11 +41,11 @@ public class JwtFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        // ✅ Allow preflight request without token
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        //  Allow preflight request without token
+//        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
 
         try {
             String authHeader = request.getHeader("Authorization");
