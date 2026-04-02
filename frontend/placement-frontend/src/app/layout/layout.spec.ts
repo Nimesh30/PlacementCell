@@ -1,23 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Layout } from './layout';
+@Component({
+  selector: 'app-layout',
+  standalone: true,
+  templateUrl: './layout.html',
+  styleUrl: './layout.css'
+})
+export class Layout {
 
-describe('Layout', () => {
-  let component: Layout;
-  let fixture: ComponentFixture<Layout>;
+  username = localStorage.getItem("username");
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Layout]
-    })
-    .compileComponents();
+  constructor(private router: Router) { }
 
-    fixture = TestBed.createComponent(Layout);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+}

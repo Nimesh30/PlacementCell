@@ -3,7 +3,6 @@ package com.Project.PlacementCell.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,27 +25,34 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
+                .cors(httpSecurityCorsConfigurer -> {
+                })
+                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable())
 
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
                 .authorizeHttpRequests(auth -> auth
-                        //authetication for student
+                                //authetication for student
 //                        .requestMatchers("/api/auth/**").permitAll()
-                        //authentication for admin
-//                        .requestMatchers("/admin/login").permitAll()
+                                //authentication for admin
+                                .requestMatchers("api/auth/**").permitAll()
+                                .requestMatchers("/admin/login").permitAll()
 
-//                        .requestMatchers("/adminlayout/admindashboard").hasRole("ADMIN")
-                        .requestMatchers("/api/auth/change-password").permitAll()
-                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //
-                        // 🔒 all other APIs require token
-                                .anyRequest().permitAll()
-//                        .anyRequest().authenticated()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/students/**").hasRole("STUDENT")
+                                .requestMatchers("/api/auth/change-password").permitAll()
+//                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //
+                                // 🔒 all other APIs require token
+                                //      .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 
 }

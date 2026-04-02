@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet,RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-adminlayout',
@@ -14,4 +15,11 @@ export class Adminlayout {
     ngOnInit() {
       this.username = localStorage.getItem("username");   
    }
+
+  constructor(private router: Router) { }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 }

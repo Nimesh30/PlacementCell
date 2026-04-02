@@ -25,4 +25,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByPlacedWithProfile(boolean placed);
 
     long countByPlacedTrue();
+
+    @Query("SELECT s.email FROM Student s")
+    List<String> getAllStudentEmails();
 }
