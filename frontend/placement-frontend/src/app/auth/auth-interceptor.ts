@@ -34,9 +34,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 401) {
 
         const role = localStorage.getItem('role');
-
+        
         //  Role-based redirect
         localStorage.clear();
+        
 
         if (role === 'ADMIN') {
           window.location.href = '/adminlogin';

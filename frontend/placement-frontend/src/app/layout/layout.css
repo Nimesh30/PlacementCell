@@ -88,25 +88,67 @@ nav a.active {
   color: white;
 }
 
+
+
+.logout-btn{
+  width:100%;
+  padding:8px;
+  border:none;
+  border-radius:8px;
+  background:#e3e0e0;
+  color:#080808;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s ease;
+}
+
+
+
+.logout-btn:hover{
+  background:#ebe8e8;
+}
+.logout-btn:active{
+  transform:scale(0.96);
+}
+
 /* ================= Footer ================= */
 
 .user-footer {
   margin-top: auto;
-  padding: 20px;
+  padding: 12px;
+  border-top: 3px solid var(--border-color);
   display: flex;
-  align-items: center;
-  border-top: 1px solid var(--border-color);
+  flex-direction: column;
 }
 
+
+.user-info{
+  display:flex;
+  /* flex-direction: column; */
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.user-footer div {
+  display: flex;
+  /* flex-direction: column; */
+}
 .avatar {
-  width: 45px;
+  width: 55px;  
   height: 45px;
   background: #dbeafe;
   color: var(--primary-blue);
-  border-radius: 50%;
+  border-radius: 60%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 10px;
   font-weight: bold;
+  padding: 0%;
+}
+.user-text{
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
 }
