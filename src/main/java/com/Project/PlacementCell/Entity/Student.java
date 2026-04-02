@@ -28,7 +28,7 @@ public class Student {
     private Boolean firstLogin = true;
 
     @Column(name = "placed")
-    private Boolean placed;
+    private Boolean placed= false;
 
     // 🔥 NOW Student OWNS the relationship
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

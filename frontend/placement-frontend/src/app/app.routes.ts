@@ -27,12 +27,12 @@ export const routes: Routes = [
   { path: 'change-password', component: ChangePassword },
   {path:'applyModal' , component:Applymodal},
   {path:'adminlogin',component:Adminlogin},
-  {path:'adminlayout',component:Adminlayout,
+  {path:'adminlayout',component:Adminlayout,canActivate: [roleGuard], data: { roles: ['ADMIN'] },
     children:[
       {path:'admindashboard',
         component:Admindashboard,
-        canActivate: [roleGuard],
-      data: { roles: ['ADMIN'] }
+        // canActivate: [roleGuard],
+      // data: { roles: ['ADMIN'] }
       },
       {path:'managejobs',component:Managejobs},
       {path:'students',component:Allstudents},
@@ -44,11 +44,13 @@ export const routes: Routes = [
   {
     path: 'layout',
     component: Layout,
+     canActivate: [roleGuard],
+      data: { roles: ['STUDENT'] },
     children: [
       { path: 'userdashboard',
         component: UserDashboard, 
-        canActivate: [roleGuard],
-        data: { roles: ['STUDENT'] }
+        // canActivate: [roleGuard],
+        // data: { roles: ['STUDENT'] }
       },
       { path: 'myprofile', component: Myprofile },
       { path: 'jobs', component: Joblistings },

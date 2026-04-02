@@ -12,6 +12,7 @@ import com.Project.PlacementCell.Repository.JobApplicationsRepository;
 import com.Project.PlacementCell.Repository.JobRepository;
 import com.Project.PlacementCell.Repository.StudentProfileRepository;
 
+import com.Project.PlacementCell.Repository.StudentRepository;
 import com.Project.PlacementCell.enums.ApplicationStatus;
 import com.Project.PlacementCell.enums.StudentResponse;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -29,13 +31,16 @@ public class JobAppllicationService {
 
     private final JobApplicationsRepository jobApplicationsRepository;
     private final StudentProfileRepository studentRepository;
+    private final StudentRepository studentrepo;
     private final JobRepository jobRepository;
 
     public JobAppllicationService(JobApplicationsRepository jobApplicationsRepository,
                                   StudentProfileRepository studentRepository,
+                                  StudentRepository studentrepo,
                                   JobRepository jobRepository) {
         this.jobApplicationsRepository = jobApplicationsRepository;
         this.studentRepository = studentRepository;
+        this.studentrepo = studentrepo;
         this.jobRepository = jobRepository;
     }
 
@@ -83,6 +88,7 @@ public class JobAppllicationService {
         return jobApplicationsRepository.getStudentsandCompany(keyword, company,status, page);
     }
 
+    @Transactional
     public void updateStatus(List<Long> ids, String status) {
 
         ApplicationStatus newStatus = ApplicationStatus.valueOf(status);
@@ -90,16 +96,37 @@ public class JobAppllicationService {
         List<JobApplications> applications = jobApplicationsRepository.findAllById(ids);
 
         for (JobApplications app : applications) {
+
+            // 🔹 Update application status
             app.setStatus(newStatus);
 
-            if(newStatus == ApplicationStatus.SELECTED && app.getStudentResponse() == null){
-                app.setStudentResponse(StudentResponse.PENDING);
-            }
-            else {
+            // 🔹 Handle student response
+            if (newStatus == ApplicationStatus.SELECTED) {
+
+                if (app.getStudentResponse() == null) {
+                    app.setStudentResponse(StudentResponse.PENDING);
+                }
+
+            } else {
                 app.setStudentResponse(null);
             }
+
+            // 🔹 Get student from application
+            Student student = app.getStudent();
+
+            // 🔥 CORE LOGIC (Correct Placement Logic)
+            long selectedCount = jobApplicationsRepository
+                    .countByStudent_StudentIdAndStatusAndStudentResponseNot(
+                            student.getStudentId(),
+                            ApplicationStatus.SELECTED,
+                            StudentResponse.DECLINED
+                    );
+
+            // ✅ Set placed based on ALL applications
+            student.setPlaced(selectedCount > 0);
         }
 
+        // Save applications (students auto-update due to JPA dirty checking)
         jobApplicationsRepository.saveAll(applications);
     }
 
