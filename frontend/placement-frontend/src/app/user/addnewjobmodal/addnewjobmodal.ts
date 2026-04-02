@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import {
   FormGroup,
   FormControl,
@@ -23,6 +24,7 @@ export class AddNewJobModal implements OnInit {
 
   @Input() jobData: any = null;
   @Output() close = new EventEmitter<void>();
+  // public Editor = ClassicEditor;
 
   // Degree options
   degreeList = [

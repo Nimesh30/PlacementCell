@@ -40,16 +40,14 @@ export class ApplicationsService {
   );
 }
 
-
-
-  //Notice Board services
+  // Notice Board services
   // getNotices() {
   //   return this.http.get('http://localhost:8080/api/students/notices');
-  // }
+  //}
 
   // createNotice(data: any) {
   //   return this.http.post('http://localhost:8080/api/admin/notices', data);
-  // }
+  //}
 
   getStatuses() {
   return this.http.get<string[]>('http://localhost:8085/api/applications/status');

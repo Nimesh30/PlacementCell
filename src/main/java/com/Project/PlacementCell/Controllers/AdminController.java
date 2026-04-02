@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
 @CrossOrigin("*")
-public class AdminController {
+public class AdminController {  
 
     @Autowired
     private LoginService loginService;
@@ -39,8 +40,8 @@ public class AdminController {
 
 
     @GetMapping("/students")
-    public ResponseEntity<?> getStudents() {
-        return adminServices.getStudents();
+    public List<?> getStudents() {
+        return adminServices.getAllStudentsWithApplications();
     }
 
 
@@ -56,5 +57,20 @@ public class AdminController {
                 .headers(headers)
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(new InputStreamResource(stream));
+    }
+
+    @GetMapping("/export/students")
+    public ResponseEntity<InputStreamResource> exportStudentsData(
+            @RequestParam(defaultValue = "all") String type) throws Exception {
+
+        ByteArrayInputStream file = exportService.exportStudentsData(type);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=students.xlsx");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(file));
     }
 }

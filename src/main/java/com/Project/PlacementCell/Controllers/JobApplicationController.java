@@ -58,9 +58,7 @@ public class JobApplicationController {
 
         @PutMapping("/updatestatus")
         public String updateStatus(@RequestBody StatusUpdateDTO dto) {
-
             jobAppllicationService.updateStatus(dto.getIds(), dto.getStatus());
-
             return "Status Updated Successfully";
         }
 

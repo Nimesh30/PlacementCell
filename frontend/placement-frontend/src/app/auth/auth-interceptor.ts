@@ -27,26 +27,25 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(clonedRequest).pipe(
 
-    catchError((error) => {
+   catchError((error) => {
 
-      console.log("API ERROR:", error);
+  console.log("API ERROR:", error);
 
-      if (error.status === 401) {
+  if (error.status === 401) {
 
-        const role = localStorage.getItem('role');
+    const role = localStorage.getItem('role'); // ✅ GET FIRST
 
-        //  Role-based redirect
-        localStorage.clear();
+    localStorage.clear(); // ✅ THEN CLEAR
 
-        if (role === 'ADMIN') {
-          window.location.href = '/adminlogin';
-        } else {
-          window.location.href = '/login';
-        }
-      }
+    // 🔥 Correct redirect
+    if (role === 'ADMIN') {
+      window.location.href = '/adminlogin';
+    } else {
+      window.location.href = '/login';
+    }
+  }
 
-      return throwError(() => error);
-    })
-
+  return throwError(() => error);
+})
   );
 };

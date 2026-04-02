@@ -169,4 +169,14 @@ ORDER BY ja.appliedAt DESC
         AND a.studentResponse <> 'DECLINED'
         """)
     List<OfferDTO> getSelectedOffers(@Param("studentId") String studentId);
+
+
+    @Query("""
+            SELECT ja FROM JobApplications ja
+            WHERE ja.student.id = :studentId
+            AND ja.status = 'SELECTED'
+            """)
+    List<JobApplications> findSelectedByStudentId(@Param("studentId") Long studentId);
+
+
 }

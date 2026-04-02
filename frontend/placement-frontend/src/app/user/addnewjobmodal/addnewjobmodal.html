@@ -1,14 +1,14 @@
 <!-- Overlay -->
 <div class="modal-overlay" (click)="closeModal()">
 
-  <!-- Modal Container -->  
+  <!-- Modal Container -->
   <div class="modal-container" (click)="$event.stopPropagation()">
 
     <!-- Header -->
     <div class="modal-header">
       <div>
         <h2>{{ jobData ? 'Update Job' : 'Post New Job' }}</h2>
-        <p>{{ jobData ? 'Edit job details' : 'Fill in company and job details (*) Required'  }}</p>
+        <p>{{ jobData ? 'Edit job details' : 'Fill in company and job details (*) Required' }}</p>
       </div>
       <button class="close-btn" (click)="closeModal()">✕</button>
     </div>
@@ -54,10 +54,7 @@
 
           <div class="checkbox-group">
             <div *ngFor="let degree of degreeList; let i = index" class="checkbox-item">
-              <input 
-             type="checkbox" 
-             [formControl]="eligibleDegrees.at(i)" 
-                />
+              <input type="checkbox" [formControl]="eligibleDegrees.at(i)" />
               <label for="degree{{i}}">{{ degree }}</label>
             </div>
           </div>
@@ -65,20 +62,22 @@
 
         <div class="form-group full-width">
           <label>Job Description *</label>
-          <textarea rows="5"
-            placeholder="Describe the role, responsibilities, requirements..."
+          <textarea rows="5" placeholder="Describe the role, responsibilities, requirements..."
             formControlName="description">
           </textarea>
+          <!-- <ckeditor [editor]="Editor" formControlName="description"></ckeditor> -->
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn-cancel" (click)="closeModal()">Cancel</button>
-          <button class="btn-submit" type="submit">
-            {{ jobData ? 'Update Job' : 'Post Job' }}
-          </button>
-        </div>
+          <div class="button-group">
+            <button type="button" class="btn-cancel" (click)="closeModal()">Cancel</button>
+            <button class="btn-submit" type="submit">
+              {{ jobData ? 'Update Job' : 'Post Job' }}
+            </button>
+          </div>
 
-      </form> 
+        </div>
+      </form>
 
     </div>
   </div>

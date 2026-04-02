@@ -97,7 +97,7 @@ public class StudentService {
             profile = new StudentProfile();
         }
 
-        // ✅ Set fields
+        // Set fields
         profile.setFullName(studProfile.getFullName());
         profile.setPersonalEmail(studProfile.getPersonalEmail());
         profile.setMobileNumber(studProfile.getMobileNumber());
@@ -117,13 +117,13 @@ public class StudentService {
             profile.setImagePublicId(uploadResponse.getPublicId());
         }
 
-        // 🔥 RELATION
+        // RELATION
         student.setProfile(profile);
         profile.setStudent(student);
 
         studentRepository.save(student);
 
-        // ✅ RETURN DTO INSTEAD OF ENTITY
+        //RETURN DTO INSTEAD OF ENTITY
         return new StudentProfileResponse(
                 student.getStudentId(),
                 student.getEmail(),
