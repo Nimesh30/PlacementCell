@@ -17,13 +17,14 @@ export class ApplicationsService {
     size: number
   ) {
     return this.http.get(
-      `${this.baseUrl}/studentwithCompanyStatus?keyword=${keyword}&company=${company}&status=${status}&page=${page}&size=${size}`
+      `http://localhost:8085/admin/studentwithCompanyStatus?keyword=${keyword}&company=${company}&status=${status}&page=${page}&size=${size}`
     );
   }
 
   getAllCompanies(){
+    
     return this.http.get(
-        `${this.baseUrl}/getAllcompanies`
+        `http://localhost:8085/admin/getAllcompanies`
     );
   }
 
