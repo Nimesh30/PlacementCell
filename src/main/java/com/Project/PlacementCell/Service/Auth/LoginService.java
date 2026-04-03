@@ -35,17 +35,17 @@ public class LoginService {
 
         Admin admin = optionalAdmin.get();
 
-        // ⚠️ NOTE: You should use passwordEncoder here ideally
+        // ⚠ NOTE: You should use passwordEncoder here ideally
         if (!adminLoginDTO.getPassword().equals(admin.getPassword())) {
             return ResponseEntity
                     .status(401)
                     .body(Map.of("message", "Invalid credentials"));
         }
 
-        // ✅ FIX: use uppercase role
+        //  FIX: use uppercase role
         String token = authUtil.generateAccessToken(admin.getAdminid(), "ADMIN");
 
-        // ✅ FIX: return token + role + email etc.
+        //  FIX: return token + role + email etc.
         return ResponseEntity.ok(
                 Map.of(
                         "adminId", admin.getAdminid(),

@@ -5,6 +5,8 @@ import com.Project.PlacementCell.DTO.JobDTO;
 import com.Project.PlacementCell.Entity.JobsDetails;
 import com.Project.PlacementCell.Repository.JobApplicationsRepository;
 import com.Project.PlacementCell.Repository.JobRepository;
+import com.Project.PlacementCell.Repository.StudentRepository;
+import com.Project.PlacementCell.Service.Auth.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,10 @@ public class JobService {
     }
     @Autowired
     private JobApplicationsRepository jobApplicationsRepository;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private StudentRepository studentRepository;
 
     // Admin Add Job
     public JobsDetails addJob(JobDTO dto) {
@@ -39,8 +45,17 @@ public class JobService {
         job.setEligibleDegrees(dto.getEligibleDegrees());
         job.setActive(true);
 
-        return jobRepository.save(job);
+        JobsDetails savedJob = jobRepository.save(job);
+
+        // send notification email
+        notifyStudents(savedJob);
+
+        return savedJob;
     }
+
+
+
+
 
     // Get only active & not expired jobs and optionally search by keyword
     // Get jobs with application count
@@ -140,7 +155,7 @@ public class JobService {
         job.setDescription(dto.getDescription());
 
         JobsDetails updated = jobRepository.save(job);
-
+        notifyJobUpdate(updated);
         // convert to DTO
         JobDTO response = new JobDTO();
         response.setId(updated.getId());
@@ -155,4 +170,54 @@ public class JobService {
 
         return response;
     }
+
+//It will al students when new job posted...
+    public void notifyStudents(JobsDetails job) {
+
+        List<String> studentEmails = studentRepository.getAllStudentEmails();
+
+        for(String email : studentEmails){
+
+            String subject = "New Job Opportunity - " + job.getCompanyName();
+
+            String body = "Dear Student,\n\n"
+                    + "A new job has been posted.\n\n"
+                    + "Company: " + job.getCompanyName() + "\n"
+                    + "Role: " + job.getJobTitle() + "\n"
+                    + "Package: " + job.getPackageLpa() + " LPA\n"
+                    + "Location: " + job.getLocation() + "\n"
+                    + "Apply before: " + job.getDeadline() + "\n\n"
+                    + "Login to the portal and apply.\n\n"
+                    + "Placement Cell";
+
+            emailService.sendEmail(email, subject, body);
+        }
+    }
+
+
+    //It will al students when existing job updated....
+    public void notifyJobUpdate(JobsDetails job) {
+
+        List<String> studentEmails = studentRepository.getAllStudentEmails();
+
+        for(String email : studentEmails){
+
+            String subject = "Job Update - " + job.getCompanyName();
+
+            String body = "Dear Student,\n\n"
+                    + "The job details have been updated.\n\n"
+                    + "Company: " + job.getCompanyName() + "\n"
+                    + "Role: " + job.getJobTitle() + "\n"
+                    + "Package: " + job.getPackageLpa() + " LPA\n"
+                    + "Location: " + job.getLocation() + "\n"
+                    + "Deadline: " + job.getDeadline() + "\n\n"
+                    + "Please login to the portal to check the updated details.\n\n"
+                    + "Placement Cell";
+
+            emailService.sendEmail(email, subject, body);
+        }
+    }
+
+
+
 }

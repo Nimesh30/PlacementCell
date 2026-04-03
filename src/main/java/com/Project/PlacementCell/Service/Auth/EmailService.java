@@ -16,7 +16,7 @@ public class EmailService {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
-        message.setSubject("Placement Cell Login Details");
+        message.setSubject("Placement Cell Login credentials");
 
         message.setText(
                 "Hello " + username + ",\n\n" +
@@ -29,4 +29,20 @@ public class EmailService {
 
         mailSender.send(message);
     }
+
+
+    public void sendEmail(String to, String subject, String body) {
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(body);
+
+        mailSender.send(message);
+    }
+
+
+
+
+
 }

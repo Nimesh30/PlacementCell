@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet,RouterLinkActive,RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-layout',
   imports: [RouterOutlet,RouterLink,RouterLinkActive],
@@ -13,5 +14,10 @@ export class Layout {
     ngOnInit() {
       this.username = localStorage.getItem("username");   
    }
+  constructor(private router: Router) { }
 
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+   }
 }

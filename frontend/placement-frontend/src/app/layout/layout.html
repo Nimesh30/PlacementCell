@@ -15,14 +15,26 @@
       <a routerLink="jobs" routerLinkActive="active"><span>💼</span> Job Listings</a>
       <a routerLink="applications" routerLinkActive="active"><span>📖</span> My Applications</a>
       <a routerLink="notice" routerLinkActive="active"><span>🔔</span> Notice Board</a>
-    </nav>
+      <!-- <button class="logout-btn" (click)="logout()">
+        Logout
+      </button> -->
+    </nav>  
 
     <div class="user-footer">
-      <div class="avatar">🧑🏻‍🎓</div>
-      <div>
-        <strong>{{username}}</strong>
-        <p>Student</p>
+
+      <div class="user-info">
+        <div class="avatar">🧑🏻‍🎓</div>
+    
+        <div class="user-text">
+          <strong>{{username}}</strong>
+          <p>Student</p>
+        </div>
       </div>
+  
+      <button class="logout-btn" (click)="logout()">
+        Logout
+      </button>
+    
     </div>
   </aside>
 
