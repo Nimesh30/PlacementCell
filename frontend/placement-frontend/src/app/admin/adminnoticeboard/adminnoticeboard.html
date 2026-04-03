@@ -28,12 +28,7 @@
         required
       />
 
-      <textarea
-        placeholder="Notice Message"
-        [(ngModel)]="notice.message"
-        name="message"
-        required>
-      </textarea>
+      <ckeditor [editor]="Editor" [(ngModel)]="notice.message" name="message"></ckeditor>
 
       <input
         type="text"

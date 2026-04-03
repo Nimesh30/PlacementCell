@@ -9,7 +9,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
   const userRole = localStorage.getItem('role')?.toUpperCase();
 
   if (!token || !userRole) {
-    router.navigate(['/login']);
+    router.navigate(['/']);
     return false;
   }
 
@@ -27,8 +27,11 @@ export const roleGuard: CanActivateFn = (route, state) => {
   // Smart redirect
   if (userRole === 'ADMIN') {
     router.navigate(['/adminlayout/admindashboard']);
-  } else {
+  } else if(userRole === 'STUDENT') {
     router.navigate(['/layout/userdashboard']);
+  }
+  else{
+    router.navigate(['/']);
   }
 
   return false;

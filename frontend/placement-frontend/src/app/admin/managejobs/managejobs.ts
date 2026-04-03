@@ -5,6 +5,7 @@ import { JobService } from 'app/Services/jobservice/jobservice';
 import { HttpClient } from '@angular/common/http';
 import { HostListener } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class Managejobs {
   constructor(
     private jobService: JobService,
     private http: HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
