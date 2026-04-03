@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NoticeService } from 'app/Services/noticeBoard/notice';
 import { ChangeDetectorRef } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-noticeboard',
@@ -14,7 +15,7 @@ export class Noticeboard implements OnInit {
 
   notices: any[] = [];
 
-  constructor(private noticeService: NoticeService,private cdr:ChangeDetectorRef) { }
+  constructor(private noticeService: NoticeService,private cdr:ChangeDetectorRef, public sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.loadNotices();
@@ -46,5 +47,11 @@ export class Noticeboard implements OnInit {
     const now = new Date().getTime();
     const created = new Date(notice.createdAt).getTime();
     return (now - created) < (24 * 60 * 60 * 1000);
+  }
+
+  getPreviewText(message: string): string {
+    // Strip HTML tags and get first 80 characters
+    const stripped = message.replace(/<[^>]*>/g, '');
+    return stripped.length > 80 ? stripped.substring(0, 80) + '...' : stripped;
   }
 }

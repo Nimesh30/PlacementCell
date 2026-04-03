@@ -28,12 +28,7 @@
         required
       />
 
-      <textarea
-        placeholder="Notice Message"
-        [(ngModel)]="notice.message"
-        name="message"
-        required>
-      </textarea>
+      <ckeditor [editor]="Editor" [(ngModel)]="notice.message" name="message"></ckeditor>
 
       <input
         type="text"
@@ -89,9 +84,9 @@
             <span *ngIf="n.pinned" class="urgent">URGENT</span>
           </h3>
 
-          <p *ngIf="!n.expanded" class="short-text">
-            {{ n.message | slice:0:80 }}...
-          </p>
+          <!-- <p *ngIf="!n.expanded" class="short-text">
+            {{ getPreviewText(n.message) }}
+          </p> -->
         </div>
 
       </div>
@@ -126,7 +121,7 @@
     <!-- Expandable Notice Body -->
     <div class="notice-body" *ngIf="n.expanded">
 
-      <p>{{ n.message }}</p>
+      <p [innerHTML]="sanitizer.bypassSecurityTrustHtml(n.message)"></p>
 
       <a
         *ngIf="n.fileUrl"

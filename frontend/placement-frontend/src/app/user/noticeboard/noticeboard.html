@@ -25,9 +25,9 @@
               <!-- <span *ngIf="isNew(notice)" class="new-badge">NEW</span> -->
             </h3>
   
-            <p *ngIf="!notice.expanded" class="short-text">
-              {{ notice.message | slice:0:80 }}...
-            </p>
+            <!-- <p *ngIf="!notice.expanded" class="short-text">
+              {{ getPreviewText(notice.message) }}
+            </p> -->
           </div>
         </div>
   
@@ -42,7 +42,7 @@
   
       <!-- Expand Content -->
       <div class="notice-body" *ngIf="notice.expanded">
-        <p>{{ notice.message }}</p>
+        <p [innerHTML]="sanitizer.bypassSecurityTrustHtml(notice.message)"></p>
   
         <a *ngIf="notice.fileUrl" [href]="notice.fileUrl" target="_blank">
           📄 Attachment

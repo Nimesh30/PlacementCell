@@ -2,11 +2,14 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NoticeService } from 'app/Services/noticeBoard/notice';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-adminnoticeboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CKEditorModule],
   templateUrl: './adminnoticeboard.html',
   styleUrls: ['./adminnoticeboard.css']
 })
@@ -16,6 +19,8 @@ export class Adminnoticeboard implements OnInit {
 
   showForm = false;
   isEditMode = false;
+  content: string = '';
+  public Editor: any = ClassicEditor;
 
   notice = {
     id: null as number | null,
@@ -27,7 +32,8 @@ export class Adminnoticeboard implements OnInit {
 
   constructor(
     private noticeService: NoticeService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -151,6 +157,12 @@ export class Adminnoticeboard implements OnInit {
     };
 
     this.isEditMode = false;
+  }
+
+  getPreviewText(message: string): string {
+    // Strip HTML tags and get first 80 characters
+    const stripped = message.replace(/<[^>]*>/g, '');
+    return stripped.length > 80 ? stripped.substring(0, 80) + '...' : stripped;
   }
 
 }
