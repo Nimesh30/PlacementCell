@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+
 // import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import {EditorModule} from '@tinymce/tinymce-angular';
+// import {EditorModule} from '@tinymce/tinymce-angular';
 import {
   FormGroup,
   FormControl,
@@ -19,7 +20,7 @@ import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-addnewjobmodal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,EditorModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './addnewjobmodal.html',
   styleUrls: ['./addnewjobmodal.css']
 })

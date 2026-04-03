@@ -57,7 +57,7 @@ public class StudentController {
 //        return ResponseEntity.ok(savedProfile);
 //    }
 
-    // ✅ ADD PROFILE
+    //  ADD PROFILE
     @PostMapping("/add/{studentId}")
     public ResponseEntity<?> addProfile(
             @PathVariable String studentId,
@@ -82,7 +82,7 @@ public class StudentController {
 //        );
 //    }
 
-    // ✅ GET PROFILE
+    //  GET PROFILE
     @GetMapping("/profile/{studentId}")
     public ResponseEntity<?> getProfile(@PathVariable String studentId) {
         return ResponseEntity.ok(
@@ -90,27 +90,12 @@ public class StudentController {
         );
     }
 
-
-
-
-//    @GetMapping("/studentwithCompanyStatus")
-//    public Page<PlacedLeaderBoardDTO> getStudentsandCompany(
-//            @RequestParam(required = false) String keyword,
-//            @RequestParam(required = false) String company,
-//            @RequestParam(required = false) ApplicationStatus status,
-//            Pageable pageable) {
-//
-//        System.out.println("Status Value:"+status);
-//
-//        return jobAppllicationService.getStudentsandCompany(keyword, company,status,pageable);
-//    }
-
     @GetMapping("/getAllcompanies")
     public List<String> getCompanies() {
         return jobService.getAllComapnies();
     }
 
-    // 🔢 Count API
+    //  Count API
     @GetMapping("/selected-count/{studentId}")
     public long getSelectedCount(@PathVariable String studentId) {
         return jobAppllicationService.getSelectedCount(studentId);

@@ -30,7 +30,7 @@ public class Student {
     @Column(name = "placed")
     private Boolean placed= false;
 
-    // 🔥 NOW Student OWNS the relationship
+    //  NOW Student OWNS the relationship
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private StudentProfile profile;

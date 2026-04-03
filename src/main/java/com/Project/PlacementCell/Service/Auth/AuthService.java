@@ -50,7 +50,6 @@ public class AuthService {
         student.setEmail(registerDTO.getEmail());
         student.setPassword(passwordEncoder.encode(randomPassword));
         student.setFirstLogin(true);
-        System.out.println("In register Student "+ student);
         studentRepository.save(student);
 
         emailService.sendRegistrationMail(
@@ -77,7 +76,6 @@ public class AuthService {
         }
 
         Student student = optionalStudent.get();
-
         if (!passwordEncoder.matches(
                 loginDTO.getPassword(),
                 student.getPassword()

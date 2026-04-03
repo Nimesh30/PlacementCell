@@ -39,7 +39,7 @@ public class StudentProfile {
     private String imageUrl;
     private String imagePublicId;
 
-    // 🔥 NOW inverse side
+    //  NOW inverse side
     @JsonIgnore
     @OneToOne(mappedBy = "profile")
     private Student student;
