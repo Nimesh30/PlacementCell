@@ -3,6 +3,7 @@ import { JobService } from '../../Services/jobservice/jobservice';
 import { CommonModule } from '@angular/common';
 import { Applymodal } from '../applymodal/applymodal';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-joblistings',
@@ -22,7 +23,7 @@ export class Joblistings {
   studentData = signal<any | null>(null);
   selectedJob: any = null;
 
-  constructor(private jobService: JobService, private http: HttpClient) { }
+  constructor(private jobService: JobService, private http: HttpClient, public sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.loadJobs();

@@ -49,7 +49,7 @@
 
 
       <div *ngIf="job.showDescription" class="descriptionBox">
-        <p>{{ job.description }}</p>
+        <p [innerHTML]="sanitizer.bypassSecurityTrustHtml(job.description)"></p>
       </div>
 
       <!-- <div class="buttons">

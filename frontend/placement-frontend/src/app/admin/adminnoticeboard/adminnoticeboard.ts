@@ -1,6 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+// import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { NoticeService } from 'app/Services/noticeBoard/notice';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -14,6 +16,8 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./adminnoticeboard.css']
 })
 export class Adminnoticeboard implements OnInit {
+
+  // public Editor: any = ClassicEditor;
 
   notices: any[] = [];
 

@@ -75,7 +75,7 @@
 
     <div class="description" *ngIf="job.showDescription">
       <h4>Job Description</h4>
-      <p>{{ job.description }}</p>
+      <p [innerHTML]="sanitizer.bypassSecurityTrustHtml(job.description)"></p>
     </div>
   </div>
 `
