@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+// import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import {EditorModule} from '@tinymce/tinymce-angular';
 import {
   FormGroup,
   FormControl,
@@ -8,7 +10,8 @@ import {
   ReactiveFormsModule,
   Validators,
   AbstractControl,
-  ValidationErrors
+  ValidationErrors,
+  FormsModule
 } from '@angular/forms';
 import { JobService } from 'app/Services/jobservice/jobservice';
 import { ChangeDetectorRef } from '@angular/core';
@@ -16,7 +19,7 @@ import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-addnewjobmodal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,EditorModule],
   templateUrl: './addnewjobmodal.html',
   styleUrls: ['./addnewjobmodal.css']
 })
@@ -25,6 +28,8 @@ export class AddNewJobModal implements OnInit {
   @Input() jobData: any = null;
   @Output() close = new EventEmitter<void>();
   // public Editor = ClassicEditor;
+
+  content: string = '';
 
   // Degree options
   degreeList = [
