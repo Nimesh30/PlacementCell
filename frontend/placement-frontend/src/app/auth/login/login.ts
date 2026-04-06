@@ -31,7 +31,8 @@
 
         //  STORE TOKEN (IMPORTANT)
         localStorage.setItem("token", response.token);
-        localStorage.setItem("role",response.Role);
+        // localStorage.setItem("role",response.Role);
+        localStorage.setItem("role", response.Role.toUpperCase());
 
         // Existing data
         localStorage.setItem("username", response.username);

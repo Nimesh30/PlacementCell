@@ -39,7 +39,7 @@ public class SecurityConfig {
                                 //authetication for student
 //                        .requestMatchers("/api/auth/**").permitAll()
                                 //authentication for admin
-                                .requestMatchers("api/auth/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/admin/login").permitAll()
 
                                 .requestMatchers("/admin/**").hasRole("ADMIN")

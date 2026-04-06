@@ -134,5 +134,52 @@ public class AuthService {
                 Map.of("message", "Password changed successfully")
         );
     }
+    public ResponseEntity<?> forgotPassword(String email) {
+
+        Optional<Student> optionalStudent = studentRepository.findByEmail(email);
+
+        if (optionalStudent.isEmpty()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("message", "User not found"));
+        }
+
+        Student student = optionalStudent.get();
+
+        // Generate JWT reset token
+        String token = authUtil.generateAccessToken(student.getId(), "RESET");
+
+        String resetLink = "http://localhost:4200/reset-password/" + token;
+
+        // Send email
+        emailService.sendResetPasswordMail(student.getEmail(), resetLink);
+
+        return ResponseEntity.ok(Map.of("message", "Reset link sent to email"));
+    }
+
+
+
+    public ResponseEntity<?> resetPassword(String token, String newPassword) {
+
+        Integer studentId = authUtil.validateTokenAndGetUserId(token);
+
+        Optional<Student> optionalStudent = studentRepository.findById(Long.valueOf(studentId));
+
+        if(optionalStudent.isEmpty()){
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("message","Invalid token"));
+        }
+
+        Student student = optionalStudent.get();
+
+        student.setPassword(passwordEncoder.encode(newPassword));
+
+        studentRepository.save(student);
+
+        return ResponseEntity.ok(
+                Map.of("message","Password reset successful")
+        );
+    }
 
 }

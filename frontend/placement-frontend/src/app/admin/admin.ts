@@ -17,5 +17,4 @@ export class AdminService {
     return this.http.get(`${this.baseUrl}/dashboard`);
   }
 
-
 }

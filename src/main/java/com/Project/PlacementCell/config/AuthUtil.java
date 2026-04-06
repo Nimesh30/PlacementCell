@@ -1,6 +1,7 @@
 package com.Project.PlacementCell.config;
 
 import com.Project.PlacementCell.Entity.Student;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +25,7 @@ public class AuthUtil {
     public String generateAccessToken(int id,String role){
        return Jwts.builder()
                .setSubject(String.valueOf(id))
-               .claim("userId",id)
+               .claim("studentId",id)
                .claim("role",role)
                .setIssuedAt(new Date())
                .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*24*7))
@@ -32,4 +33,14 @@ public class AuthUtil {
                .compact();
     }
 
+    public Integer validateTokenAndGetUserId(String token) {
+
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSecretKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return Integer.parseInt(claims.get("studentId").toString());
+    }
 }
