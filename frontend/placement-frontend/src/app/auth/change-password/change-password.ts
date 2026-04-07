@@ -1,68 +1,8 @@
-// import { Component, OnInit } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { HttpClient } from '@angular/common/http';
-// import { FormsModule } from '@angular/forms';
-
-// @Component({
-//   selector: 'app-change-password',
-//   standalone: true,
-//   imports: [FormsModule],
-//   templateUrl: './change-password.html',
-//   styleUrl: './change-password.css'
-// })
-// export class ChangePassword implements OnInit {
-
-//   email: string = '';
-//   newPassword: string = '';
-//   confirmPassword: string = '';
-//   // isChangedPass=false;
-//   constructor(private http: HttpClient, private router: Router) {}
-
-//   ngOnInit(): void {
-//     this.email = localStorage.getItem("userEmail") || '';
-//   }
-
-//   changePassword() {
-
-//     if (this.newPassword !== this.confirmPassword) {
-//       alert("Passwords do not match!");
-//       return;
-//     }
-
-//     const data = {
-//       email: this.email,
-//       newPassword: this.newPassword
-//     };
-
-//     this.http.post('http://localhost:8085/api/auth/change-password', data)
-//       .subscribe({
-//         next: () => {
-//           alert("Password changed successfully!");
-
-//           localStorage.removeItem("userEmail");
-          
-//           this.router.navigate(['/login']);
-        
-//         },
-//         error: (err) => {
-//           console.log("error "+err)
-//           alert("Failed to change password. Try again.");
-//           console.log("error 1"+err)
-//         }
-//       });
-//   }
-// }
-
-
-
-
-//Antigravity
-
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'; // <-- Add ActivatedRoute
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-change-password',
@@ -80,7 +20,7 @@ export class ChangePassword implements OnInit {
   isResetMode: boolean = false; // Flag to check which API to call
 
   // Inject ActivatedRoute to read the URL token
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute,private toastr:ToastrService) { }
 
   ngOnInit(): void {
     // Check if we arrived here via a Reset Password email link
@@ -96,7 +36,7 @@ export class ChangePassword implements OnInit {
 
   submitPasswordChange() { // Renamed from changePassword() for clarity
     if (this.newPassword !== this.confirmPassword) {
-      alert("Passwords do not match!");
+      this.toastr.error("Passwords do not match!");
       return;
     }
 
@@ -110,12 +50,12 @@ export class ChangePassword implements OnInit {
       this.http.post('http://localhost:8085/api/auth/reset-password', resetData)
         .subscribe({
           next: () => {
-            alert("Password reset successfully!");
+            this.toastr.success("Password reset successfully!")
             this.router.navigate(['/login']); // <-- Auto redirect
           },
           error: (err) => {
             console.error(err);
-            alert("Failed to reset password. The link might be expired.");
+            this.toastr.error("Failed to reset password. The link might be expired.")
           }
         });
 
@@ -129,13 +69,13 @@ export class ChangePassword implements OnInit {
       this.http.post('http://localhost:8085/api/auth/change-password', changeData)
         .subscribe({
           next: () => {
-            alert("Password changed successfully!");
+            this.toastr.success("Password changed successfully!")
             localStorage.removeItem("userEmail");
             this.router.navigate(['/login']); // <-- Auto redirect
           },
           error: (err) => {
             console.error(err);
-            alert("Failed to change password. Try again.");
+            this.toastr.error("Failed to change password. Try again.")
           }
         });
     }

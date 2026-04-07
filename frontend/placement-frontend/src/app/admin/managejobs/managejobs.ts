@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { HostListener } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class Managejobs {
     private jobService: JobService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
-    public sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer,
+    private toastr:ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +48,7 @@ export class Managejobs {
 updateFilter(event: Event) {
   const value = (event.target as HTMLSelectElement).value;
 
-  console.log("Selected Filter:", value); // 🔥
+  console.log("Selected Filter:", value); // 
 
   this.filterType.set(value as any);
   this.currentPage.set(0);
@@ -60,7 +62,7 @@ updateFilter(event: Event) {
       keyword,
       this.currentPage(),
       this.pageSize,
-      this.filterType()   // ✅ send filter to backend
+      this.filterType()   //  send filter to backend
     )
     .subscribe((data: any) => {
       console.log("jobs"+data)
@@ -125,12 +127,12 @@ updateFilter(event: Event) {
     if (confirm('Are you sure you want to delete this job?')) {
       this.jobService.deleteJob(jobId).subscribe({
         next: () => {
-          alert('Job deleted successfully ✅');
+          this.toastr.success('Job deleted successfully ');
           this.loadJobs(this.searchText());
         },
         error: (err) => {
           console.error(err);
-          alert('Delete failed ❌');
+          this.toastr.error('Delete failed');
         }
       });
     }

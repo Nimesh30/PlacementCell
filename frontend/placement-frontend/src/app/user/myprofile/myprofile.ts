@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'myprofile',
@@ -21,7 +22,9 @@ export class Myprofile implements OnInit {
 
   baseUrl = 'http://localhost:8085/students';
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private cdr: ChangeDetectorRef) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, 
+    private cdr: ChangeDetectorRef,
+  private toastr:ToastrService) { }
 
   ngOnInit(): void {
 
@@ -50,7 +53,7 @@ export class Myprofile implements OnInit {
     if (studentId) {
       this.fetchProfile(studentId);
     } else {
-      alert("Student not logged in");
+      this.toastr.error("Student not logged in");
     }
   }
 
@@ -140,14 +143,14 @@ export class Myprofile implements OnInit {
 
   const studentId = localStorage.getItem('studentId');
   if (!studentId) {
-    alert("Student not logged");
+    this.toastr.error("Student not logged");
     return;
   }
 
   const rawData = this.academicForm.getRawValue();
   const formData = new FormData();
 
-  // ✅ IMPORTANT FIX (SEND JSON AS BLOB)
+  //  IMPORTANT FIX (SEND JSON AS BLOB)
   const profileBlob = new Blob(
     [JSON.stringify(rawData)],
     { type: 'application/json' }
@@ -155,7 +158,7 @@ export class Myprofile implements OnInit {
 
   formData.append('profile', profileBlob);
 
-  // ✅ File
+  //  File
   if (this.selectedFile) {
     formData.append('file', this.selectedFile);
   }
@@ -165,14 +168,14 @@ export class Myprofile implements OnInit {
     this.http.post(`${this.baseUrl}/add/${studentId}`, formData)
       .subscribe({
         next: () => {
-          alert("Profile saved successfully!");
+          this.toastr.success("Profile saved successfully!");
           this.isEditMode = true;
           this.disableForm();
           this.cdr.detectChanges();
         },
         error: (err) => {
           console.error(err);
-          alert("Error saving profile");
+          this.toastr.error("Error saving profile");
         }
       });
                       

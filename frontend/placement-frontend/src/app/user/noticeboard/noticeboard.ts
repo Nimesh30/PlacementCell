@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './noticeboard.html',
-  styleUrls: ['./noticeboard.css'], // ✅ fix (plural)
+  styleUrls: ['./noticeboard.css'], //  fix (plural)
 })
 export class Noticeboard implements OnInit {
 

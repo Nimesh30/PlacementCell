@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JobService } from 'app/Services/jobservice/jobservice';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-applymodal',
@@ -18,7 +19,7 @@ export class Applymodal {
 
   applied: boolean = false;
 
-  constructor(private jobservice: JobService) {}
+  constructor(private jobservice: JobService,private toastr:ToastrService) {}
 
   submitApplication() {
 
@@ -34,7 +35,7 @@ export class Applymodal {
     this.jobservice.applyJob(studentId, jobId).subscribe({
 
       next: (res) => {
-        alert("Application submitted successfully");
+            this.toastr.success("Application submitted successfully")
 
         // change button state
         this.applied = true;
@@ -43,7 +44,7 @@ export class Applymodal {
 
       error: (err) => {
         console.error(err);
-        alert("You already applied for this job");
+        this.toastr.warning("You already applied for this job");
         this.close.emit()
       }
 

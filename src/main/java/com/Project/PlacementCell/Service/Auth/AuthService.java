@@ -148,13 +148,14 @@ public class AuthService {
 
         // Generate JWT reset token
         String token = authUtil.generateAccessToken(student.getId(), "RESET");
-
+//        String randomPassword = UUID.randomUUID().toString().substring(0, 6);
         String resetLink = "http://localhost:4200/reset-password/" + token;
 
         // Send email
         emailService.sendResetPasswordMail(student.getEmail(), resetLink);
+//        emailService.sendResetPasswordMail(student.getEmail(), randomPassword);
 
-        return ResponseEntity.ok(Map.of("message", "Reset link sent to email"));
+        return ResponseEntity.ok(Map.of("message", "Reset otp sent to email"));
     }
 
 

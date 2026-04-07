@@ -3,6 +3,7 @@ import { ApplicationsService } from 'app/Services/applications-service';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Toast, ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-allapplications',
   standalone: true,
@@ -30,7 +31,7 @@ export class Allapplications {
   selectedCount = signal(0);
   parentChecked: boolean = false;
 
-  constructor(private appService: ApplicationsService) {}
+  constructor(private appService: ApplicationsService,private toastr:ToastrService) {}
 
   ngOnInit(): void {
     this.loadJobs();
@@ -84,7 +85,7 @@ export class Allapplications {
       this.applications.set(
         data.content.map((item: any) => ({
           ...item,
-          id: item.applicationid,   // ✅ IMPORTANT FIX
+          id: item.applicationid,   //  IMPORTANT FIX
           checked: false
         }))
       );
@@ -93,12 +94,12 @@ export class Allapplications {
     });
   }
 
-  // ✅ UPDATE STATUS
+  //  UPDATE STATUS
   updateStatus(status: string) {
 
     const selectedIds = this.applications()
       .filter(app => app.checked)
-      .map(app => app.id);   // ✅ now safe
+      .map(app => app.id);   //  now safe
 
     console.log("Payload:", { ids: selectedIds, status });
 
@@ -110,19 +111,19 @@ export class Allapplications {
     this.appService.updateApplicationStatus(selectedIds, status)
       .subscribe({
         next: () => {
-          alert("Status Updated ✅");
+          this.toastr.success("Status Updated ");
 
           this.clearSelection();
           this.loadJobs(); // refresh UI
         },
         error: (err) => {
           console.error(err);
-          alert("Update failed ❌");
+          this.toastr.error("Update failed ");
         }
       });
   }
 
-  // ✅ SELECT ALL
+  //  SELECT ALL
   onParentChange(event: any) {
     this.parentChecked = event.target.checked;
 
@@ -133,19 +134,19 @@ export class Allapplications {
     this.updateSelectedCount();
   }
 
-  // ✅ CHILD CHECKBOX
+  //  CHILD CHECKBOX
   onChildChange() {
     this.parentChecked = this.applications().every(item => item.checked);
     this.updateSelectedCount();
   }
 
-  // ✅ COUNT
+  //  COUNT
   updateSelectedCount() {
     const count = this.applications().filter(item => item.checked).length;
     this.selectedCount.set(count);
   }
 
-  // ❌ CLEAR
+  //  CLEAR
   clearSelection() {
     this.applications().forEach(item => item.checked = false);
     this.parentChecked = false;

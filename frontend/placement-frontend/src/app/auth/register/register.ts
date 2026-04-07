@@ -3,6 +3,7 @@ import { Router,RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { email } from '@angular/forms/signals';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-register',
   imports: [RouterLink,FormsModule],
@@ -11,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class Register {
 
-    constructor(private router:Router ,private http:HttpClient){
+    constructor(private router:Router ,private http:HttpClient,private toastr:ToastrService){
 
     }
 
@@ -35,7 +36,9 @@ export class Register {
     this.http.post("http://localhost:8085/api/auth/register", registerData)
 .subscribe({
   next: (response: any) => {
-    alert(response.message); 
+    // alert(response.message); 
+    this.toastr.show(response.message)
+
     this.router.navigate(['/login'])
   },
   error: (error) => {
@@ -43,9 +46,11 @@ export class Register {
 
     //  Show backend message properly
     if (error.error && error.error.message) {
-      alert(error.error.message);
+      // alert(error.error.message);
+      this.toastr.show(error.error.message)
     } else {
-      alert("Registration failed - May be studentID duplicate...");
+      // alert("Registration failed - May be studentID duplicate...");
+      this.toastr.warning("Registration failed - May be studentID duplicate...")
     }
   }
 });

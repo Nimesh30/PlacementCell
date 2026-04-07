@@ -7,41 +7,39 @@
       <button class="close-btn" (click)="close()">✕</button>
     </div>
 
-    <!-- 🔥 LOOP HERE -->
-    @for (offer of offers(); track offer.applicationId) {
+    @if (offers().length > 0) {
 
       <div class="offer-card">
-
+    
         <div class="left">
           <div class="icon">🏢</div>
-
+    
           <div class="info">
-            <h3>{{ offer.companyName }}</h3>
-            <p>{{ offer.jobTitle }}</p>
-
+            <h3>{{ offers()[0].companyName }}</h3>
+            <p>{{ offers()[0].jobTitle }}</p>
+    
             <div class="details">
-              <span>₹ {{ offer.packageLpa }} LPA</span>
-              <span>📍 {{ offer.location }}</span>
+              <span>₹ {{ offers()[0].packageLpa }} LPA</span>
+              <span>📍 {{ offers()[0].location }}</span>
             </div>
           </div>
         </div>
-
+    
         <div class="status">
-          ⏳ {{ offer.studentResponse }}
+          ⏳ {{ offers()[0].studentResponse }}
         </div>
       </div>
-
-      <!-- Actions per offer -->
+    
       <div class="actions">
-        <button class="accept" (click)="acceptOffer(offer)">
+        <button class="accept" (click)="acceptOffer(offers()[0])">
           ✔ Accept Offer
         </button>
-
-        <button class="decline" (click)="declineOffer(offer)">
+    
+        <button class="decline" (click)="declineOffer(offers()[0])">
           ✖ Decline
         </button>
       </div>
-
+    
     }
 
     <!-- ✅ If no offers -->

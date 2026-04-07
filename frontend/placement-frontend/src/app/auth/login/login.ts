@@ -2,6 +2,7 @@
   import { Router, RouterLink } from '@angular/router';
   import { HttpClient } from '@angular/common/http';
   import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
   @Component({
     selector: 'app-login',
@@ -15,7 +16,7 @@
     email: string = '';
     password: string = '';
 
-    constructor(private router: Router, private http: HttpClient) {}
+    constructor(private router: Router, private http: HttpClient,private toastr:ToastrService) {}
     login() {
 
   const loginData = {
@@ -29,9 +30,12 @@
 
         console.log("Login API Response:", response);
 
+        console.log("Full response:", response);        // see all keys
+        console.log("Role value:", response.Role);      // is it undefined?
+        console.log("Token value:", response.token); 
         //  STORE TOKEN (IMPORTANT)
         localStorage.setItem("token", response.token);
-        // localStorage.setItem("role",response.Role);
+        // localStorage.setItem('role', response.Role); 
         localStorage.setItem("role", response.Role.toUpperCase());
 
         // Existing data
@@ -52,9 +56,11 @@
 
       error: (error) => {
         if (error.status === 401) {
-          alert("Invalid Credentials");
+          // alert("Invalid Credentials");
+          this.toastr.error("Invalid Credentials")
         } else {
-          alert("Something went wrong. Try again.");
+          // alert("Something went wrong. Try again.");
+          this.toastr.error("Something went wrong. Try again")
         }
       }
     });

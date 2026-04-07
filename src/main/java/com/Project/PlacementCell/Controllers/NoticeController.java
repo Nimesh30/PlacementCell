@@ -1,6 +1,6 @@
 package com.Project.PlacementCell.Controllers;
 
-import com.Project.PlacementCell.DTO.NoticeDTO;
+import com.Project.PlacementCell.DTO.AdminDTO.NoticeDTO;
 import com.Project.PlacementCell.Entity.Notice;
 import com.Project.PlacementCell.Service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;

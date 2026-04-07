@@ -63,6 +63,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 String userId = claims.get("studentId").toString();
                 String role = claims.get("role").toString();
+                System.out.println(">>> JWT Role extracted: [" + role + "]");
+                System.out.println(">>> Authority set: [ROLE_" + role.toUpperCase() + "]");
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userId,

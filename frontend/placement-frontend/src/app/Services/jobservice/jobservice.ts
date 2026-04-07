@@ -18,7 +18,7 @@
           `${this.baseUrl}/available`,
         { params: { keyword: keyword || '' } }
       );
-  }
+  } 
 
   // getAllJobs(keyword?: string, page: number = 0, size: number = 10) {
   //   return this.http.get<any>(

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-forgot-password',
@@ -12,7 +13,7 @@ export class ForgotPassword {
 
   email: string = "";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private toastr:ToastrService) { }
 
   sendResetLink() {
 
@@ -22,11 +23,11 @@ export class ForgotPassword {
     )
       .subscribe({
         next: (res: any) => {
-          alert("Reset link sent to email");
+          this.toastr.show("OTP sent to email")
         },
         error: (err) => {
           console.log(err)
-          alert("Error sending reset link");
+          this.toastr.show("Error in send reset OTP")
         }
       });
 

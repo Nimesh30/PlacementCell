@@ -23,7 +23,9 @@ export class OfferReceivedModel {
     if (studentId) {
       this.jobService.getSelectedOffers(studentId).subscribe({
         next: (res) => {
-          this.offers.set(res);   // ✅ store API data
+          console.log("res :  "+ res);
+          
+          this.offers.set(res);   //  store API data
         },
         error: (err) => console.error(err)
       });
