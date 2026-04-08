@@ -50,7 +50,7 @@ export class Register {
       this.toastr.show(error.error.message)
     } else {
       // alert("Registration failed - May be studentID duplicate...");
-      this.toastr.warning("Registration failed - May be studentID duplicate...")
+      this.toastr.warning("Registration failed")
     }
   }
 });

@@ -29,10 +29,20 @@ import { ToastrService } from 'ngx-toastr';
       next: (response) => {
 
         console.log("Login API Response:", response);
-
         console.log("Full response:", response);        // see all keys
         console.log("Role value:", response.Role);      // is it undefined?
         console.log("Token value:", response.token); 
+        console.log("login response in login page ",response.firstLogin);
+
+        if (response.firstLogin === true) {
+          localStorage.setItem("userEmail", this.email);
+            
+          this.router.navigate(['/change-password']);
+
+        } else {
+          this.router.navigate(['/layout/userdashboard']);
+        }
+
         //  STORE TOKEN (IMPORTANT)
         localStorage.setItem("token", response.token);
         // localStorage.setItem('role', response.Role); 
@@ -43,14 +53,6 @@ import { ToastrService } from 'ngx-toastr';
         localStorage.setItem("studentId", response.studentId);
         localStorage.setItem("collegeEmail", response.email);
 
-        if (response.firstLogin === true) {
-          localStorage.setItem("userEmail", this.email);
-
-          this.router.navigate(['/change-password']);
-
-        } else {
-          this.router.navigate(['/layout/userdashboard']);
-        }
 
       },
 

@@ -1,5 +1,15 @@
+// 
+
+
+
+
+
+//chatgpt
+
+
+
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; // <-- Add ActivatedRoute
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -16,70 +26,97 @@ export class ChangePassword implements OnInit {
   email: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
-  token: string | null = null; // For holding the reset token
-  isResetMode: boolean = false; // Flag to check which API to call
+  token: string | null = null;
+  isResetMode: boolean = false;
 
-  // Inject ActivatedRoute to read the URL token
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute,private toastr:ToastrService) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
-    // Check if we arrived here via a Reset Password email link
+
+    // Check if reset password token exists in URL
     this.token = this.route.snapshot.paramMap.get('token');
 
     if (this.token) {
       this.isResetMode = true;
     } else {
-      // Normal First-Login Flow
+      // First time login flow
       this.email = localStorage.getItem("userEmail") || '';
     }
   }
 
-  submitPasswordChange() { // Renamed from changePassword() for clarity
-    if (this.newPassword !== this.confirmPassword) {
+  submitPasswordChange() {
+
+    const newPassword = this.newPassword.trim();
+    const confirmPassword = this.confirmPassword.trim();
+
+    // Check password match
+    if (newPassword !== confirmPassword) {
       this.toastr.error("Passwords do not match!");
       return;
     }
 
+    // Password strength validation
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+    if (!passwordPattern.test(newPassword)) {
+      this.toastr.error(
+        "Password must be at least 8 characters and include uppercase, lowercase, number, and special character."
+      );
+      return;
+    }
+
+    // RESET PASSWORD FLOW (via email link)
     if (this.isResetMode) {
-      // WORKFLOW: RESET PASSWORD VIA EMAIL LINK
+
       const resetData = {
         token: this.token,
-        newPassword: this.newPassword
+        newPassword: newPassword,
+        newPasswordConfirm: confirmPassword
       };
 
       this.http.post('http://localhost:8085/api/auth/reset-password', resetData)
         .subscribe({
           next: () => {
-            this.toastr.success("Password reset successfully!")
-            this.router.navigate(['/login']); // <-- Auto redirect
+            this.toastr.success("Password reset successfully!");
+            this.router.navigate(['/login']);
           },
           error: (err) => {
             console.error(err);
-            this.toastr.error("Failed to reset password. The link might be expired.")
+            this.toastr.error("Failed to reset password. The link might be expired.");
           }
         });
 
-    } else {
-      // WORKFLOW: FIRST TIME LOGIN CHANGE PASSWORD
+    }
+
+    // FIRST LOGIN CHANGE PASSWORD FLOW
+    else {
+
       const changeData = {
-        email: this.email,
-        newPassword: this.newPassword
+        email: this.email.trim(),
+        newPassword: newPassword,
+        newPasswordConfirm: confirmPassword
       };
+
+      console.log("Change Password Request:", changeData);
 
       this.http.post('http://localhost:8085/api/auth/change-password', changeData)
         .subscribe({
           next: () => {
-            this.toastr.success("Password changed successfully!")
+            this.toastr.success("Password changed successfully!");
             localStorage.removeItem("userEmail");
-            this.router.navigate(['/login']); // <-- Auto redirect
+            this.router.navigate(['/login']);
           },
           error: (err) => {
             console.error(err);
-            this.toastr.error("Failed to change password. Try again.")
+            this.toastr.error("Failed to change password. Try again.");
           }
         });
+
     }
   }
 }
-
-

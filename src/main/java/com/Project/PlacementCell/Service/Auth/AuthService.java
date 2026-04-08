@@ -41,6 +41,11 @@ public class AuthService {
                     .badRequest()
                     .body(Map.of("message", "Email already registered!"));
         }
+        if (studentRepository.existsByStudentId(registerDTO.getStudentId())){
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("message", "Email already registered!"));
+        }
 
         String randomPassword = UUID.randomUUID().toString().substring(0, 8);
 
@@ -69,11 +74,11 @@ public class AuthService {
         Optional<Student> optionalStudent =
                 studentRepository.findByEmail(loginDTO.getEmail());
 
-        if (optionalStudent.isEmpty()) {
-            return ResponseEntity
-                    .status(401)
-                    .body("Invalid credentials.......is empty");
-        }
+//        if (optionalStudent.isEmpty()) {
+//            return ResponseEntity
+//                    .status(404)
+//                    .body("Email is not registered!");
+//        }
 
         Student student = optionalStudent.get();
         if (!passwordEncoder.matches(
@@ -84,18 +89,19 @@ public class AuthService {
                     .status(401)
                     .body("You entered diffferent password..");
         }
+        String token =authUtil.generateAccessToken(student.getId(), "STUDENT");
 
         // FIRST LOGIN CHECK
         if (Boolean.TRUE.equals(student.getFirstLogin())) {
             return ResponseEntity.ok(
                     Map.of(
                             "message", "First login - change password required",
+//                            "token",token,
                             "firstLogin", true
                     )
             );
         }
 
-        String token =authUtil.generateAccessToken(student.getId(), "STUDENT");
         return ResponseEntity.ok(
                 Map.of(
                         "studentId", student.getStudentId(),
@@ -119,9 +125,12 @@ public class AuthService {
                     .badRequest()
                     .body(Map.of("message", "User not found"));
         }
-
+        if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getNewPasswordConfirm())){
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("message", "Passwords do not match"));
+        }
         Student student = optionalStudent.get();
-
         student.setPassword(
                 passwordEncoder.encode(changePasswordDTO.getNewPassword())
         );
