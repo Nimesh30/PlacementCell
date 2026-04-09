@@ -60,6 +60,10 @@ import { ToastrService } from 'ngx-toastr';
         if (error.status === 401) {
           // alert("Invalid Credentials");
           this.toastr.error("Invalid Credentials")
+        } else if (error.status === 404){
+          this.toastr.error("User is not registred..")
+        } else if (error.status === 500) {
+          this.toastr.error("Email must be a valid Charusat email")
         } else {
           // alert("Something went wrong. Try again.");
           this.toastr.error("Something went wrong. Try again")

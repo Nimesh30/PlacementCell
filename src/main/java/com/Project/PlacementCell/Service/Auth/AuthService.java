@@ -39,12 +39,12 @@ public class AuthService {
         if (studentRepository.existsByEmail(registerDTO.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(Map.of("message", "Email already registered!"));
+                    .body(Map.of("message", "Email already registered!.."));
         }
         if (studentRepository.existsByStudentId(registerDTO.getStudentId())){
             return ResponseEntity
                     .badRequest()
-                    .body(Map.of("message", "Email already registered!"));
+                    .body(Map.of("message", "student id already registered!"));
         }
 
         String randomPassword = UUID.randomUUID().toString().substring(0, 8);
@@ -74,11 +74,11 @@ public class AuthService {
         Optional<Student> optionalStudent =
                 studentRepository.findByEmail(loginDTO.getEmail());
 
-//        if (optionalStudent.isEmpty()) {
-//            return ResponseEntity
-//                    .status(404)
-//                    .body("Email is not registered!");
-//        }
+        if (optionalStudent.isEmpty()) {
+            return ResponseEntity
+                    .status(404)
+                    .body("Email is not registered!");
+        }
 
         Student student = optionalStudent.get();
         if (!passwordEncoder.matches(

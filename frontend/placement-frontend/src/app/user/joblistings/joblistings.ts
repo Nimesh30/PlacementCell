@@ -64,12 +64,32 @@ export class Joblistings {
   }
 
   //  Eligibility check
+  // isEligible(job: any): boolean {
+  //   const student = this.studentData();
+  //   if (!student) return false;
+  //   console.log(job);
+    
+  //   return student.bachelorsCgpa >= job.minCgpa && student.branch == job.eligibleDegrees;
+  // }
+
   isEligible(job: any): boolean {
     const student = this.studentData();
     if (!student) return false;
 
-    return student.bachelorsCgpa >= job.minCgpa;
+    const degrees = job.eligibleDegrees
+      .split(',')
+      .map((d: string) => d.trim());
+
+    return (
+      student.bachelorsCgpa >= job.minCgpa &&
+      degrees.includes(student.branch)
+    );
   }
+
+
+
+
+
 
   //  Open modal ONLY if eligible
   openApplyModal(job: any) {
@@ -83,7 +103,8 @@ export class Joblistings {
     if (this.isEligible(job)) {
       this.selectedJob = job; //  opens modal
     } else {
-     this.toastr.warning(`Not eligible! Min CGPA required: ${job.minCgpa}`);
+    //  this.toastr.warning(`Not eligible! Min CGPA required: ${job.minCgpa}`);
+     this.toastr.warning(`Not eligible!`);
     }
 
   }
