@@ -43,6 +43,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .requestMatchers("/students/**").hasRole("STUDENT")
+                    .requestMatchers("/students/getAllcompaniesVisited").permitAll()
 //                    .requestMatchers("/api/jobs/**").hasAnyRole("ADMIN", "STUDENT")
                     .requestMatchers("/api/auth/change-password").permitAll()
                     .anyRequest().authenticated()

@@ -26,11 +26,6 @@ public class JobsController {
     }
 
     // Admin Add Job
-    @PostMapping("/add")
-    public JobsDetails addJob(@RequestBody JobDTO dto) {
-        return jobService.addJob(dto);
-    }
-
 
     // User Get Jobs (only not expired)
 

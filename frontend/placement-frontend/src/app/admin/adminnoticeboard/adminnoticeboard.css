@@ -225,6 +225,16 @@ h3{
     opacity:0.9;
 }
 
+
+.error{
+    color:red;
+    font-size:13px;
+  }
+  
+  input.ng-invalid.ng-touched{
+    border:1px solid red;
+  }
+
 /* Responsive */
 
 @media(max-width:700px){

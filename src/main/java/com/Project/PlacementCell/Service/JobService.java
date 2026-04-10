@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class JobService {
@@ -219,5 +220,7 @@ public class JobService {
     }
 
 
-
+    public List<Object[]> getCompaniesVisited() {
+        return jobRepository. getVisitedCompanies();
+    }
 }
