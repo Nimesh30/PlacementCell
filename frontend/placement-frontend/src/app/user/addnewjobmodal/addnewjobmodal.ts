@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-
-// import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ToastrService } from 'ngx-toastr';
 // import {EditorModule} from '@tinymce/tinymce-angular';
 import {
   FormGroup,
@@ -20,7 +21,7 @@ import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-addnewjobmodal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CKEditorModule],
   templateUrl: './addnewjobmodal.html',
   styleUrls: ['./addnewjobmodal.css']
 })
@@ -28,7 +29,7 @@ export class AddNewJobModal implements OnInit {
 
   @Input() jobData: any = null;
   @Output() close = new EventEmitter<void>();
-  // public Editor = ClassicEditor;
+  public Editor: any = ClassicEditor;
 
   content: string = '';
 
@@ -80,7 +81,8 @@ export class AddNewJobModal implements OnInit {
 
   constructor(
     private jobService: JobService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toastr:ToastrService
   ) { }
 
   // Getter for easy access
@@ -155,12 +157,14 @@ export class AddNewJobModal implements OnInit {
 
       this.jobService.updateJob(this.jobData.id, payload).subscribe({
         next: () => {
-          alert('Job updated successfully');
+          this.toastr.success("Job updated successfully")
+          
           this.close.emit();
         },
         error: (err) => {
           console.error(err);
-          alert('Update failed');
+
+          this.toastr.error("Update failed..")
         }
       });
 
@@ -168,12 +172,12 @@ export class AddNewJobModal implements OnInit {
 
       this.jobService.addJob(payload).subscribe({
         next: () => {
-          alert('Job posted successfully');
+          this.toastr.success("Job posted successfully")
           this.close.emit();
         },
         error: (err) => {
           console.error(err);
-          alert('Post failed');
+          this.toastr.error("post failed..")
         }
       });
 

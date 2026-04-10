@@ -27,6 +27,7 @@ export class UserDashboard implements OnInit {
     const studentId = localStorage.getItem("studentId");
     // Fetch jobs
     this.jobService.getAvailableJobs().subscribe((data: any[]) => {
+      console.log(this.jobs);
       this.jobs.set(data);
       this.totaljobs.set(data.length)
     });
@@ -49,6 +50,8 @@ getstudenttotaloffers() {
   if (studentId) {
     this.jobService.jobsoffercount(studentId).subscribe({
       next: (res: number) => {
+        console.log("In User dashboard "+res);
+        
         this.totaloffers.set(res);
       },
       error: (err) => {

@@ -19,36 +19,44 @@ import { Allapplications } from './admin/allapplications/allapplications';
 import { Adminnoticeboard } from './admin/adminnoticeboard/adminnoticeboard';
 import { Allstudents } from './admin/allstudents/allstudents';
 import { roleGuard } from './auth/role.guard';
+import { ForgotPassword } from './auth/forgot-password/forgot-password';
+
+
 export const routes: Routes = [
 
   { path: '', component: Home },
   { path: 'register', component: Register },
   { path: 'login', component: Login },
+  { path: 'forgot-password', component: ForgotPassword },
   { path: 'change-password', component: ChangePassword },
-  {path:'applyModal' , component:Applymodal},
-  {path:'adminlogin',component:Adminlogin},
-  {path:'adminlayout',component:Adminlayout,canActivate: [roleGuard], data: { roles: ['ADMIN'] },
-    children:[
-      {path:'admindashboard',
-        component:Admindashboard,
+  { path: 'reset-password/:token', component: ChangePassword }, // For forgot password token 
+  { path: 'applyModal', component: Applymodal },
+  { path: 'adminlogin', component: Adminlogin },
+  {
+    path: 'adminlayout', component: Adminlayout, canActivate: [roleGuard], data: { roles: ['ADMIN'] },
+    children: [
+      {
+        path: 'admindashboard',
+        component: Admindashboard,
         // canActivate: [roleGuard],
-      // data: { roles: ['ADMIN'] }
+        // data: { roles: ['ADMIN'] }
       },
-      {path:'managejobs',component:Managejobs},
-      {path:'students',component:Allstudents},
-      {path:'allapplication',component:Allapplications},
-      {path:'adminnoticeboard',component:Adminnoticeboard}
+      { path: 'managejobs', component: Managejobs },
+      { path: 'students', component: Allstudents },
+      { path: 'allapplication', component: Allapplications },
+      { path: 'adminnoticeboard', component: Adminnoticeboard }
     ]
   },
- // Layout is parent path and its child path Student
+  // Layout is parent path and its child path Student
   {
     path: 'layout',
     component: Layout,
-     canActivate: [roleGuard],
-      data: { roles: ['STUDENT'] },
+    canActivate: [roleGuard],
+    data: { roles: ['STUDENT'] },
     children: [
-      { path: 'userdashboard',
-        component: UserDashboard, 
+      {
+        path: 'userdashboard',
+        component: UserDashboard,
         // canActivate: [roleGuard],
         // data: { roles: ['STUDENT'] }
       },

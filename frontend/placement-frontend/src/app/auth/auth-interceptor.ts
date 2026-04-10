@@ -9,8 +9,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (
     req.url.includes('/api/auth/loginUser') ||
     req.url.includes('/admin/login') ||
-    req.url.includes('/api/auth/change-password') 
-  ) {
+    req.url.includes('/api/auth/change-password') ||
+    req.url.includes('/api/auth/forgotPassword') ||
+    req.url.includes('/api/auth/reset-password')
+  ){
     return next(req);
   }
 
@@ -33,11 +35,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   if (error.status === 401) {
 
-    const role = localStorage.getItem('role'); // ✅ GET FIRST
+    const role = localStorage.getItem('role'); //  GET FIRST
 
-    localStorage.clear(); // ✅ THEN CLEAR
+    localStorage.clear(); //  THEN CLEAR
 
-    // 🔥 Correct redirect
+    //  Correct redirect
     if (role === 'ADMIN') {
       window.location.href = '/adminlogin';
     } else {

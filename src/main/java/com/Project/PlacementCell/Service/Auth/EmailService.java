@@ -123,4 +123,21 @@ public class EmailService {
             System.err.println("Brevo email failed to send: " + e.getMessage());
         }
     }
+
+
+    public void sendResetPasswordMail(String toEmail, String resetLink) {
+
+        String subject = "Reset Your Password";
+
+        String body = "Hello,\n\n" +
+                "We received a request to reset your Placement Cell account password.\n\n" +
+                "Click the link below to reset your password:\n" +
+                resetLink + "\n\n" +
+                "If you did not request this, please ignore this email.\n\n" +
+                "Thank you.";
+
+        sendBrevoEmail(toEmail, subject, body);
+    }
+
+
 }

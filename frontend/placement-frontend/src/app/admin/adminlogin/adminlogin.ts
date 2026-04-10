@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import {Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-adminlogin',
@@ -14,10 +15,7 @@ export class Adminlogin {
     email: string = '';
     password: string = '';
     
-  
-
-
-    constructor(private router: Router, private http: HttpClient) {}
+    constructor(private router: Router, private http: HttpClient,private toastr:ToastrService) {}
 
     login() {
 
@@ -46,9 +44,9 @@ export class Adminlogin {
         error: (error) => {
 
           if (error.status === 401) {
-            alert("Invalid Credentials");
+         this.toastr.error("Invalid Credentials");
           } else {
-            alert("Something went wrong. Try again.");
+            this.toastr.error("Something went wrong. Try again.");
           }
 
         }

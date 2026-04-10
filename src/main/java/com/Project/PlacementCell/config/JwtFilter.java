@@ -22,6 +22,7 @@ import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
@@ -31,26 +32,26 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final HandlerExceptionResolver handlerExceptionResolver;
 
-    private SecretKey getSecretKey(){
+    private SecretKey getSecretKey() {
         return Keys.hmacShaKeyFor(jwtsecretKey.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
+            HttpServletResponse response,
+            FilterChain filterChain)
             throws ServletException, IOException {
 
-        //  Allow preflight request without token
-//        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
+        // Allow preflight request without token
+        // if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+        // filterChain.doFilter(request, response);
+        // return;
+        // }
 
         try {
             String authHeader = request.getHeader("Authorization");
 
-            if(authHeader != null && authHeader.startsWith("Bearer ")){
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
                 String token = authHeader.substring(7);
 
@@ -60,17 +61,16 @@ public class JwtFilter extends OncePerRequestFilter {
                         .parseClaimsJws(token)
                         .getBody();
 
-                String userId = claims.get("userId").toString();
+                String userId = claims.get("studentId").toString();
                 String role = claims.get("role").toString();
+                System.out.println(">>> JWT Role extracted: [" + role + "]");
+                System.out.println(">>> Authority set: [ROLE_" + role.toUpperCase() + "]");
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userId,
-                                null,
-                                Collections.singletonList(
-                                        new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())
-                                )
-                        );
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userId,
+                        null,
+                        Collections.singletonList(
+                                new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Applymodal } from '../applymodal/applymodal';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-joblistings',
@@ -18,19 +19,20 @@ export class Joblistings {
   jobs = signal<any[]>([]);
   searchText = signal('');
 
-  // ✅ FIXED (object, not array)
+  //  FIXED (object, not array)
 
   studentData = signal<any | null>(null);
   selectedJob: any = null;
 
-  constructor(private jobService: JobService, private http: HttpClient, public sanitizer: DomSanitizer) { }
+  constructor(private jobService: JobService, private http: HttpClient, 
+    public sanitizer: DomSanitizer, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadJobs();
     this.loadStudent();
   }
 
-  // ✅ Load student once
+  //  Load student once
   loadStudent() {
     const studentId = localStorage.getItem('studentId');
     if (studentId) {
@@ -42,7 +44,7 @@ export class Joblistings {
     }
   }
 
-  // ✅ Load jobs (with backend search)
+  //  Load jobs (with backend search)
   loadJobs(keyword: string = '') {
     this.jobService.getAvailableJobs(keyword)
       .subscribe((data: any) => {
@@ -50,7 +52,7 @@ export class Joblistings {
       });
   }
 
-  // ✅ Search
+  //  Search
   updateSearch(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.searchText.set(value);
@@ -61,7 +63,7 @@ export class Joblistings {
     job.showDescription = !job.showDescription;
   }
 
-  // ✅ Eligibility check
+  //  Eligibility check
   isEligible(job: any): boolean {
     const student = this.studentData();
     if (!student) return false;
@@ -69,24 +71,24 @@ export class Joblistings {
     return student.bachelorsCgpa >= job.minCgpa;
   }
 
-  // ✅ Open modal ONLY if eligible
+  //  Open modal ONLY if eligible
   openApplyModal(job: any) {
     const student = this.studentData();
 
     if (!student) {
-      alert("Student not loaded");
+      this.toastr.show("Student not loaded");
       return;
     }
 
     if (this.isEligible(job)) {
-      this.selectedJob = job; // ✅ opens modal
+      this.selectedJob = job; //  opens modal
     } else {
-      alert(`Not eligible! Min CGPA required: ${job.minCgpa}`);
+     this.toastr.warning(`Not eligible! Min CGPA required: ${job.minCgpa}`);
     }
 
   }
 
-  // ✅ Close modal
+  //  Close modal
   closeModal() {
     this.selectedJob = null;
   }

@@ -7,6 +7,7 @@ import { NoticeService } from 'app/Services/noticeBoard/notice';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-adminnoticeboard',
@@ -37,7 +38,8 @@ export class Adminnoticeboard implements OnInit {
   constructor(
     private noticeService: NoticeService,
     private cdr: ChangeDetectorRef,
-    public sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer,
+    private toastr:ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -84,10 +86,10 @@ export class Adminnoticeboard implements OnInit {
       this.noticeService.updateNotice(this.notice.id!, this.notice)
         .subscribe({
           next: () => {
-            alert("Notice Updated");
+            this.toastr.success("Notice Updated");
             this.afterSubmit();
           },
-          error: () => alert("Error updating notice")
+          error: () => this.toastr.error("Error updating notice")
         });
 
     } else {
@@ -95,10 +97,10 @@ export class Adminnoticeboard implements OnInit {
       this.noticeService.createNotice(this.notice)
         .subscribe({
           next: () => {
-            alert("Notice Created");
+            this.toastr.success("Notice Created");
             this.afterSubmit();
           },
-          error: () => alert("Error creating notice")
+          error: () => this.toastr.error("Error creating notice")
         });
 
     }
@@ -136,12 +138,12 @@ export class Adminnoticeboard implements OnInit {
 
       this.noticeService.deleteNotice(id).subscribe({
         next: () => {
-          alert("Notice Deleted");
+          this.toastr.success("Notice Deleted");
           console.log("after delete before loadNotice")
           this.loadNotices();
           console.log("after delete after loadNotice")
         },
-        error: () =>{ alert("Error deleting notice")
+        error: () =>{ this.toastr.error("Error deleting notice")
           console.log("In error ");
         }
       });

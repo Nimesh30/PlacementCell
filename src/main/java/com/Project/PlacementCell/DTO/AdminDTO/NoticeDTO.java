@@ -1,4 +1,4 @@
-package com.Project.PlacementCell.DTO;
+package com.Project.PlacementCell.DTO.AdminDTO;
 
 import lombok.*;
 

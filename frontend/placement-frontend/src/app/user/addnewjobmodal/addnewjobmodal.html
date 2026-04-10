@@ -8,7 +8,7 @@
     <div class="modal-header">
       <div>
         <h2>{{ jobData ? 'Update Job' : 'Post New Job' }}</h2>
-        <p>{{ jobData ? 'Edit job details' : 'Fill in company and job details (*) Required' }}</p>
+        <p>{{ jobData ? 'Edit job details (*) Required' : 'Fill in company and job details (*) Required' }}</p>
       </div>
       <button class="close-btn" (click)="closeModal()">✕</button>
     </div>
@@ -62,10 +62,7 @@
 
         <div class="form-group full-width">
           <label>Job Description *</label>
-          <textarea rows="5" placeholder="Describe the role, responsibilities, requirements..."
-            formControlName="description">
-          </textarea>
-        
+          <ckeditor [editor]="Editor" formControlName="description"></ckeditor>
         </div>
 
         <div class="modal-footer">

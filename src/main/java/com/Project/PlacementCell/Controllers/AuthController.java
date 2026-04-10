@@ -2,6 +2,7 @@ package com.Project.PlacementCell.Controllers;
 import com.Project.PlacementCell.DTO.AuthDTO.ChangepasswordDTO;
 import com.Project.PlacementCell.DTO.AuthDTO.LoginDTO;
 import com.Project.PlacementCell.DTO.AuthDTO.RegisterDTO;
+import com.Project.PlacementCell.DTO.AuthDTO.ResetPasswordDTO;
 import com.Project.PlacementCell.DTO.ResumeUploadDTO.UploadResponse;
 import com.Project.PlacementCell.Repository.StudentRepository;
 import com.Project.PlacementCell.Service.Auth.AuthService;
@@ -45,6 +46,21 @@ public class AuthController {
         return authService.changePassword(changePasswordDTO);
     }
 
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<?> forgotPassword(@RequestParam String email ) {
+        return authService.forgotPassword(email);
+    }
+
+
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDTO dto) {
+
+        return authService.resetPassword(dto.getToken(), dto.getNewPassword());
+
+    }
+
+
 //Upload resume on cloudinary...
     @PostMapping("/upload")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
@@ -53,5 +69,8 @@ public class AuthController {
         UploadResponse response = uploadService.uploadImage(file);
         return ResponseEntity.ok(response);
     }
+
+
+
 
 }
