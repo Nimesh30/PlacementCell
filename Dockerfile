@@ -1,7 +1,3 @@
-#FROM ubuntu:latest
-#LABEL authors="HIFI LAPTOP"
-#
-#ENTRYPOINT ["top", "-b"]
 # syntax=docker/dockerfile:1.7
 FROM maven:3.9.5-eclipse-temurin-21 AS build
 WORKDIR /app
@@ -12,12 +8,12 @@ COPY pom.xml .
 RUN --mount=type=cache,target=/root/.m2 \
     mvn dependency:go-offline -B
 
-# --- FIXED THIS LINE ---
 COPY src ./src
 
 # Build the package
+# --- FIXED THIS LINE: Changed -DskipTests to -Dmaven.test.skip=true ---
 RUN --mount=type=cache,target=/root/.m2 \
-    mvn clean package -DskipTests -B
+    mvn clean package -Dmaven.test.skip=true -B
 
 # Stage 2: Run stage
 FROM eclipse-temurin:21-jre-alpine
