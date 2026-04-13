@@ -1,5 +1,5 @@
 let production = false;
 export const environment = {
-  apiUrl: production ? 'https://api.your-live-domain.com' : 'http://localhost:8085'
+  apiUrl: production ? 'https://placementcell-mtve.onrender.com' : 'http://localhost:8085'
 };
 
