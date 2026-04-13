@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-all-companies',
@@ -31,7 +32,7 @@ export class AllCompanies implements OnInit {
 
   loadCompanies() {
     this.http
-      .get<any[]>("http://localhost:8085/students/getAllcompaniesVisited")
+      .get<any[]>(`${environment.apiUrl}/students/getAllcompaniesVisited`)
       .subscribe(data => {
 
         this.students = data.map(item => ({

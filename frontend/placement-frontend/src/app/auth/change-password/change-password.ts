@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-change-password',
@@ -79,7 +80,7 @@ export class ChangePassword implements OnInit {
         newPasswordConfirm: confirmPassword
       };
 
-      this.http.post('http://localhost:8085/api/auth/reset-password', resetData)
+      this.http.post(`${environment.apiUrl}/api/auth/reset-password`, resetData)
         .subscribe({
           next: () => {
             this.toastr.success("Password reset successfully!");
@@ -104,7 +105,7 @@ export class ChangePassword implements OnInit {
 
       console.log("Change Password Request:", changeData);
 
-      this.http.post('http://localhost:8085/api/auth/change-password', changeData)
+      this.http.post(`${environment.apiUrl}/api/auth/change-password`, changeData)
         .subscribe({
           next: () => {
             this.toastr.success("Password changed successfully!");

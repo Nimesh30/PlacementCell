@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-forgot-password',
@@ -19,7 +20,7 @@ export class ForgotPassword {
   sendResetLink() {
 
     this.http.post(
-      `http://localhost:8085/api/auth/forgotPassword?email=${this.email}`,
+      `${environment.apiUrl}/api/auth/forgotPassword?email=${this.email}`,
       {}
     )
       .subscribe({

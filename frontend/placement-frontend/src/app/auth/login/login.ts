@@ -3,6 +3,7 @@
   import { HttpClient } from '@angular/common/http';
   import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environment';
 
   @Component({
     selector: 'app-login',
@@ -24,7 +25,7 @@ import { ToastrService } from 'ngx-toastr';
     password: this.password
   };
 
-  this.http.post<any>('http://localhost:8085/api/auth/loginUser', loginData)
+  this.http.post<any>(`${environment.apiUrl}/api/auth/loginUser`, loginData)
     .subscribe({
       next: (response) => {
 

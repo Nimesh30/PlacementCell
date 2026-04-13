@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environment';
 @Injectable({
   providedIn: 'root',
 })
 export class ApplicationsService {
 
-  private baseUrl = 'http://localhost:8085/students';
+  private baseUrl = `${environment.apiUrl}/students`;
 
   constructor(private http: HttpClient) {}
 
@@ -17,20 +18,20 @@ export class ApplicationsService {
     size: number
   ) {
     return this.http.get(
-      `http://localhost:8085/admin/studentwithCompanyStatus?keyword=${keyword}&company=${company}&status=${status}&page=${page}&size=${size}`
+      `${environment.apiUrl}/admin/studentwithCompanyStatus?keyword=${keyword}&company=${company}&status=${status}&page=${page}&size=${size}`
     );
   }
 
   getAllCompanies(){
     
     return this.http.get(
-        `http://localhost:8085/admin/getAllcompanies`
+        `${environment.apiUrl}/admin/getAllcompanies`
     );
   }
 
  updateApplicationStatus(ids: number[], status: string) {
   return this.http.put(
-    'http://localhost:8085/api/applications/updatestatus',
+    `${environment.apiUrl}/api/applications/updatestatus`,
     {
       ids: ids,
       status: status
@@ -51,7 +52,7 @@ export class ApplicationsService {
   //}
 
   getStatuses() {
-  return this.http.get<string[]>('http://localhost:8085/api/applications/status');
+  return this.http.get<string[]>(`${environment.apiUrl}/api/applications/status`);
   }
 
 }

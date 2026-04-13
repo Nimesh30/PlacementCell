@@ -5,6 +5,7 @@ import { Applymodal } from '../applymodal/applymodal';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-joblistings',
@@ -37,7 +38,7 @@ export class Joblistings {
     const studentId = localStorage.getItem('studentId');
     if (studentId) {
       this.http
-        .get<any>(`http://localhost:8085/students/profile/${studentId}`)
+        .get<any>(`${environment.apiUrl}/students/profile/${studentId}`)
         .subscribe(res => {
           this.studentData.set(res);
         });

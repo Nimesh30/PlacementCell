@@ -3,12 +3,12 @@
   <div class="header">
     <div>
       <h1>Manage Notices</h1>
-      <p>{{ notices.length }} notices posted</p>
+      <p>{{ notices.length }} notices posted</p>  
     </div>
 
     <button class="create-btn" (click)="openForm()">+ Create Notice</button>
   </div>
-
+  
   <!-- Create / Edit Form -->
   <div class="form-card" *ngIf="showForm">
     <h2>{{ isEditMode ? 'Update Notice' : 'Create Notice' }}</h2>

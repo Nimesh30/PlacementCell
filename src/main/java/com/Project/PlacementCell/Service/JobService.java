@@ -46,6 +46,7 @@ public class JobService {
         job.setEligibleDegrees(dto.getEligibleDegrees());
         job.setActive(true);
 
+        System.out.println("Job Details: " + job);
         JobsDetails savedJob = jobRepository.save(job);
 
         // send notification email

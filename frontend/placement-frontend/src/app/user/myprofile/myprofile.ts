@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'myprofile',
@@ -20,7 +21,7 @@ export class Myprofile implements OnInit {
   isFormEditable = false;
   profile: any;
 
-  baseUrl = 'http://localhost:8085/students';
+  baseUrl = `${environment.apiUrl}/students`;
 
   constructor(private fb: FormBuilder, private http: HttpClient, 
     private cdr: ChangeDetectorRef,
