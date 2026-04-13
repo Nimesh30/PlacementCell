@@ -2,7 +2,7 @@
   import { Router, RouterLink } from '@angular/router';
   import { HttpClient } from '@angular/common/http';
   import { FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+  import { ToastrService } from 'ngx-toastr';
 
   @Component({
     selector: 'app-login',
@@ -51,9 +51,7 @@ import { ToastrService } from 'ngx-toastr';
         } else {
           this.router.navigate(['/layout/userdashboard']);
         }
-
       },
-
       error: (error) => {
         if (error.status === 401) {
           // alert("Invalid Credentials");

@@ -25,7 +25,6 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-
     @Autowired
     private UploadService uploadService;
 
@@ -52,7 +51,6 @@ public class AuthController {
     }
 
 
-
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDTO dto) {
 
@@ -60,8 +58,6 @@ public class AuthController {
 
     }
 
-
-//Upload resume on cloudinary...
     @PostMapping("/upload")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
         System.out.println("In Image Controller");
@@ -69,8 +65,4 @@ public class AuthController {
         UploadResponse response = uploadService.uploadImage(file);
         return ResponseEntity.ok(response);
     }
-
-
-
-
 }

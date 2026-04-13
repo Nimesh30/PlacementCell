@@ -1,8 +1,10 @@
 <div class="app-container">
   <main class="main-content">
     <header>
+
       <h1>Welcome , {{username()}}</h1>
       <!-- <p>Computer Science · 2025 Batch · CGPA 8.4</p> -->
+
     </header>
 
     <section class="stats-grid">
@@ -28,6 +30,7 @@
       </div>
     </section>
     <section class="card job-section">
+      
   <h3>Recently Added Jobs</h3>
 
   <div class="job-slider">
@@ -58,6 +61,8 @@
 </section>
   </main>
   @if (isOfferModalOpen()) {
+
   <app-offer-received-model (closeModal)="closeOfferModal()"></app-offer-received-model>
+
 } 
 </div>
