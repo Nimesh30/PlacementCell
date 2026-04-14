@@ -5,6 +5,7 @@ import { Applymodal } from '../applymodal/applymodal';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-joblistings',
@@ -37,7 +38,7 @@ export class Joblistings {
     const studentId = localStorage.getItem('studentId');
     if (studentId) {
       this.http
-        .get<any>(`http://localhost:8085/students/profile/${studentId}`)
+        .get<any>(`${environment.apiUrl}/students/profile/${studentId}`)
         .subscribe(res => {
           this.studentData.set(res);
         });
@@ -64,12 +65,32 @@ export class Joblistings {
   }
 
   //  Eligibility check
+  // isEligible(job: any): boolean {
+  //   const student = this.studentData();
+  //   if (!student) return false;
+  //   console.log(job);
+    
+  //   return student.bachelorsCgpa >= job.minCgpa && student.branch == job.eligibleDegrees;
+  // }
+
   isEligible(job: any): boolean {
     const student = this.studentData();
     if (!student) return false;
 
-    return student.bachelorsCgpa >= job.minCgpa;
+    const degrees = job.eligibleDegrees
+      .split(',')
+      .map((d: string) => d.trim());
+
+    return (
+      student.bachelorsCgpa >= job.minCgpa &&
+      degrees.includes(student.branch)
+    );
   }
+
+
+
+
+
 
   //  Open modal ONLY if eligible
   openApplyModal(job: any) {
@@ -83,7 +104,8 @@ export class Joblistings {
     if (this.isEligible(job)) {
       this.selectedJob = job; //  opens modal
     } else {
-     this.toastr.warning(`Not eligible! Min CGPA required: ${job.minCgpa}`);
+    //  this.toastr.warning(`Not eligible! Min CGPA required: ${job.minCgpa}`);
+     this.toastr.warning(`Not eligible!`);
     }
 
   }

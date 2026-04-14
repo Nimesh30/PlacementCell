@@ -2,6 +2,7 @@
   import { HttpClient } from '@angular/common/http';
   import { Joblistings } from 'app/user/joblistings/joblistings';
   import { Observable } from 'rxjs';
+  import { environment } from '../../environment';
 
 
   @Injectable({
@@ -9,13 +10,13 @@
   })
   export class JobService {
 
-   private baseUrl = 'http://localhost:8085/api/jobs';
+   private baseUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) {}
 
   getAvailableJobs(keyword?: string) {
       return this.http.get<any[]>(
-          `${this.baseUrl}/available`,
+        `${this.baseUrl}/api/jobs/available`,
         { params: { keyword: keyword || '' } }
       );
   } 
@@ -34,7 +35,7 @@
   // }
 
   getAllJobs(keyword: string, page: number, size: number, status: string) {
-  return this.http.get(`${this.baseUrl}/alljobs`, {
+  return this.http.get(`${this.baseUrl}/api/jobs/alljobs`, {
     params: {
       keyword,
       page,
@@ -48,10 +49,10 @@
     
     addJob(job: any) {
       console.log("In add job before return ...")
-      return this.http.post(`${this.baseUrl}/add`, job);
+      return this.http.post(`${this.baseUrl}/admin/add`, job);
     }
 
-    private apiUrl = "http://localhost:8085/api/applications";
+    private apiUrl = `${environment.apiUrl}/api/applications`;
 
     applyJob(studentId: String, jobId: number): Observable<any> {
 
@@ -91,7 +92,7 @@ loadApplicationCount(studentId: string) {
 }
 
 
-    private baseUrl1 = "http://localhost:8085/admin";
+    private baseUrl1 = `${environment.apiUrl}/admin`;
 
     // constructor(private http: HttpClient) {}
 
@@ -105,25 +106,25 @@ loadApplicationCount(studentId: string) {
    deleteJob(jobId: number) {
    // console.log("calling service"+)
     return this.http.delete(
-      `http://localhost:8085/api/jobs/deletejob/${jobId}`,
+      `${environment.apiUrl}/api/jobs/deletejob/${jobId}`,
       { responseType: 'text' } // optional (if backend returns string)
     );
 
 }
 
     updateJob(jobId: number, payload: any): Observable<any> {
-    return this.http.put(`http://localhost:8085/api/jobs/updatejob/${jobId}`, payload);
+    return this.http.put(`${environment.apiUrl}/api/jobs/updatejob/${jobId}`, payload);
   }
 
   
 
     jobsoffercount(studentid: string) {
-      return this.http.get<number>(`http://localhost:8085/students/selected-count/${studentid}`);
+      return this.http.get<number>(`${environment.apiUrl}/students/selected-count/${studentid}`);
   }
 
   getSelectedOffers(studentId: string) {
   return this.http.get<any[]>(
-    `http://localhost:8085/students/selected-offers/${studentId}`
+    `${environment.apiUrl}/students/selected-offers/${studentId}`
   );
 }
 

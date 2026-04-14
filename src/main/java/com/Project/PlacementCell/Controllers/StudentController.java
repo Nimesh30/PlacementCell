@@ -95,6 +95,11 @@ public class StudentController {
         return jobService.getAllComapnies();
     }
 
+    @GetMapping("/getAllcompaniesVisited")
+    public List<Object[]> getCompaniesVisited() {
+        return jobService.getCompaniesVisited();
+    }
+
     //  Count API
     @GetMapping("/selected-count/{studentId}")
     public long getSelectedCount(@PathVariable String studentId) {

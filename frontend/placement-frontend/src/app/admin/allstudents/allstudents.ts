@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
+import { environment } from '../../environment';
 // import { Studentmodal } from 'app/user/studentmodal/studentmodal';
 import { Studentmodal } from 'app/studentmodal/studentmodal';
 viewChild
@@ -31,7 +32,7 @@ export class Allstudents implements OnInit {
   }
 
   loadStudents() {
-    this.http.get<any[]>("http://localhost:8085/admin/students")
+    this.http.get<any[]>(`${environment.apiUrl}/admin/students`)
       .subscribe(data => {
         this.students = data;
         this.placedCount = this.students.filter(s => s.placed).length;
@@ -85,7 +86,7 @@ export class Allstudents implements OnInit {
   //   }
 
   exportStudents() {
-    let url = 'http://localhost:8085/admin/export/students';
+    let url = `${environment.apiUrl}/admin/export/students`;
 
     if (this.filterType === 'selected') {
       url += '?type=placed';

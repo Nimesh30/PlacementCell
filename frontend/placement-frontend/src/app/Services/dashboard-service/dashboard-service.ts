@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-dashboard-service',
@@ -11,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class DashboardService {
 
-  private baseUrlUser = 'http://localhost:8085/api/userdetails';
+  private baseUrlUser = `${environment.apiUrl}/api/userdetails`;
   constructor(private http:HttpClient){
 
   } 

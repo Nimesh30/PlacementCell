@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import {Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-adminlogin',
@@ -24,7 +25,7 @@ export class Adminlogin {
       password: this.password
     };
 
-    this.http.post<any>('http://localhost:8085/admin/login', loginData)
+    this.http.post<any>(`${environment.apiUrl}/admin/login`, loginData)
       .subscribe({
        next: (response) => {
 

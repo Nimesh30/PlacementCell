@@ -65,7 +65,7 @@ updateFilter(event: Event) {
       this.filterType()   //  send filter to backend
     )
     .subscribe((data: any) => {
-      console.log("jobs"+data)
+      // console.log("jobs"+data)
       this.jobs.set(data.content);
       this.totaljobs.set(data.totalElements);
       this.totalPages.set(data.totalPages);

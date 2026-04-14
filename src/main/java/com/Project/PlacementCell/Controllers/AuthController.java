@@ -7,6 +7,7 @@ import com.Project.PlacementCell.DTO.ResumeUploadDTO.UploadResponse;
 import com.Project.PlacementCell.Repository.StudentRepository;
 import com.Project.PlacementCell.Service.Auth.AuthService;
 import com.Project.PlacementCell.Service.UploadService.UploadService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,18 +30,17 @@ public class AuthController {
     private UploadService uploadService;
 
     @PostMapping("/register")
-
-    public ResponseEntity<?> studentRegistration(@RequestBody RegisterDTO registerDTO) {
+    public ResponseEntity<?> studentRegistration(@Valid @RequestBody RegisterDTO registerDTO) {
         return authService.registerStudent(registerDTO);
     }
 
     @PostMapping("/loginUser")
-    public ResponseEntity<?> loginStudent(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<?> loginStudent(@Valid @RequestBody LoginDTO loginDTO) {
         return authService.loginStudentByEmail(loginDTO);
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<?> changePassword(@RequestBody ChangepasswordDTO changePasswordDTO) {
+    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangepasswordDTO changePasswordDTO) {
         System.out.println("in controller..."+changePasswordDTO.getNewPassword());
         return authService.changePassword(changePasswordDTO);
     }

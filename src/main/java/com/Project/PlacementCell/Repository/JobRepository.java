@@ -39,7 +39,11 @@ public interface JobRepository extends JpaRepository<JobsDetails, Integer> {
     Optional<JobsDetails> findById(Integer id);
 
     @Query("SELECT DISTINCT j.companyName FROM JobsDetails j")
+//    @Query("SELECT j.companyName,j.jobTitle,j.packageLpa FROM JobsDetails j")
     List<String> getDistinctCompanies();
+
+    @Query("SELECT j.companyName,j.jobTitle,j.deadline, j.packageLpa FROM JobsDetails j")
+    List<Object[]>getVisitedCompanies();
 
     @Query("""
     SELECT j FROM JobsDetails j

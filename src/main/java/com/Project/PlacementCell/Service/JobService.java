@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class JobService {
@@ -45,6 +46,7 @@ public class JobService {
         job.setEligibleDegrees(dto.getEligibleDegrees());
         job.setActive(true);
 
+        System.out.println("Job Details: " + job);
         JobsDetails savedJob = jobRepository.save(job);
 
         // send notification email
@@ -219,5 +221,7 @@ public class JobService {
     }
 
 
-
+    public List<Object[]> getCompaniesVisited() {
+        return jobRepository. getVisitedCompanies();
+    }
 }

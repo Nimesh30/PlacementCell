@@ -20,6 +20,7 @@ import { Adminnoticeboard } from './admin/adminnoticeboard/adminnoticeboard';
 import { Allstudents } from './admin/allstudents/allstudents';
 import { roleGuard } from './auth/role.guard';
 import { ForgotPassword } from './auth/forgot-password/forgot-password';
+import { AllCompanies } from './user/all-companies/all-companies';
 
 
 export const routes: Routes = [
@@ -64,6 +65,7 @@ export const routes: Routes = [
       { path: 'jobs', component: Joblistings },
       { path: 'applications', component: Myapplications },
       { path: 'notice', component: Noticeboard },
+      {path:'all-companies',component:AllCompanies}
     ]
   },
   { path: '**', redirectTo: '' }

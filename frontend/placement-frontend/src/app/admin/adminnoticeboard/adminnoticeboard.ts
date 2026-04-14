@@ -1,8 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { NoticeService } from 'app/Services/noticeBoard/notice';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -80,6 +78,12 @@ export class Adminnoticeboard implements OnInit {
   /* ---------------- CREATE / UPDATE ---------------- */
 
   submitNotice() {
+    
+    if (!this.notice.title || this.notice.title.trim().length < 3) {
+      this.toastr.error("Title must be at least 3 characters");
+      return;
+    }
+
 
     if (this.isEditMode) {
 
@@ -106,7 +110,7 @@ export class Adminnoticeboard implements OnInit {
     }
   }
 
-  /* ---------------- AFTER SUBMIT ---------------- */
+  /* ---------------- AFTER SUBMIT ---------------- */  
 
   afterSubmit() {
     this.closeForm();

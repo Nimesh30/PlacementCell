@@ -69,14 +69,14 @@
           {{ job.showDescription ? '▲ Hide Description' : '▼ View Description' }}
         </button>
 
-        <!-- ✅ Show Apply button if eligible -->
+        <!--  Show Apply button if eligible -->
         <button *ngIf="isEligible(job)" class="applyBtn" (click)="openApplyModal(job)">
           Apply Now →
         </button>
 
-        <!-- ❌ Show message if not eligible -->
+        <!--  Show message if not eligible -->
         <span *ngIf="studentData() && !isEligible(job)" class="notEligible">
-          ❌ Not Eligible (Min CGPA: {{ job.minCgpa }})
+          ❌ Not Eligible
         </span>
       </div>
 

@@ -12,25 +12,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //@StudentController
-@Slf4j
+
 @RequestMapping("/api/jobs")
 //@CrossOrigin("*")
 @RestController
 public class JobsController {
 
-
     private final JobService jobService;
 
     public JobsController(JobService jobService) {
+
         this.jobService = jobService;
     }
 
     // Admin Add Job
-    @PostMapping("/add")
-    public JobsDetails addJob(@RequestBody JobDTO dto) {
-        return jobService.addJob(dto);
-    }
-
 
     // User Get Jobs (only not expired)
 
@@ -38,7 +33,7 @@ public class JobsController {
     public List<JobDTO> getAvailableJobs(@RequestParam(required = false) String keyword) {
         // Service internally uses LocalDate.now()
         List<JobDTO> respone=jobService.getAvailableJobs(keyword);;
-        log.info("Jogb Available------ {}",respone.toString());
+//        log.info("Jogb Available------ {}",respone.toString());
         return respone;
 
     }

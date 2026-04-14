@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { email } from '@angular/forms/signals';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environment';
 @Component({
   selector: 'app-register',
   imports: [RouterLink,FormsModule],
@@ -33,7 +34,7 @@ export class Register {
 
       console.log(registerData)
 
-    this.http.post("http://localhost:8085/api/auth/register", registerData)
+    this.http.post(`${environment.apiUrl}/api/auth/register`, registerData)
 .subscribe({
   next: (response: any) => {
     // alert(response.message); 
@@ -50,7 +51,7 @@ export class Register {
       this.toastr.show(error.error.message)
     } else {
       // alert("Registration failed - May be studentID duplicate...");
-      this.toastr.warning("Registration failed - May be studentID duplicate...")
+      this.toastr.warning("Registration failed")
     }
   }
 });

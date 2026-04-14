@@ -3,6 +3,8 @@ package com.Project.PlacementCell.Controllers;
 
 import com.Project.PlacementCell.DTO.AdminDTO.AdminLoginDTO;
 import com.Project.PlacementCell.DTO.AdminDTO.PlacedLeaderBoardDTO;
+import com.Project.PlacementCell.DTO.JobDTO;
+import com.Project.PlacementCell.Entity.JobsDetails;
 import com.Project.PlacementCell.Service.AdminServices;
 import com.Project.PlacementCell.Service.Auth.LoginService;
 import com.Project.PlacementCell.Service.ExportService;
@@ -67,6 +69,10 @@ public class AdminController {
         return adminServices.getAllStudentsWithApplications();
     }
 
+    @PostMapping("/add")
+    public JobsDetails addJob(@RequestBody JobDTO dto) {
+        return jobService.addJob(dto);
+    }
 
     @GetMapping("/export/{jobId}")
     public ResponseEntity<InputStreamResource> exportStudents(@PathVariable Integer jobId) throws IOException {
@@ -83,11 +89,17 @@ public class AdminController {
     }
 
 
+
     @GetMapping("/getAllcompanies")
     public List<String> getCompanies() {
+
         return jobService.getAllComapnies();
     }
 
+//    @GetMapping("/getAllcompaniesVisited")
+//    public List<Object[]> getCompaniesVisited() {
+//        return jobService.getCompaniesVisited();
+//    }
     @GetMapping("/export/students")
     public ResponseEntity<InputStreamResource> exportStudentsData(
             @RequestParam(defaultValue = "all") String type) throws Exception {
