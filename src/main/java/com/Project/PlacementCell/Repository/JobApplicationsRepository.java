@@ -83,7 +83,8 @@ SELECT new com.Project.PlacementCell.DTO.AdminDTO.StudentExportDTO(
     s.email,
     sp.department,
     sp.mobileNumber,
-    sp.stream
+    sp.stream,
+    sp.imageUrl
 )
 FROM JobApplications ja
 JOIN ja.student s

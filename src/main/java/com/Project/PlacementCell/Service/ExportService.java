@@ -64,7 +64,7 @@ public class ExportService {
             Row row = sheet.createRow(rowIdx++);
 
             row.createCell(0).setCellValue(s.getStudentId());
-            row.createCell(1).setCellValue(s.getFullname());
+            row.createCell(1).setCellValue(s.getFullName());
             row.createCell(2).setCellValue(s.getEmail());
             row.createCell(3).setCellValue(s.getStream());
             row.createCell(4).setCellValue(s.getMobileNumber());
@@ -72,7 +72,7 @@ public class ExportService {
 
             // ✅ Hyperlink cell
             Cell linkCell = row.createCell(6);
-            String url = s.getResuemeLink();
+            String url = s.getResumeLink();
 
             if (url != null && !url.isEmpty()) {
 
