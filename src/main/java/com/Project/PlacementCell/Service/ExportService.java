@@ -85,7 +85,7 @@ public class ExportService {
                 link.setAddress(url);
 
                 linkCell.setHyperlink(link);
-                linkCell.setCellValue("View Resume"); // 👈 clickable text
+                linkCell.setCellValue("View Resume");
                 linkCell.setCellStyle(hlinkStyle);
 
             } else {
