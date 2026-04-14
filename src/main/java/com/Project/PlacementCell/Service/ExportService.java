@@ -6,10 +6,10 @@ import com.Project.PlacementCell.Entity.Student;
 import com.Project.PlacementCell.Entity.StudentProfile;
 import com.Project.PlacementCell.Repository.JobApplicationsRepository;
 import com.Project.PlacementCell.Repository.StudentRepository;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+//import org.apache.poi.common.usermodel.Hyperlink;
+import org.apache.poi.common.usermodel.HyperlinkType;
+import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,6 @@ public class ExportService {
 
     @Autowired
     private StudentRepository studentRepo;
-
     public ByteArrayInputStream exportStudents(Integer jobId) throws IOException {
 
         List<StudentExportDTO> students = repo.getStudentsByJobId(jobId);
@@ -36,14 +35,27 @@ public class ExportService {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Students");
 
+        // ✅ Create header row
         Row headerRow = sheet.createRow(0);
 
-        String[] headers = {"Student ID", "Name", "Email", "Branch", "Phone", "Department"};
+        String[] headers = {
+                "Student ID", "Name", "Email",
+                "Branch", "Phone", "Department", "Resume Link"
+        };
 
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers[i]);
         }
+
+        // ✅ Create hyperlink helper + style
+        CreationHelper createHelper = workbook.getCreationHelper();
+
+        CellStyle hlinkStyle = workbook.createCellStyle();
+        Font hlinkFont = workbook.createFont();
+        hlinkFont.setUnderline(Font.U_SINGLE);
+        hlinkFont.setColor(IndexedColors.BLUE.getIndex());
+        hlinkStyle.setFont(hlinkFont);
 
         int rowIdx = 1;
 
@@ -52,11 +64,38 @@ public class ExportService {
             Row row = sheet.createRow(rowIdx++);
 
             row.createCell(0).setCellValue(s.getStudentId());
-            row.createCell(1).setCellValue(s.getFullName());
+            row.createCell(1).setCellValue(s.getFullname());
             row.createCell(2).setCellValue(s.getEmail());
             row.createCell(3).setCellValue(s.getStream());
             row.createCell(4).setCellValue(s.getMobileNumber());
             row.createCell(5).setCellValue(s.getDepartment());
+
+            // ✅ Hyperlink cell
+            Cell linkCell = row.createCell(6);
+            String url = s.getResuemeLink();
+
+            if (url != null && !url.isEmpty()) {
+
+                // Ensure URL has protocol
+                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                    url = "https://" + url;
+                }
+
+                Hyperlink link = createHelper.createHyperlink(HyperlinkType.URL);
+                link.setAddress(url);
+
+                linkCell.setHyperlink(link);
+                linkCell.setCellValue("View Resume"); // 👈 clickable text
+                linkCell.setCellStyle(hlinkStyle);
+
+            } else {
+                linkCell.setCellValue("N/A");
+            }
+        }
+
+        // ✅ Auto-size columns
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
         }
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
